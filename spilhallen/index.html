@@ -1,0 +1,353 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Spilhallen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@400;500;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#12061f; --bg2:#1f0b33cc; --card:#1d0a30; --line:#5a2a7a;
+  --ink:#fff5ec; --muted:#e0b8ff; --coral:#ff4d2e; --butter:#ffd23f; --teal:#2ef2ff; --pink:#ff2e93; --lime:#9dff3a;
+  --display:"Bungee","Impact",system-ui,sans-serif;
+  --body:"Chakra Petch",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-inline:16px;padding-block:0 64px;min-height:100%;
+  background-image:
+    radial-gradient(60vmax 40vmax at 10% 0%,#ff2e9355,transparent 60%),
+    radial-gradient(50vmax 40vmax at 95% 10%,#2ef2ff33,transparent 60%),
+    radial-gradient(70vmax 50vmax at 50% 110%,#ff4d2e66,transparent 60%),
+    radial-gradient(40vmax 30vmax at 80% 60%,#9dff3a22,transparent 60%);
+  background-attachment:fixed}
+#embers{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.wrap{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+header{position:relative;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;padding-block:56px 36px;overflow:hidden;border-radius:0 0 24px 24px}
+#fire{position:absolute;left:0;bottom:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(0deg,#ff4d2e44,transparent);z-index:0}
+
+/* udvalgt spil */
+.spot{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border-radius:18px;overflow:hidden;margin-bottom:34px;border:2px solid var(--butter);
+  box-shadow:0 0 40px #ffb30055,0 20px 50px #0009;background:linear-gradient(135deg,#2a0b3f,#12061f)}
+.spot .cover{aspect-ratio:16/10;cursor:pointer;position:relative}
+.spot .cover::after{content:"▶";position:absolute;inset:0;margin:auto;width:84px;height:84px;display:grid;place-items:center;border-radius:50%;
+  font-size:34px;color:#fff;background:#ff2e93cc;box-shadow:0 0 0 8px #ff2e9344,0 0 40px #ff2e93;animation:pulse 1.8s ease-in-out infinite;padding-left:6px}
+@keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 0 16px #ff2e9322,0 0 60px #ff2e93}}
+.spot .txt{padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.spot .kicker{font:700 12px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--lime);text-shadow:0 0 10px #9dff3a88}
+.spot h2{font:400 clamp(28px,4.5vw,44px)/1 var(--display);margin:0;color:#fff;text-wrap:balance}
+.spot p{margin:0;color:#ffe3f5;font-size:16px}
+.spot button{align-self:flex-start;font-size:19px;padding:15px 28px;background:linear-gradient(90deg,var(--lime),var(--teal));color:#062018;box-shadow:0 5px 0 #0f7a6a,0 0 30px #2ef2ff88}
+@media (max-width:720px){.spot{grid-template-columns:1fr}}
+
+/* løbebånd */
+.ticker{overflow:hidden;border-block:2px solid var(--pink);background:#ff2e9318;margin:0 0 30px;padding-block:8px;white-space:nowrap}
+.ticker div{display:inline-block;animation:run 28s linear infinite;font:400 16px var(--display);color:var(--butter);letter-spacing:.04em}
+.ticker span{margin-inline:18px}
+.ticker i{font-style:normal;color:var(--pink)}
+@keyframes run{to{transform:translateX(-50%)}}
+.steps{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:16px;font-weight:700;font-size:15px}
+.steps span{display:flex;align-items:center;gap:8px}
+.steps b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#062018;font:400 14px var(--display)}
+header>*{position:relative;z-index:1}
+header>div{padding-inline:12px}
+header>button{margin-inline:12px}
+h1{font:400 clamp(48px,11vw,110px)/.9 var(--display);margin:0;letter-spacing:.01em;
+  background:linear-gradient(180deg,#fff6a8 0%,var(--butter) 30%,#ff8a1f 60%,var(--coral) 85%,#c4102b 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px #ff6a0099) drop-shadow(5px 5px 0 #3a0418);animation:flicker 2.4s infinite}
+@keyframes flicker{0%,100%{filter:drop-shadow(0 0 18px #ff6a0099) drop-shadow(5px 5px 0 #3a0418)}45%{filter:drop-shadow(0 0 32px #ffb300cc) drop-shadow(5px 5px 0 #3a0418)}55%{filter:drop-shadow(0 0 12px #ff3d0088) drop-shadow(5px 5px 0 #3a0418)}}
+.tag{color:#ffe9d6;margin:12px 0 0;max-width:46ch;font-size:17px;text-shadow:0 2px 8px #000}
+.coin{font:700 13px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--teal);text-shadow:0 0 10px var(--teal)}
+.rainbow{display:inline-block;background:linear-gradient(90deg,var(--pink),var(--butter),var(--lime),var(--teal),var(--pink));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:slide 4s linear infinite}
+@keyframes slide{to{background-position:200% 0}}
+
+button{font:700 15px var(--body);letter-spacing:.04em;cursor:pointer;border:0;border-radius:8px;padding:12px 18px;color:#2a0600;background:linear-gradient(180deg,#ffe46b,#ff9d1f);box-shadow:0 4px 0 #b3440f,0 0 18px #ff8a1f66}
+button:hover{filter:brightness(1.1)}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #b3440f}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+button.ghost{background:transparent;color:var(--muted);box-shadow:none;border:1px solid var(--line);padding:8px 12px;font-size:13px}
+button.danger{background:var(--coral);color:#fff;box-shadow:0 4px 0 #8a1a0d}
+#openUpload{font-size:17px;padding:14px 22px;background:linear-gradient(90deg,var(--pink),var(--coral),var(--butter));color:#fff;text-shadow:0 1px 2px #0008;box-shadow:0 4px 0 #8a0f3d,0 0 28px #ff2e9399}
+
+.panel{background:var(--bg2);backdrop-filter:blur(8px);border:2px solid var(--teal);box-shadow:0 0 30px #2ef2ff44;border-radius:14px;padding:20px;margin-bottom:28px}
+.panel h2{font:400 22px var(--display);margin:0 0 14px;color:var(--teal);text-shadow:0 0 12px var(--teal)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form .full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+input[type=text],textarea{font:16px var(--body);color:var(--ink);background:#0c0416;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-transform:none;letter-spacing:0}
+textarea{min-height:70px;resize:vertical}
+.drop{border:2px dashed var(--pink);border-radius:8px;padding:16px;text-align:center;color:var(--muted);text-transform:none;letter-spacing:0;font-size:15px;cursor:pointer;background:#ff2e9310}
+.drop.has{border-color:var(--lime);color:var(--ink);background:#9dff3a14}
+.drop input{display:none}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.msg{font-size:14px;color:var(--muted)}
+.msg.err{color:var(--coral)}
+@media (max-width:640px){.form{grid-template-columns:1fr}}
+
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:16px}
+.bar h2{font:400 clamp(26px,4vw,36px) var(--display);margin:0}
+.count{color:var(--muted);font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{--glow:#ff4d2e;background:var(--card);border:2px solid var(--glow);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;box-shadow:0 0 16px color-mix(in srgb,var(--glow) 45%,transparent)}
+.card:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 0 36px var(--glow),0 12px 30px #0008}
+.cover{aspect-ratio:16/10;max-width:100%;background-size:cover;background-position:center;position:relative;image-rendering:pixelated}
+.cover .badge{position:absolute;top:10px;left:10px;font:700 11px var(--body);letter-spacing:.12em;text-transform:uppercase;background:var(--pink);color:#fff;padding:3px 8px;border-radius:4px}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.info h3{margin:0;font:700 20px var(--body);text-wrap:balance}
+.info p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.info .row{margin-top:8px;justify-content:space-between}
+.date{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.player{position:fixed;inset:0;background:#07021acc;backdrop-filter:blur(6px);display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:10}
+.player .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;max-width:1100px;width:100%;margin-inline:auto}
+.player h2{font:400 24px var(--display);margin:0;color:var(--butter);text-shadow:0 0 14px #ff8a1f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player iframe{flex:1;width:100%;max-width:1100px;margin:0 auto;border:3px solid var(--coral);border-radius:12px;background:#000;box-shadow:0 0 40px #ff4d2e,0 0 90px #ff2e9366}
+@media (prefers-reduced-motion:reduce){.card,.card:hover{transition:none;transform:none}h1,.rainbow,.ticker div,.spot .cover::after{animation:none}}
+</style>
+
+<canvas id="embers"></canvas>
+<div class="wrap">
+  <header>
+    <canvas id="fire"></canvas>
+    <div>
+      <div class="coin">★ Indsæt mønt ▸ tryk på et spil ★</div>
+      <h1>Spilhallen</h1>
+      <p class="tag">Velkommen indenfor! Her ligger alle mine hjemmelavede spil, <span class="rainbow">klar til at blive spillet</span>. Det er gratis, og der skal ikke installeres noget.</p>
+      <div class="steps"><span><b>1</b>Vælg et spil</span><span><b>2</b>Tryk ▶</span><span><b>3</b>Slå rekorden</span></div>
+    </div>
+    <button id="openUpload" hidden>+ Upload spil</button>
+  </header>
+
+  <div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+
+  <section class="spot" id="spot"></section>
+
+  <section class="panel" id="uploadPanel" hidden>
+    <h2>Nyt spil</h2>
+    <form class="form" id="upForm">
+      <label>Navn på spillet<input type="text" id="fTitle" maxlength="60" required placeholder="Fx Rumkamp 3000"></label>
+      <label>Lavet af<input type="text" id="fAuthor" maxlength="40" placeholder="Dit navn"></label>
+      <label class="full">Beskrivelse<textarea id="fDesc" maxlength="240" placeholder="Hvordan spiller man? Hvilke taster?"></textarea></label>
+      <label>Spilfil (.html)
+        <span class="drop" id="dropGame"><input type="file" id="fGame" accept=".html,.htm,text/html"><span>Klik eller træk din .html-fil hertil</span></span>
+      </label>
+      <label>Forsidebillede (valgfrit)
+        <span class="drop" id="dropCover"><input type="file" id="fCover" accept="image/png,image/jpeg,image/gif,image/webp"><span>Ellers tegner siden et til dig</span></span>
+      </label>
+      <div class="full row">
+        <button type="submit" id="submitBtn">Upload spillet</button>
+        <button type="button" class="ghost" id="cancelUp">Annullér</button>
+        <span class="msg" id="upMsg">Spillet skal være én .html-fil med al koden indeni.</span>
+      </div>
+    </form>
+  </section>
+
+  <div class="bar"><h2 class="rainbow">Alle spil</h2><span class="count" id="count"></span></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="player" id="player" hidden>
+  <div class="top"><h2 id="pTitle"></h2><div class="row"><button class="ghost" id="pFull">Fuldskærm</button><button id="pClose">Luk ✕</button></div></div>
+  <iframe id="frame" sandbox="allow-scripts allow-pointer-lock" allow="fullscreen" title="Spil"></iframe>
+</div>
+
+<script>
+const DEMO_SNAKE = `<!doctype html><html><body style="margin:0;background:#111;display:grid;place-items:center;height:100vh;font-family:monospace;color:#fff">
+<div style="text-align:center"><canvas id="c" width="400" height="400" style="background:#1b1b2f;max-width:90vw;max-height:80vh"></canvas><p id="s">Brug piletasterne</p></div>
+<script>
+const c=document.getElementById('c').getContext('2d'),S=20;let sn=[{x:10,y:10}],d={x:1,y:0},f={x:5,y:5},p=0;
+addEventListener('keydown',e=>{const k={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];if(k&&(k[0]!==-d.x||k[1]!==-d.y)){d={x:k[0],y:k[1]};e.preventDefault()}});
+setInterval(()=>{const h={x:(sn[0].x+d.x+S)%S,y:(sn[0].y+d.y+S)%S};if(sn.some(q=>q.x===h.x&&q.y===h.y)){sn=[{x:10,y:10}];p=0}sn.unshift(h);
+if(h.x===f.x&&h.y===f.y){p++;f={x:Math.random()*S|0,y:Math.random()*S|0}}else sn.pop();
+c.fillStyle='#1b1b2f';c.fillRect(0,0,400,400);c.fillStyle='#ff6b5a';c.fillRect(f.x*20,f.y*20,18,18);c.fillStyle='#4fe0c8';sn.forEach(q=>c.fillRect(q.x*20,q.y*20,18,18));
+document.getElementById('s').textContent='Point: '+p},110);
+<\/script></body></html>`;
+
+const DEMO_CLICK = `<!doctype html><html><body style="margin:0;background:#2b1055;height:100vh;overflow:hidden;font-family:sans-serif;color:#fff;cursor:crosshair">
+<h2 id="t" style="position:fixed;top:10px;left:16px;margin:0">Point: 0 · Tid: 20</h2><script>
+let p=0,t=20;const T=document.getElementById('t');
+function spawn(){if(t<=0)return;const b=document.createElement('div');const s=30+Math.random()*40;
+Object.assign(b.style,{position:'absolute',width:s+'px',height:s+'px',borderRadius:'50%',background:'hsl('+(Math.random()*360)+',90%,60%)',left:Math.random()*(innerWidth-s)+'px',top:40+Math.random()*(innerHeight-s-40)+'px'});
+b.onclick=()=>{p++;b.remove();T.textContent='Point: '+p+' · Tid: '+t};document.body.appendChild(b);setTimeout(()=>b.remove(),1400)}
+setInterval(spawn,450);const iv=setInterval(()=>{t--;T.textContent=t>0?'Point: '+p+' · Tid: '+t:'Slut! Du fik '+p+' point';if(t<=0)clearInterval(iv)},1000);
+<\/script></body></html>`;
+
+const DEMOS = [
+  {id:'demo-snake',title:'Slange',author:'Eksempel',desc:'Klassisk snake. Styr med piletasterne og spis de røde firkanter.',html:DEMO_SNAKE,hue:140,demo:true},
+  {id:'demo-click',title:'Ballonjagt',author:'Eksempel',desc:'Klik på så mange bobler som muligt på 20 sekunder.',html:DEMO_CLICK,hue:290,demo:true},
+];
+
+const $ = id => document.getElementById(id);
+let db = null, assets = null, games = [];
+
+function hueOf(s){let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))%360;return h}
+function rng(seed){let x=(seed%2147483646)+1;return()=>(x=(x*16807)%2147483647)/2147483647}
+function fmtDate(ms){try{return new Date(ms).toLocaleDateString('da-DK',{day:'numeric',month:'short',year:'numeric'})}catch{return ''}}
+
+// Tegner et pixel-forsidebillede med himmel, sol, bjerge og flammer
+const coverCache={};
+function makeCover(title,hue){
+  const key=title+'|'+hue; if(coverCache[key]) return coverCache[key];
+  const W=240,H=150,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');const r=rng(hueOf(title)*977+7);
+  const h2=(hue+60+r()*80)%360;
+  const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,`hsl(${hue} 90% 16%)`);gr.addColorStop(.55,`hsl(${h2} 95% 45%)`);gr.addColorStop(1,`hsl(${(h2+30)%360} 100% 60%)`);
+  g.fillStyle=gr;g.fillRect(0,0,W,H);
+  for(let i=0;i<70;i++){g.fillStyle=`rgba(255,255,255,${r()*.9})`;const s=r()<.1?2:1;g.fillRect(r()*W|0,r()*H*.55|0,s,s)}
+  const sx=40+r()*160,sy=34+r()*24,sr=18+r()*14;
+  for(let y=-sr;y<sr;y+=3){const w=Math.sqrt(Math.max(0,sr*sr-y*y));if(y>sr*.2&&((y/3|0)%2))continue;g.fillStyle=`hsl(${(hue+180)%360} 100% ${Math.max(40,70-y)}%)`;g.fillRect(sx-w|0,sy+y|0,w*2|0,3)}
+  for(let layer=0;layer<3;layer++){g.fillStyle=`hsl(${(hue+layer*25)%360} 70% ${14-layer*4}%)`;let y=H*(.6+layer*.1);
+    for(let x=0;x<W;x+=4){y+=(r()-.5)*10;y=Math.max(H*.45,Math.min(H-10,y));g.fillRect(x,y|0,4,H)}}
+  for(let x=0;x<W;x+=3){const fh=8+r()*22+Math.sin(x*.15)*6;for(let k=0;k<fh;k+=3){const t=k/fh;g.fillStyle=t<.3?'#fff3a0':t<.6?'#ffb020':t<.85?'#ff4d2e':'#b0102a';g.fillRect(x,H-k-3,3,3)}}
+  const txt=(title||'?').toUpperCase().slice(0,14);let fs=26;g.font=fs+'px Bungee, Impact, sans-serif';
+  while(g.measureText(txt).width>W-20&&fs>12){fs-=2;g.font=fs+'px Bungee, Impact, sans-serif'}
+  g.textAlign='center';g.textBaseline='middle';
+  g.fillStyle='#000b';g.fillText(txt,W/2+3,H*.5+3);g.fillStyle='#fff';g.fillText(txt,W/2,H*.5);
+  return coverCache[key]=c.toDataURL();
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function coverUrl(it){const h=it.hue ?? hueOf(it.title||'x');return it.coverId ? `url("/_blob/${it.coverId}")` : `url(${makeCover(it.title||'?',h)})`}
+function renderSpot(it){
+  const s=$('spot'); s.textContent='';
+  const cov=document.createElement('div');cov.className='cover';cov.style.backgroundImage=coverUrl(it);cov.onclick=()=>openGame(it);cov.title='Spil '+it.title;
+  const txt=document.createElement('div');txt.className='txt';
+  const k=document.createElement('div');k.className='kicker';k.textContent=games.length?'★ Nyeste spil ★':'★ Prøv et eksempel ★';
+  const h=document.createElement('h2');h.textContent=it.title;
+  const p=document.createElement('p');p.textContent=it.desc||'Tryk på knappen og kom i gang.';
+  const b=document.createElement('button');b.textContent='▶ Spil nu';b.onclick=()=>openGame(it);
+  txt.append(k,h,p,b); s.append(cov,txt);
+}
+function render(){
+  const all = games.length ? games : DEMOS;
+  $('count').textContent = games.length ? games.length + ' spil' : 'Eksempler, indtil du uploader dit første spil';
+  renderSpot(all[0]);
+  const names = all.map(x=>x.title);
+  const tickHtml = () => names.map(n=>`<span>★ <i>NU I HALLEN:</i> ${esc(n)}</span>`).join('') + '<span>🔥 NYE SPIL PÅ VEJ</span>';
+  $('tick').innerHTML = tickHtml().repeat(4);
+  const g = $('grid'); g.textContent = '';
+  for(const it of all){
+    const card = document.createElement('article'); card.className='card';
+    const h = it.hue ?? hueOf(it.title||'x'); card.style.setProperty('--glow',`hsl(${h} 100% 60%)`);
+    const cov = document.createElement('div'); cov.className='cover';
+    cov.style.backgroundImage = coverUrl(it);
+    if(it.demo){const b=document.createElement('span');b.className='badge';b.textContent='Eksempel';cov.appendChild(b)}
+    const info=document.createElement('div');info.className='info';
+    const h3=document.createElement('h3');h3.textContent=it.title;
+    const p=document.createElement('p');p.textContent=it.desc||'';
+    const row=document.createElement('div');row.className='row';
+    const meta=document.createElement('span');meta.className='date';meta.textContent=[it.author,it.createdAt?fmtDate(it.createdAt):''].filter(Boolean).join(' · ');
+    const acts=document.createElement('div');acts.className='row';
+    const play=document.createElement('button');play.textContent='▶ Spil';play.onclick=()=>openGame(it);
+    acts.appendChild(play);
+    if(assets && !it.demo){
+      const del=document.createElement('button');del.className='ghost';del.textContent='Slet';
+      let armed=false;
+      del.onclick=async()=>{
+        if(!armed){armed=true;del.textContent='Sikker?';del.classList.replace('ghost','danger');setTimeout(()=>{armed=false;del.textContent='Slet';del.classList.replace('danger','ghost')},3000);return}
+        del.disabled=true;del.textContent='Sletter…';
+        try{await db.doc('games/'+it.id).delete();
+          for(const a of [it.htmlId,it.coverId]) if(a) try{await assets.delete(a)}catch{}
+        }catch(e){del.disabled=false;del.textContent='Kunne ikke slette'}
+      };
+      acts.appendChild(del);
+    }
+    row.append(meta,acts);
+    info.append(h3,p,row);
+    card.append(cov,info);
+    g.appendChild(card);
+  }
+}
+
+async function openGame(it){
+  $('pTitle').textContent = it.title; $('player').hidden = false;
+  const fr = $('frame'); fr.srcdoc = '<body style="background:#000;color:#aaa;font-family:sans-serif;display:grid;place-items:center;height:100vh;margin:0">Indlæser…</body>';
+  try{
+    const html = it.html ?? await (await fetch('/_blob/'+it.htmlId)).text();
+    fr.srcdoc = html; fr.focus();
+  }catch(e){fr.srcdoc='<body style="background:#000;color:#ff6b5a;font-family:sans-serif;padding:20px">Spillet kunne ikke indlæses. Prøv igen om lidt.</body>'}
+}
+function closeGame(){ $('player').hidden = true; $('frame').srcdoc=''; }
+$('pClose').onclick = closeGame;
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('player').hidden)closeGame()});
+$('pFull').onclick = ()=>{ $('frame').requestFullscreen?.().catch(()=>{}) };
+
+function wireDrop(dropId,inputId){
+  const d=$(dropId),inp=$(inputId),lbl=d.querySelector('span');const orig=lbl.textContent;
+  const show=()=>{const f=inp.files[0];d.classList.toggle('has',!!f);lbl.textContent=f?f.name:orig};
+  inp.onchange=show;
+  d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('has')});
+  d.addEventListener('dragleave',()=>show());
+  d.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files.length){inp.files=e.dataTransfer.files;show()}});
+  return ()=>{inp.value='';show()};
+}
+const resetGame = wireDrop('dropGame','fGame'), resetCover = wireDrop('dropCover','fCover');
+$('openUpload').onclick=()=>{$('uploadPanel').hidden=false;$('fTitle').focus()};
+$('cancelUp').onclick=()=>{$('uploadPanel').hidden=true};
+
+function msg(t,err){const m=$('upMsg');m.textContent=t;m.classList.toggle('err',!!err)}
+const ERR={too_large:'Filen er for stor (max 20 MB).',unsupported_type:'Den filtype kan ikke uploades.',quota_or_state:'Der er ikke mere plads. Slet et gammelt spil først.',rate_limited:'Vent lidt og prøv igen.',invalid_request:'Filen kunne ikke læses. Er det en almindelig .html-fil?'};
+
+$('upForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const title=$('fTitle').value.trim(), gameFile=$('fGame').files[0], cover=$('fCover').files[0];
+  if(!title) return msg('Giv spillet et navn.',true);
+  if(!gameFile) return msg('Vælg spilfilen (.html).',true);
+  if(!/\.html?$/i.test(gameFile.name)) return msg('Spilfilen skal ende på .html.',true);
+  $('submitBtn').disabled=true; msg('Uploader…');
+  try{
+    const g = await assets.upload(gameFile,{type:'text/plain'});
+    let coverId = null;
+    if(cover){ msg('Uploader billede…'); coverId = (await assets.upload(cover)).id; }
+    await db.collection('games').doc().set({title, author:$('fAuthor').value.trim(), desc:$('fDesc').value.trim(), htmlId:g.id, coverId, createdAt:Date.now()});
+    msg('Uploadet! '+title+' ligger nu i hallen.');
+    $('fTitle').value='';$('fDesc').value='';resetGame();resetCover();
+  }catch(err){ msg(ERR[err?.code] || 'Noget gik galt. Prøv igen.', true); }
+  finally{ $('submitBtn').disabled=false; }
+});
+
+render();
+document.fonts?.ready.then(()=>{for(const k in coverCache)delete coverCache[k];render()});
+
+// Ild i toppen og gløder der svæver op over hele siden
+(function(){
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Bløde flammer: mange glødende kugler der stiger op, blegner og skifter fra gul til rød
+  const fc=$('fire'),fx=fc.getContext('2d');let flames=[],FW=0,FH=0;
+  function fsize(){const r=fc.getBoundingClientRect();FW=fc.width=Math.max(1,r.width/2|0);FH=fc.height=Math.max(1,r.height/2|0)}
+  fsize();addEventListener('resize',fsize);
+  function stepFire(){
+    for(let i=0;i<Math.ceil(FW/36);i++){const x=Math.random()*FW;const tall=.55+.45*Math.abs(Math.sin(x/FW*Math.PI*3+performance.now()/1400));
+      flames.push({x,y:FH+8,r:12+Math.random()*18,life:0,max:(40+Math.random()*40)*tall,vx:(Math.random()-.5)*.6,vy:.9+Math.random()*1.3})}
+    fx.globalCompositeOperation='source-over';fx.clearRect(0,0,FW,FH);
+    fx.globalCompositeOperation='lighter';
+    for(const f of flames){f.life++;f.x+=f.vx+Math.sin((f.life+f.x)*.08)*.35;f.y-=f.vy;const t=f.life/f.max;const rad=f.r*(1-t*.7);
+      const hue=50-t*50, a=(1-t)*.28;
+      const g=fx.createRadialGradient(f.x,f.y,0,f.x,f.y,rad);g.addColorStop(0,`hsla(${hue},100%,${70-t*20}%,${a})`);g.addColorStop(1,`hsla(${hue},100%,50%,0)`);
+      fx.fillStyle=g;fx.beginPath();fx.arc(f.x,f.y,rad,0,7);fx.fill()}
+    flames=flames.filter(f=>f.life<f.max)}
+  const ec=$('embers'),ex=ec.getContext('2d');let parts=[];
+  function size(){ec.width=innerWidth;ec.height=innerHeight}size();addEventListener('resize',size);
+  const cols=['#ffd23f','#ff8a1f','#ff4d2e','#ff2e93','#2ef2ff'];
+  function stepEmbers(){
+    if(parts.length<70)parts.push({x:Math.random()*ec.width,y:ec.height+10,v:.6+Math.random()*1.6,s:1.5+Math.random()*3,c:cols[Math.random()*cols.length|0],w:Math.random()*6});
+    ex.clearRect(0,0,ec.width,ec.height);
+    for(const p of parts){p.y-=p.v;p.w+=.04;p.x+=Math.sin(p.w)*.7;ex.globalAlpha=Math.max(0,Math.min(1,p.y/ec.height+.15));ex.fillStyle=p.c;ex.shadowColor=p.c;ex.shadowBlur=10;ex.fillRect(p.x,p.y,p.s,p.s)}
+    parts=parts.filter(p=>p.y>-10)}
+  if(still){for(let i=0;i<60;i++)stepFire();return}
+  let last=0;(function loop(t){requestAnimationFrame(loop);if(t-last<40||document.hidden)return;last=t;stepFire();stepEmbers()})(0);
+})();
+
+(async()=>{
+  if(!window.claude?.use) return;
+  db = await claude.use('db');
+  assets = await claude.use('assets');
+  if(assets && db) $('openUpload').hidden = false;
+  if(db){
+    db.collection('games').orderBy('createdAt','desc').onSnapshot(snap=>{
+      games = snap.docs.map(d=>({id:d.id,...d.data()}));
+      render();
+    },()=>{});
+  }
+  render();
+})();
+</script>
+
+</body></html>
