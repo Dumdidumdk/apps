@@ -218,8 +218,8 @@ var G = {
   tiki:{in:'M62 50 L138 50 L133 204 L67 204 Z',rim:50,x1:62,x2:138,lvl:56,bot:204,opaque:'tiki'}
 };
 
-function drinkSVG(d, big){
-  var g = G[d.g] || G.rocks, uid = 'd'+d.idx+(big?'b':'s');
+function drinkSVG(d, big, tag){
+  var g = G[d.g] || G.rocks, uid = 'd'+d.idx+(tag||(big?'b':'s'));
   var main = d.col[d.col.length-1], bgA = mix(main,'#FFFFFF',.78), bgB = mix(main,'#FFFFFF',.55);
   var h = hash(d.n), o = [];
   o.push('<svg viewBox="0 0 200 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="'+esc(d.n)+'" xmlns="http://www.w3.org/2000/svg">');
@@ -569,7 +569,7 @@ window.addEventListener('scroll', function(){ controls.classList.toggle('stuck',
 /* ================= Start ================= */
 document.getElementById('heroText').textContent = D.length+' opskrifter med præcise mål og trin-for-trin guide. Tryk på en drink for at se, hvordan du laver den.';
 var heroPick = ['aperol-spritz','espresso-martini','mojito','margarita'].map(function(id){return D.filter(function(d){return d.id===id;})[0];}).filter(Boolean);
-document.getElementById('heroGlasses').innerHTML = heroPick.map(function(d){return drinkSVG(d,false).replace('<rect width="200" height="240"','<rect width="0" height="0"');}).join('');
+document.getElementById('heroGlasses').innerHTML = heroPick.map(function(d){return drinkSVG(d,false,'h').replace('<rect width="200" height="240"','<rect width="0" height="0"');}).join('');
 renderFilters(); render();
 if(location.hash.length>1) openDrink(location.hash.slice(1), false);
 })();
