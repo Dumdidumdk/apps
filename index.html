@@ -57,6 +57,10 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .btn-main:active{transform:translateY(3px);box-shadow:0 2px 0 #23192E26}
 .facts{display:flex;flex-wrap:wrap;gap:8px 18px;font-weight:700;font-size:15px}
 .facts span{display:inline-flex;align-items:center;gap:6px}
+@media (max-width:760px){
+  .hero .deco .cloud,.hero .deco .mid{display:none}
+  .hero .deco .sunbig{right:-50px!important;top:-40px!important;opacity:.55}
+}
 .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:110px;display:block}
 
 /* ---------- Apps ---------- */
@@ -105,10 +109,10 @@ footer a:hover{text-decoration:underline}
 
 <header class="hero">
   <div class="deco" aria-hidden="true">
-    <svg class="float slow" style="right:6%;top:40px" width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="#FFD166"/><circle cx="75" cy="75" r="44" fill="#FFE39A"/></svg>
-    <svg class="float" style="right:30%;top:70px" width="120" height="50" viewBox="0 0 120 50"><path d="M22 44 a18 18 0 0 1 4-35 a24 24 0 0 1 44-6 a20 20 0 0 1 32 16 a14 14 0 0 1-2 25z" fill="#ffffff" opacity=".55"/></svg>
-    <svg class="float late" style="left:4%;bottom:130px" width="90" height="38" viewBox="0 0 120 50"><path d="M22 44 a18 18 0 0 1 4-35 a24 24 0 0 1 44-6 a20 20 0 0 1 32 16 a14 14 0 0 1-2 25z" fill="#ffffff" opacity=".4"/></svg>
-    <svg class="float late" style="right:12%;bottom:150px" width="46" height="46" viewBox="0 0 46 46"><path d="M23 2 l5 16 l16 5 l-16 5 l-5 16 l-5-16 l-16-5 l16-5z" fill="#fff" opacity=".7"/></svg>
+    <svg class="float slow sunbig" style="right:6%;top:40px" width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="#FFD166"/><circle cx="75" cy="75" r="44" fill="#FFE39A"/></svg>
+    <svg class="float cloud" style="right:30%;top:70px" width="120" height="50" viewBox="0 0 120 50"><path d="M22 44 a18 18 0 0 1 4-35 a24 24 0 0 1 44-6 a20 20 0 0 1 32 16 a14 14 0 0 1-2 25z" fill="#ffffff" opacity=".55"/></svg>
+    <svg class="float late cloud" style="left:4%;bottom:130px" width="90" height="38" viewBox="0 0 120 50"><path d="M22 44 a18 18 0 0 1 4-35 a24 24 0 0 1 44-6 a20 20 0 0 1 32 16 a14 14 0 0 1-2 25z" fill="#ffffff" opacity=".4"/></svg>
+    <svg class="float late mid" style="right:12%;bottom:150px" width="46" height="46" viewBox="0 0 46 46"><path d="M23 2 l5 16 l16 5 l-16 5 l-5 16 l-5-16 l-16-5 l16-5z" fill="#fff" opacity=".7"/></svg>
     <svg class="float" style="left:46%;top:24px" width="26" height="26" viewBox="0 0 46 46"><path d="M23 2 l5 16 l16 5 l-16 5 l-5 16 l-5-16 l-16-5 l16-5z" fill="#FFD166"/></svg>
   </div>
 
