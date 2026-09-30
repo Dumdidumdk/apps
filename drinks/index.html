@@ -63,7 +63,15 @@ button{font:inherit;color:inherit}
 .btn-rand{background:var(--accent);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 65%,#000)}
 .btn-rand:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 65%,#000)}
 @media (max-width:520px){.btn-rand span{display:none}.btn-rand{padding:0 15px}}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 2px;scrollbar-width:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 2px 2px}
+/* to lige lange rækker: de første 6 øverst, resten nederst */
+.chips::after{content:"";flex-basis:100%;order:1;margin-top:-8px}
+.chips .chip{flex:1 1 auto}
+.chips .chip:nth-child(n+7){order:2}
+@media (max-width:760px){
+  .chips{display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;scrollbar-width:none}
+  .chips::after{display:none}
+}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;height:38px;padding:0 15px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:700;font-size:15px;color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
