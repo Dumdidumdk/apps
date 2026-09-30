@@ -6,7 +6,7 @@ Små hjemmelavede apps og spil, som kører direkte i browseren. Du skal ikke ins
 
 | App | Link |
 |---|---|
-| 🍸 Drinksbogen – over 100 drinksopskrifter | [Åbn](https://dumdidumdk.github.io/apps/drinks/) |
+| 🍸 Drinksbogen – over 250 drinksopskrifter | [Åbn](https://dumdidumdk.github.io/apps/drinks/) |
 | ✈️ Rejsefinder – billige all inclusive-rejser | [Åbn](https://dumdidumdk.github.io/apps/rejsefinder/) |
 | 🕹️ Spilhallen – små arkadespil | [Åbn](https://dumdidumdk.github.io/apps/spilhallen/) |
 | 🐦 Fugleklatten – mågespil | [Åbn](https://dumdidumdk.github.io/apps/fugleklatten/) |
