@@ -149,7 +149,7 @@ function afrejseTekst(iso){
 function renderResults(){
   var aar = aarForUge(st.week), man = mandag(aar, st.week);
   var fra = man.toISOString().slice(0,10), til = new Date(man.getTime()+6*864e5).toISOString().slice(0,10);
-  var m = REJSER.filter(function(r){ return r.land===st.country && r.naetter===st.nights && r.lufthavn===st.airport && r.forplejning==='all_inclusive' && r.afrejse>=fra && r.afrejse<=til; })
+  var d = new Date(), idag = d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2), m = REJSER.filter(function(r){ return r.land===st.country && r.naetter===st.nights && r.lufthavn===st.airport && r.forplejning==='all_inclusive' && r.afrejse>=fra && r.afrejse<=til && r.afrejse>=idag; })
     .sort(function(a,b){ return a.pris-b.pris; });
   var places = m.map(function(o){return o.destination;}).filter(function(d,i,a){return a.indexOf(d)===i;}).length;
   $('rt').textContent = st.country + ', uge ' + st.week;
@@ -166,8 +166,9 @@ function renderResults(){
       '<a class="go" href="'+esc(o.link)+'" target="_blank" rel="noopener">Se rejsen hos '+esc(o.selskab)+'</a></div></article>';
   }).join('') : '<div class="empty">Ingen all inclusive-rejser til '+esc(st.country)+' i uge '+st.week+'. Prøv en anden uge eller lufthavn.</div>';
 }
-$('prev').onclick = function(){ var mx=ugerIAar(aarForUge(st.week)); st.week = st.week<=1 ? mx : st.week-1; renderForm(); };
-$('next').onclick = function(){ var mx=ugerIAar(aarForUge(st.week)); st.week = st.week>=mx ? 1 : st.week+1; renderForm(); };
+function skiftUge(retning){ var m=mandag(aarForUge(st.week),st.week), n=isoUge(new Date(m.getUTCFullYear(),m.getUTCMonth(),m.getUTCDate()+7*retning)); st.week = aarForUge(n.uge)===n.aar ? n.uge : retning>0 ? NU.uge : NU.uge>1 ? NU.uge-1 : ugerIAar(NU.aar); renderForm(); }
+$('prev').onclick = function(){ skiftUge(-1); };
+$('next').onclick = function(){ skiftUge(1); };
 $('go').onclick = function(){ renderResults(); $('search').hidden = true; $('results').hidden = false; window.scrollTo(0,0); };
 $('back').onclick = function(){ $('results').hidden = true; $('search').hidden = false; window.scrollTo(0,0); };
 renderForm();
