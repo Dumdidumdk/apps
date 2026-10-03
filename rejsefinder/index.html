@@ -129,7 +129,8 @@ function ugeTekst(aar, uge){
 }
 var st = { week: (NU.uge + 1) % ugerIAar(NU.aar) + 1, country:'Tyrkiet', nights:7, airport:'CPH' };
 function chips(el, items, key){
-  el.innerHTML = items.map(function(it){ return '<button class="chip" data-v="'+esc(it.v)+'" aria-pressed="'+(String(st[key])===String(it.v))+'">'+esc(it.l)+'</button>'; }).join('');
+  if(!el.firstChild) el.innerHTML = items.map(function(it){ return '<button class="chip" data-v="'+esc(it.v)+'">'+esc(it.l)+'</button>'; }).join('');
+  [].forEach.call(el.children, function(b){ b.setAttribute('aria-pressed', String(String(st[key])===b.dataset.v)); });
   el.onclick = function(e){ var b = e.target.closest('.chip'); if(!b) return; st[key] = key==='nights' ? +b.dataset.v : b.dataset.v; renderForm(); };
 }
 function renderForm(){
@@ -168,8 +169,14 @@ function renderResults(){
 }
 $('prev').onclick = function(){ var mx=ugerIAar(aarForUge(st.week)); st.week = st.week<=1 ? mx : st.week-1; renderForm(); };
 $('next').onclick = function(){ var mx=ugerIAar(aarForUge(st.week)); st.week = st.week>=mx ? 1 : st.week+1; renderForm(); };
-$('go').onclick = function(){ renderResults(); $('search').hidden = true; $('results').hidden = false; window.scrollTo(0,0); };
-$('back').onclick = function(){ $('results').hidden = true; $('search').hidden = false; window.scrollTo(0,0); };
+function visResultater(){ renderResults(); $('search').hidden = true; $('results').hidden = false; window.scrollTo(0,0); $('rt').focus(); }
+function visSoegning(){ $('results').hidden = true; $('search').hidden = false; window.scrollTo(0,0); $('go').focus(); }
+$('rt').tabIndex = -1;
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if(history.state && history.state.vis==='resultater') history.replaceState(null, '', location.pathname + location.search);
+$('go').onclick = function(){ visResultater(); history.pushState({vis:'resultater'}, '', '#resultater'); };
+$('back').onclick = function(){ if(history.state && history.state.vis==='resultater') history.back(); else visSoegning(); };
+window.onpopstate = function(e){ if(e.state && e.state.vis==='resultater') visResultater(); else visSoegning(); };
 renderForm();
 </script>
 </body>
