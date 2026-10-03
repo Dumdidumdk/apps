@@ -9,17 +9,18 @@
 :root{
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
   --bg:#FFF6E5;--card:#FFFFFF;--ink:#1B2430;--muted:#5A4A2E;--sun:#FFD66B;--sunsoft:#FFE9B8;
-  --orange:#FF8A3D;--sea:#2BB3B1;--teal:#0F6E74;--coral:#E4572E;--price:#B83A14;--mint:#D5F2EF;--mintink:#0B4A4E;
+  --orange:#FF8A3D;--sea:#2BB3B1;--teal:#0F6E74;--coral:#CC4520;--price:#B83A14;--mint:#D5F2EF;--mintink:#0B4A4E;--line:#B07410;--focus:#B4470F;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0F2229;--card:#16313A;--ink:#F4EFE3;--muted:#C9BFA8;--sunsoft:#2A4550;--price:#FF9B6A;--mint:#16434A;--mintink:#BFEDE8;
+  --bg:#0F2229;--card:#16313A;--ink:#F4EFE3;--muted:#C9BFA8;--sunsoft:#2A4550;--price:#FF9B6A;--mint:#16434A;--mintink:#BFEDE8;--line:#FFD66B;--focus:#FF8A3D;
 }}
-:root[data-theme="dark"]{--bg:#0F2229;--card:#16313A;--ink:#F4EFE3;--muted:#C9BFA8;--sunsoft:#2A4550;--price:#FF9B6A;--mint:#16434A;--mintink:#BFEDE8;}
+:root[data-theme="dark"]{--bg:#0F2229;--card:#16313A;--ink:#F4EFE3;--muted:#C9BFA8;--sunsoft:#2A4550;--price:#FF9B6A;--mint:#16434A;--mintink:#BFEDE8;--line:#FFD66B;--focus:#FF8A3D;}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,a{font-family:inherit}
-button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+button:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.rhead :focus-visible{outline-color:#FFD66B}
 .app{max-width:480px;margin:0 auto;min-height:100vh}
 .hero{position:relative;background:var(--sun);overflow:hidden;padding:26px 22px 54px}
 .hero svg{position:absolute;inset:0;width:100%;height:100%}
@@ -36,8 +37,8 @@ h1{font-family:Fraunces,Georgia,serif;font-weight:700;margin:0;line-height:1.12}
 .week span{font-size:13px;color:var(--muted)}
 .chips{display:grid;gap:8px}
 .chips.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.chips.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.chip{height:46px;border-radius:999px;border:2px solid var(--sun);background:var(--card);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer}
+.chips.c3{grid-template-columns:repeat(3,minmax(min-content,1fr))}
+.chip{height:46px;padding:0 6px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
 .ai{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:6px 12px 6px 8px;border-radius:999px;background:var(--mint);color:var(--mintink);font-size:14px}
 .cta{height:58px;border:none;border-radius:999px;background:var(--coral);color:#fff;font-size:18px;font-weight:700;cursor:pointer}
@@ -84,13 +85,13 @@ h1{font-family:Fraunces,Georgia,serif;font-weight:700;margin:0;line-height:1.12}
     <div class="hero-text"><p class="kicker">Rejsefinder</p><h1>Find sommerens billigste all inclusive</h1></div>
   </div>
   <div class="form">
-    <div><p class="label">Uge</p>
-      <div class="stepper"><button id="prev" aria-label="Forrige uge">−</button><div class="week" aria-live="polite"><b id="wk"></b><span id="wr"></span></div><button id="next" aria-label="Næste uge">+</button></div>
+    <div><p class="label" id="lbl-uge">Uge</p>
+      <div class="stepper" role="group" aria-labelledby="lbl-uge"><button id="prev" aria-label="Forrige uge">−</button><div class="week" aria-live="polite"><b id="wk"></b><span id="wr"></span></div><button id="next" aria-label="Næste uge">+</button></div>
     </div>
-    <div><p class="label">Land</p><div class="chips c2" id="countries"></div></div>
-    <div><p class="label">Rejselængde</p><div class="chips c2" id="lengths"></div></div>
-    <div><p class="label">Afrejse fra</p><div class="chips c3" id="airports"></div></div>
-    <div class="ai"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6E74" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Kun <b>all inclusive</b></span></div>
+    <div><p class="label" id="lbl-land">Land</p><div class="chips c2" id="countries" role="group" aria-labelledby="lbl-land"></div></div>
+    <div><p class="label" id="lbl-laengde">Rejselængde</p><div class="chips c2" id="lengths" role="group" aria-labelledby="lbl-laengde"></div></div>
+    <div><p class="label" id="lbl-lufthavn">Afrejse fra</p><div class="chips c3" id="airports" role="group" aria-labelledby="lbl-lufthavn"></div></div>
+    <div class="ai"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Kun <b>all inclusive</b></span></div>
     <button class="cta" id="go">Søg rejser</button>
   </div>
 </section>
