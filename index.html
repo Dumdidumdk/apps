@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mine apps og spil</title>
-<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Rejsefinder, Spilhallen og Fugleklatten.">
+<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Rejsefinder, Drinksbogen, Spilhallen, Neon Forsvar og Fugleklatten.">
 <meta name="theme-color" content="#FF7A45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD66B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +87,7 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .card.spil{--c:var(--pink)}
 .card.fugl{--c:var(--purple)}
 .card.drink{--c:#C2185B}
+.card.td{--c:#2F6BFF}
 
 /* ---------- Om ---------- */
 .about{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow);margin-bottom:60px}
@@ -218,6 +219,44 @@ footer a:hover{text-decoration:underline}
         <h3>Spilhallen</h3>
         <p>En neonfarvet arkadehal fuld af små spil. Styr slangen, fang ballonerne, og slå din egen rekord.</p>
         <span class="play">Gå ind i hallen <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>
+
+    <a class="card td" href="neon-forsvar/">
+      <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="t-bg" cx=".35" cy=".3" r="1"><stop offset="0" stop-color="#1B1F5E"/><stop offset=".55" stop-color="#0B0D2E"/><stop offset="1" stop-color="#05060F"/></radialGradient>
+            <radialGradient id="t-neb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF3DF0" stop-opacity=".45"/><stop offset="1" stop-color="#FF3DF0" stop-opacity="0"/></radialGradient>
+            <radialGradient id="t-neb2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#00E5FF" stop-opacity=".35"/><stop offset="1" stop-color="#00E5FF" stop-opacity="0"/></radialGradient>
+            <radialGradient id="t-pl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FF9BF5"/><stop offset=".5" stop-color="#9B1FA8"/><stop offset="1" stop-color="#22062E"/></radialGradient>
+            <filter id="t-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+          </defs>
+          <rect width="320" height="220" fill="url(#t-bg)"/>
+          <ellipse cx="90" cy="70" rx="120" ry="70" fill="url(#t-neb)"/>
+          <ellipse cx="250" cy="170" rx="110" ry="60" fill="url(#t-neb2)"/>
+          <g fill="#fff"><circle cx="30" cy="20" r="1.2"/><circle cx="120" cy="14" r="1"/><circle cx="210" cy="30" r="1.4"/><circle cx="160" cy="96" r=".9"/><circle cx="60" cy="140" r="1.1"/><circle cx="300" cy="96" r="1"/><circle cx="20" cy="196" r="1.2"/><circle cx="190" cy="200" r=".9"/></g>
+          <path d="M236 22 h12 M242 16 v12" stroke="#fff" stroke-width="1.2" opacity=".8"/>
+          <circle cx="286" cy="40" r="34" fill="url(#t-pl)"/>
+          <ellipse cx="286" cy="40" rx="52" ry="10" fill="none" stroke="#FFC6F7" stroke-opacity=".6" stroke-width="2.5" transform="rotate(-18 286 40)"/>
+          <path d="M-10 60 H70 V150 H160 V70 H240 V170 H330" fill="none" stroke="#00E5FF" stroke-width="22" stroke-linejoin="round" opacity=".5" filter="url(#t-glow)"/>
+          <path d="M-10 60 H70 V150 H160 V70 H240 V170 H330" fill="none" stroke="#00E5FF" stroke-width="18" stroke-linejoin="round"/>
+          <path d="M-10 60 H70 V150 H160 V70 H240 V170 H330" fill="none" stroke="#071226" stroke-width="13" stroke-linejoin="round"/>
+          <g transform="translate(112 112)"><circle r="13" fill="#0B0D2E" stroke="#FFB020" stroke-width="3"/><circle r="5" fill="#FFB020"/></g>
+          <g transform="translate(200 120) rotate(45)"><rect x="-10" y="-10" width="20" height="20" rx="3" fill="#0B0D2E" stroke="#FF3860" stroke-width="3"/><circle r="4" fill="#FF3860"/></g>
+          <path d="M200 120 L240 108" stroke="#FF6A88" stroke-width="2.5"/>
+          <g transform="translate(240 108)" filter="url(#t-glow)"><circle r="7" fill="#FF6A88"/></g>
+          <g transform="translate(240 108)"><path d="M0 -11 L4 -4 L11 0 L4 4 L0 11 L-4 4 L-11 0 L-4 -4 Z" fill="#33CCFF"/><circle r="3.5" fill="#fff"/></g>
+          <g transform="translate(70 104)"><path d="M0 -9 L8 0 L0 9 L-8 0 Z" fill="#FFE14D"/></g>
+          <g transform="translate(160 92)"><path d="M0 -15 L4 -6 L14 -5 L6 2 L9 12 L0 7 L-9 12 L-6 2 L-14 -5 L-4 -6 Z" fill="#FFB020" stroke="#fff" stroke-width="1.5"/></g>
+          <g transform="translate(40 172)"><polygon points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6" fill="#0B0D2E" stroke="#5FD8FF" stroke-width="3"/><path d="M0 -6 V6 M-5 -3 L5 3 M-5 3 L5 -3" stroke="#5FD8FF" stroke-width="2"/></g>
+        </svg>
+        <span class="badge">Spil</span>
+      </div>
+      <div class="body">
+        <h3>Neon Forsvar</h3>
+        <p>Byg tårne og forsvar galaksen mod bølger af rumskibe. 20 baner, store bosser og overraskelser undervejs. Bedst på computeren eller med telefonen på langs.</p>
+        <span class="play">Forsvar galaksen <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </a>
 

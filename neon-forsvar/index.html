@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neon Forsvar</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Hovedmenu -->
+    <section id="screen-menu" class="screen active">
+      <canvas id="menuCanvas" width="1280" height="720"></canvas>
+      <div class="menu-box">
+        <h1 class="title">NEON<span>FORSVAR</span></h1>
+        <p class="subtitle">Forsvar galaksen – bane for bane</p>
+        <button id="btn-play" class="btn big primary">Spil</button>
+        <button id="btn-settings" class="btn big">Indstillinger</button>
+        <button id="btn-help" class="btn big">Sådan spiller du</button>
+        <p id="menu-progress" class="menu-progress"></p>
+      </div>
+    </section>
+
+    <!-- Galaksekort -->
+    <section id="screen-map" class="screen">
+      <canvas id="mapCanvas" width="1280" height="720"></canvas>
+      <button id="btn-map-back" class="btn corner-left">← Menu</button>
+      <button id="btn-map-settings" class="btn corner-right">Indstillinger</button>
+    </section>
+
+    <!-- Selve spillet -->
+    <section id="screen-game" class="screen">
+      <div id="field-wrap">
+        <canvas id="field" width="1040" height="720"></canvas>
+        <div id="hud">
+          <div class="hud-item hud-level"><span id="hud-level"></span></div>
+          <div class="hud-item"><span class="hud-label">Liv</span><span id="hud-lives" class="hud-value lives"></span></div>
+          <div class="hud-item"><span class="hud-label">Kreditter</span><span id="hud-money" class="hud-value money"></span></div>
+          <div class="hud-item"><span class="hud-label">Bølge</span><span id="hud-wave" class="hud-value"></span></div>
+        </div>
+        <div id="wave-progress"><div id="wave-progress-fill"></div></div>
+        <div id="banner"></div>
+      </div>
+
+      <aside id="panel">
+        <h2 class="panel-title">Tårne</h2>
+        <div id="shop"></div>
+
+        <div id="info" class="panel-box"></div>
+
+        <div id="next-wave" class="panel-box">
+          <h3>Næste bølge</h3>
+          <div id="next-wave-list"></div>
+        </div>
+
+        <div class="panel-controls">
+          <button id="btn-start-wave" class="btn primary wide">Start bølge <kbd>Mellemrum</kbd></button>
+          <div class="row">
+            <button id="btn-speed" class="btn" title="Spilhastighed (F)">1×</button>
+            <button id="btn-auto" class="btn" title="Start næste bølge automatisk">Auto: fra</button>
+          </div>
+          <div class="row">
+            <button id="btn-pause" class="btn" title="Pause (P)">Pause</button>
+            <button id="btn-mute" class="btn" title="Lyd til/fra (M)">Lyd: til</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Overlays -->
+    <div id="overlay" class="overlay hidden">
+      <div id="dialog-pause" class="dialog hidden">
+        <h2>Pause</h2>
+        <button class="btn big primary" data-action="resume">Fortsæt</button>
+        <button class="btn big" data-action="restart">Start banen forfra</button>
+        <button class="btn big" data-action="settings">Indstillinger</button>
+        <button class="btn big" data-action="map">Til galaksekortet</button>
+      </div>
+
+      <div id="dialog-win" class="dialog hidden">
+        <h2 class="win">Bane klaret!</h2>
+        <div id="win-stars" class="stars"></div>
+        <p id="win-text"></p>
+        <button class="btn big primary" data-action="next">Næste bane</button>
+        <button class="btn big" data-action="restart">Spil banen igen</button>
+        <button class="btn big" data-action="map">Til galaksekortet</button>
+      </div>
+
+      <div id="dialog-lose" class="dialog hidden">
+        <h2 class="lose">Basen er faldet</h2>
+        <p id="lose-text"></p>
+        <button class="btn big primary" data-action="restart">Prøv igen</button>
+        <button class="btn big" data-action="map">Til galaksekortet</button>
+      </div>
+
+      <div id="dialog-settings" class="dialog hidden">
+        <h2>Indstillinger</h2>
+        <label class="slider"><span>Samlet lydstyrke</span><input id="vol-master" type="range" min="0" max="100"></label>
+        <label class="slider"><span>Lydeffekter</span><input id="vol-sfx" type="range" min="0" max="100"></label>
+        <label class="slider"><span>Musik</span><input id="vol-music" type="range" min="0" max="100"></label>
+        <label class="check"><input id="vol-muted" type="checkbox"> <span>Slå al lyd fra</span></label>
+        <button class="btn big primary" data-action="close-settings">Luk</button>
+        <button class="btn small danger" data-action="reset-save">Nulstil fremskridt</button>
+      </div>
+
+      <div id="dialog-help" class="dialog hidden wide-dialog">
+        <h2>Sådan spiller du</h2>
+        <ul class="help">
+          <li>Fjenderne følger den lysende rute. Slipper de igennem, mister du liv.</li>
+          <li>Vælg et tårn i højre side, og klik på en ledig celle for at bygge det.</li>
+          <li>Klik på et tårn for at opgradere eller sælge det.</li>
+          <li><b>Kanon</b> og <b>Raketkaster</b> er gode mod almindelige fjender, men svage mod panser.</li>
+          <li><b>Laser</b>, <b>Tesla-lyn</b> og <b>Plasmakanon</b> skærer gennem panser og smadrer skjolde.</li>
+          <li><b>Frysetårn</b> gør fjenderne langsommere, så de andre tårne når at skyde mere.</li>
+          <li>Jo færre liv du mister, jo flere stjerner får du for banen.</li>
+        </ul>
+        <p class="keys"><kbd>1</kbd>–<kbd>6</kbd> vælg tårn · <kbd>Mellemrum</kbd> start bølge · <kbd>F</kbd> hastighed · <kbd>P</kbd> pause · <kbd>U</kbd> opgrader · <kbd>S</kbd> sælg · <kbd>Esc</kbd> fortryd · <kbd>M</kbd> lyd</p>
+        <button class="btn big primary" data-action="close-help">Forstået</button>
+      </div>
+    </div>
+
+    <div id="error-box" class="hidden"></div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
