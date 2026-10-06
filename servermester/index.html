@@ -179,6 +179,15 @@ details p{margin:0 0 18px;color:var(--soft)}
 footer{padding:40px 0 60px;color:var(--muted);font-size:14px;text-align:center}
 footer a{color:var(--soft)}
 
+/* Sprogvælger */
+.sprog{display:flex;gap:2px;padding:3px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
+.sprog button{font:700 12px Inter,sans-serif;letter-spacing:.04em;padding:6px 8px;border:0;border-radius:7px;background:transparent;color:var(--muted);cursor:pointer}
+.sprog button:hover{color:var(--ink)}
+.sprog button[aria-pressed="true"]{background:var(--grad);color:#fff}
+.sprognote{margin:0;font-size:14px;color:var(--muted)}
+.sprognote:empty{display:none}
+@media (max-width:820px){.sprog{margin-left:auto}.top .topcta{display:none}}
+
 /* Ind-animation */
 .vis{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .vis.ind{opacity:1;transform:none}
@@ -191,13 +200,16 @@ footer a{color:var(--soft)}
   <div class="wrap">
     <a class="logo" href="#"><i>S</i> ServerMester</a>
     <nav>
-      <a href="#saadan">Sådan virker det</a>
-      <a href="#funktioner">Funktioner</a>
+      <a href="#saadan" data-i="nav1">Sådan virker det</a>
+      <a href="#funktioner" data-i="nav2">Funktioner</a>
       <a href="#mods">Mods</a>
-      <a href="#spil">Spil</a>
-      <a href="#faq">Spørgsmål</a>
+      <a href="#spil" data-i="nav4">Spil</a>
+      <a href="#faq" data-i="nav5">Spørgsmål</a>
     </nav>
-    <a class="btn btn-main" href="#hent">Hent gratis</a>
+    <div class="sprog" role="group" aria-label="Sprog / Language">
+      <button type="button" data-l="da" title="Dansk">DA</button><button type="button" data-l="en" title="English">EN</button><button type="button" data-l="de" title="Deutsch">DE</button><button type="button" data-l="fr" title="Français">FR</button>
+    </div>
+    <a class="btn btn-main topcta" href="#hent" data-i="topcta">Hent gratis</a>
   </div>
 </header>
 
@@ -206,33 +218,34 @@ footer a{color:var(--soft)}
 <div class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
-    <span class="pill"><b>NY</b> Version 1.1 med nyt design og mods</span>
-    <h1>Din egen spilserver. <span class="grad-text">Ét klik.</span></h1>
-    <p class="lead">ServerMester henter, opsætter og starter servere til Minecraft, Valheim, Rust, Ark, CS2 og 35 andre spil – med mods. Ingen kommandolinje, ingen opsætningsguides, ingen månedlig regning.</p>
+    <span class="pill" data-i="pill"><b>NY</b> Version 1.1 med nyt design og mods</span>
+    <h1 data-i="h1">Din egen spilserver. <span class="grad-text">Ét klik.</span></h1>
+    <p class="lead" data-i="lead">ServerMester henter, opsætter og starter servere til Minecraft, Valheim, Rust, Ark, CS2 og 35 andre spil – med mods. Ingen kommandolinje, ingen opsætningsguides, ingen månedlig regning.</p>
     <div class="cta-row">
-      <a class="btn btn-main" href="#hent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Hent gratis til Windows</a>
-      <a class="btn btn-ghost" href="#saadan">Se hvordan det virker</a>
+      <a class="btn btn-main" href="#hent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-i="cta1">Hent gratis til Windows</span></a>
+      <a class="btn btn-ghost" href="#saadan" data-i="cta2">Se hvordan det virker</a>
     </div>
-    <div class="under"><span>Gratis</span><span>Windows 10 og 11</span><span>40 spil</span><span>Mods med ét klik</span></div>
+    <div class="under"><span data-i="u1">Gratis</span><span data-i="u2">Windows 10 og 11</span><span data-i="u3">40 spil</span><span data-i="u4">Mods med ét klik</span></div>
+    <p class="sprognote" data-i="appsprog"></p>
   </div>
   <div class="wrap">
     <div class="shot" id="shot">
-      <div class="frame"><img src="img/hovedvindue.png" width="1280" height="860" alt="ServerMester med Valheim valgt: spil-liste med billeder til venstre, serverindstillinger og knapper til Installér og Start til højre"></div>
-      <div class="float-tag t1"><span class="dot"></span>Serveren kører · vennerne kan joine</div>
-      <div class="float-tag t2">⬇ Paper-plugin installeret</div>
+      <div class="frame"><img src="img/hovedvindue.png" width="1280" height="860" data-i-alt="alt1" alt="ServerMester med Valheim valgt: spil-liste med billeder til venstre, serverindstillinger og knapper til Installér og Start til højre"></div>
+      <div class="float-tag t1"><span class="dot"></span><span data-i="tag1">Serveren kører · vennerne kan joine</span></div>
+      <div class="float-tag t2" data-i="tag2">⬇ Paper-plugin installeret</div>
     </div>
   </div>
   <div class="marquee" aria-hidden="true"><div class="track" id="marquee"></div></div>
-  <p class="marquee-cap">Understøtter 40 af de mest populære spil til egen server</p>
+  <p class="marquee-cap" data-i="mcap">Understøtter 40 af de mest populære spil til egen server</p>
 </div>
 
 <!-- ================= TAL ================= -->
 <div class="wrap">
   <div class="stats vis">
-    <div class="stat"><b>40</b><span>spil klar til brug</span></div>
-    <div class="stat"><b>5</b><span>mod-kilder indbygget</span></div>
-    <div class="stat"><b>0 kr</b><span>om måneden</span></div>
-    <div class="stat"><b>1</b><span>klik for at starte</span></div>
+    <div class="stat"><b>40</b><span data-i="st1">spil klar til brug</span></div>
+    <div class="stat"><b>5</b><span data-i="st2">mod-kilder indbygget</span></div>
+    <div class="stat"><b data-i="st3b">0 kr</b><span data-i="st3">om måneden</span></div>
+    <div class="stat"><b>1</b><span data-i="st4">klik for at starte</span></div>
   </div>
 </div>
 
@@ -240,14 +253,14 @@ footer a{color:var(--soft)}
 <section id="saadan">
   <div class="wrap">
     <div class="sec-head center vis">
-      <span class="kicker">Sådan virker det</span>
-      <h2>Fra ingenting til <span class="grad-text">spilklar server</span> på få minutter</h2>
-      <p>Glem lange guides, konfigurationsfiler og kommandoer. ServerMester klarer det tunge arbejde.</p>
+      <span class="kicker" data-i="nav1">Sådan virker det</span>
+      <h2 data-i="hsteps">Fra ingenting til <span class="grad-text">spilklar server</span> på få minutter</h2>
+      <p data-i="psteps">Glem lange guides, konfigurationsfiler og kommandoer. ServerMester klarer det tunge arbejde.</p>
     </div>
     <div class="steps">
-      <div class="step vis"><h3>Vælg dit spil</h3><p>Find spillet i listen – med billeder og søgefelt. Log ind med din egen Steam-konto én gang.</p></div>
-      <div class="step vis"><h3>Navngiv serveren</h3><p>Skriv servernavn, kodeord og antal spillere. Porte og opsætning er allerede udfyldt for dig.</p></div>
-      <div class="step vis"><h3>Tryk Installér og Start</h3><p>ServerMester henter serveren, Java og det hele – og viser præcis hvilken adresse vennerne skal forbinde til.</p></div>
+      <div class="step vis"><h3 data-i="s1h">Vælg dit spil</h3><p data-i="s1p">Find spillet i listen – med billeder og søgefelt. Log ind med din egen Steam-konto én gang.</p></div>
+      <div class="step vis"><h3 data-i="s2h">Navngiv serveren</h3><p data-i="s2p">Skriv servernavn, kodeord og antal spillere. Porte og opsætning er allerede udfyldt for dig.</p></div>
+      <div class="step vis"><h3 data-i="s3h">Tryk Installér og Start</h3><p data-i="s3p">ServerMester henter serveren, Java og det hele – og viser præcis hvilken adresse vennerne skal forbinde til.</p></div>
     </div>
   </div>
 </section>
@@ -256,16 +269,16 @@ footer a{color:var(--soft)}
 <section id="funktioner" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head vis">
-      <span class="kicker">Funktioner</span>
-      <h2>Alt hvad du skal bruge – samlet ét sted</h2>
+      <span class="kicker" data-i="nav2">Funktioner</span>
+      <h2 data-i="hf">Alt hvad du skal bruge – samlet ét sted</h2>
     </div>
     <div class="features">
-      <div class="feat vis"><div class="ic b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></div><h3>Automatisk installation</h3><p>Henter serverfiler via Valves SteamCMD eller direkte fra udvikleren. Minecraft får automatisk den rigtige Java-version.</p></div>
-      <div class="feat vis"><div class="ic p"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg></div><h3>Mods med ét klik</h3><p>Søg i Modrinth, Thunderstore og uMod direkte i programmet – eller indsæt et Steam Workshop-link. Afhængigheder hentes automatisk.</p></div>
-      <div class="feat vis"><div class="ic g"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div><h3>Live-konsol</h3><p>Se hvad serveren laver og skriv kommandoer direkte – fx op dig selv som admin i Minecraft.</p></div>
-      <div class="feat vis"><div class="ic a"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h3>Firewall med ét klik</h3><p>Åbner de rigtige porte i Windows Firewall og viser både din lokale og offentlige IP-adresse.</p></div>
-      <div class="feat vis"><div class="ic c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><h3>Din egen Steam-konto</h3><p>Du logger ind i Valves eget vindue. ServerMester ser og gemmer aldrig dit kodeord.</p></div>
-      <div class="feat vis"><div class="ic r"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><h3>Flere servere samtidig</h3><p>Kør Minecraft til børnene og Valheim til vennerne på samme tid. Status ses direkte i spil-listen.</p></div>
+      <div class="feat vis"><div class="ic b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></div><h3 data-i="f1h">Automatisk installation</h3><p data-i="f1p">Henter serverfiler via Valves SteamCMD eller direkte fra udvikleren. Minecraft får automatisk den rigtige Java-version.</p></div>
+      <div class="feat vis"><div class="ic p"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg></div><h3 data-i="u4">Mods med ét klik</h3><p data-i="f2p">Søg i Modrinth, Thunderstore og uMod direkte i programmet – eller indsæt et Steam Workshop-link. Afhængigheder hentes automatisk.</p></div>
+      <div class="feat vis"><div class="ic g"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></div><h3 data-i="f3h">Live-konsol</h3><p data-i="f3p">Se hvad serveren laver og skriv kommandoer direkte – fx op dig selv som admin i Minecraft.</p></div>
+      <div class="feat vis"><div class="ic a"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h3 data-i="f4h">Firewall med ét klik</h3><p data-i="f4p">Åbner de rigtige porte i Windows Firewall og viser både din lokale og offentlige IP-adresse.</p></div>
+      <div class="feat vis"><div class="ic c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><h3 data-i="f5h">Din egen Steam-konto</h3><p data-i="f5p">Du logger ind i Valves eget vindue. ServerMester ser og gemmer aldrig dit kodeord.</p></div>
+      <div class="feat vis"><div class="ic r"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><h3 data-i="f6h">Flere servere samtidig</h3><p data-i="f6p">Kør Minecraft til børnene og Valheim til vennerne på samme tid. Status ses direkte i spil-listen.</p></div>
     </div>
   </div>
 </section>
@@ -274,40 +287,40 @@ footer a{color:var(--soft)}
 <section id="mods" style="padding-top:0">
   <div class="wrap split">
     <div class="txt vis">
-      <span class="kicker">Mods og addons</span>
-      <h2>Gør serveren til <span class="grad-text">jeres egen</span></h2>
-      <p>Hvert spil har sin egen mod-verden. ServerMester kender dem alle sammen og installerer mods det rigtige sted – også mod-systemet selv, hvis det mangler.</p>
+      <span class="kicker" data-i="km">Mods og addons</span>
+      <h2 data-i="hm">Gør serveren til <span class="grad-text">jeres egen</span></h2>
+      <p data-i="pm">Hvert spil har sin egen mod-verden. ServerMester kender dem alle sammen og installerer mods det rigtige sted – også mod-systemet selv, hvis det mangler.</p>
       <ul class="chips">
         <li>Modrinth <i>· Minecraft</i></li>
         <li>Thunderstore <i>· Valheim, V Rising, Core Keeper</i></li>
         <li>uMod <i>· Rust</i></li>
-        <li>Steam Workshop <i>· Ark, Arma 3, DayZ, Garry's Mod m.fl.</i></li>
-        <li>Fra fil <i>· alle andre</i></li>
+        <li>Steam Workshop <i data-i="chip4">· Ark, Arma 3, DayZ, Garry's Mod m.fl.</i></li>
+        <li data-i="chip5">Fra fil <i>· alle andre</i></li>
       </ul>
       <ul class="check">
-        <li>Paper (plugins) eller Fabric (mods) til Minecraft – du vælger</li>
-        <li>BepInEx og Oxide installeres automatisk</li>
-        <li>Fjern en mod igen med ét klik</li>
+        <li data-i="m1">Paper (plugins) eller Fabric (mods) til Minecraft – du vælger</li>
+        <li data-i="m2">BepInEx og Oxide installeres automatisk</li>
+        <li data-i="m3">Fjern en mod igen med ét klik</li>
       </ul>
     </div>
-    <img class="vis" src="img/mods.png" width="1280" height="860" loading="lazy" alt="Mods-fanen i ServerMester med Minecraft valgt: søgefelt til Modrinth og en liste over installerede plugins">
+    <img class="vis" src="img/mods.png" width="1280" height="860" loading="lazy" data-i-alt="alt2" alt="Mods-fanen i ServerMester med Minecraft valgt: søgefelt til Modrinth og en liste over installerede plugins">
   </div>
 </section>
 
 <section style="padding-top:0">
   <div class="wrap split rev">
     <div class="txt vis">
-      <span class="kicker">Lavet til alle</span>
-      <h2>Ingen kommandolinje. <span class="grad-text">Ingen hovedpine.</span></h2>
-      <p>Normalt kræver en spilserver lange guides, opsætningsfiler og kommandoer. ServerMester kender reglerne for hvert spil og gør det rigtige automatisk.</p>
+      <span class="kicker" data-i="kl">Lavet til alle</span>
+      <h2 data-i="hl">Ingen kommandolinje. <span class="grad-text">Ingen hovedpine.</span></h2>
+      <p data-i="pl">Normalt kræver en spilserver lange guides, opsætningsfiler og kommandoer. ServerMester kender reglerne for hvert spil og gør det rigtige automatisk.</p>
       <ul class="check">
-        <li>Rigtige porte og opstartsindstillinger for hvert spil</li>
-        <li>Opsætningsfiler skrives automatisk (fx server.cfg og server.properties)</li>
-        <li>Fortæller tydeligt hvis et spil kræver en nøgle eller at du ejer det</li>
-        <li>Spørger før den sletter noget – og stopper serverne pænt når du lukker</li>
+        <li data-i="l1">Rigtige porte og opstartsindstillinger for hvert spil</li>
+        <li data-i="l2">Opsætningsfiler skrives automatisk (fx server.cfg og server.properties)</li>
+        <li data-i="l3">Fortæller tydeligt hvis et spil kræver en nøgle eller at du ejer det</li>
+        <li data-i="l4">Spørger før den sletter noget – og stopper serverne pænt når du lukker</li>
       </ul>
     </div>
-    <img class="vis" src="img/rust.png" width="1280" height="860" loading="lazy" alt="ServerMester med Rust valgt og spil-listen med billeder af 7 Days to Die, Ark, Don't Starve Together, Minecraft og flere">
+    <img class="vis" src="img/rust.png" width="1280" height="860" loading="lazy" data-i-alt="alt3" alt="ServerMester med Rust valgt og spil-listen med billeder af 7 Days to Die, Ark, Don't Starve Together, Minecraft og flere">
   </div>
 </section>
 
@@ -315,13 +328,13 @@ footer a{color:var(--soft)}
 <section id="spil" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head center vis">
-      <span class="kicker">Understøttede spil</span>
-      <h2>40 spil – <span class="grad-text">klar til at hoste</span></h2>
-      <p>Fra hyggelig Minecraft-verden til 100-spiller Squad-kampe.</p>
+      <span class="kicker" data-i="ks">Understøttede spil</span>
+      <h2 data-i="hs">40 spil – <span class="grad-text">klar til at hoste</span></h2>
+      <p data-i="ps">Fra hyggelig Minecraft-verden til 100-spiller Squad-kampe.</p>
     </div>
-    <div class="filters" id="filters" role="group" aria-label="Filtrér spil efter kategori"></div>
+    <div class="filters" id="filters" role="group"></div>
     <div class="games" id="games"></div>
-    <p class="games-note">★ = mods og addons understøttes direkte i programmet. Nogle spil kræver at din Steam-konto ejer spillet.</p>
+    <p class="games-note" data-i="gnote">★ = mods og addons understøttes direkte i programmet. Nogle spil kræver at din Steam-konto ejer spillet.</p>
   </div>
 </section>
 
@@ -329,26 +342,26 @@ footer a{color:var(--soft)}
 <section style="padding-top:0">
   <div class="wrap">
     <div class="sec-head center vis">
-      <span class="kicker">Hvorfor ServerMester</span>
-      <h2>Spar tiden – og den månedlige regning</h2>
+      <span class="kicker" data-i="kc">Hvorfor ServerMester</span>
+      <h2 data-i="hc">Spar tiden – og den månedlige regning</h2>
     </div>
     <div class="compare">
       <div class="col vis">
-        <h3>Leje eller gør-det-selv</h3>
+        <h3 data-i="c0">Leje eller gør-det-selv</h3>
         <ul>
-          <li><span class="n">✕</span>Leje koster penge hver måned – for hvert spil</li>
-          <li><span class="n">✕</span>Gør-det-selv kræver guides og kommandoer</li>
-          <li><span class="n">✕</span>Mods skal installeres i hånden</li>
-          <li><span class="n">✕</span>Nyt spil = start forfra</li>
+          <li><span class="n">✕</span><span data-i="c1">Leje koster penge hver måned – for hvert spil</span></li>
+          <li><span class="n">✕</span><span data-i="c2">Gør-det-selv kræver guides og kommandoer</span></li>
+          <li><span class="n">✕</span><span data-i="c3">Mods skal installeres i hånden</span></li>
+          <li><span class="n">✕</span><span data-i="c4">Nyt spil = start forfra</span></li>
         </ul>
       </div>
       <div class="col win vis">
         <h3><span class="grad-text">ServerMester</span></h3>
         <ul>
-          <li><span class="y">✓</span>Gratis – kører på din egen PC</li>
-          <li><span class="y">✓</span>Installér og start med ét klik</li>
-          <li><span class="y">✓</span>Mods søges og installeres i programmet</li>
-          <li><span class="y">✓</span>40 spil i ét og samme program</li>
+          <li><span class="y">✓</span><span data-i="w1">Gratis – kører på din egen PC</span></li>
+          <li><span class="y">✓</span><span data-i="w2">Installér og start med ét klik</span></li>
+          <li><span class="y">✓</span><span data-i="w3">Mods søges og installeres i programmet</span></li>
+          <li><span class="y">✓</span><span data-i="w4">40 spil i ét og samme program</span></li>
         </ul>
       </div>
     </div>
@@ -359,16 +372,17 @@ footer a{color:var(--soft)}
 <section id="faq" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head center vis">
-      <span class="kicker">Spørgsmål og svar</span>
-      <h2>Godt at vide</h2>
+      <span class="kicker" data-i="kq">Spørgsmål og svar</span>
+      <h2 data-i="hq">Godt at vide</h2>
     </div>
     <div class="faq">
-      <details><summary>Koster det noget?</summary><p>Nej. ServerMester er gratis, og serveren kører på din egen computer, så der er ingen månedlig regning.</p></details>
-      <details><summary>Skal jeg eje spillet?</summary><p>For de fleste spil nej – deres servere er gratis at hente med enhver Steam-konto. Enkelte spil (fx DayZ, Factorio og Assetto Corsa) kræver at din konto ejer spillet. Programmet fortæller det tydeligt.</p></details>
-      <details><summary>Er mit Steam-kodeord sikkert?</summary><p>Ja. Du skriver kodeordet og evt. Steam Guard-koden direkte i Valves eget SteamCMD-vindue. ServerMester ser det aldrig og gemmer det ikke – kun dit brugernavn huskes.</p></details>
-      <details><summary>Kan mine venner joine over internettet?</summary><p>Ja. På samme netværk virker det med det samme. Venner udefra forbinder til din offentlige IP, som ServerMester viser – det kræver at porten også videresendes (port forwarding) i din router. Firewall-delen på PC'en klarer programmet for dig.</p></details>
-      <details><summary>Hvad kræver det af min computer?</summary><p>Windows 10 eller 11. Hvor kraftig PC'en skal være afhænger af spillet – en Minecraft- eller Valheim-server kører fint på en almindelig PC, mens fx Ark og CS2 fylder 20–35 GB og kræver mere.</p></details>
-      <details><summary>Hvilke spil kan ikke køres?</summary><p>Hell Let Loose og Deadside har ingen offentlige serverfiler (kan kun lejes hos godkendte udbydere), og Teardown har ingen dedikeret server. Alle andre spil på listen er understøttet.</p></details>
+      <details><summary data-i="q1">Koster det noget?</summary><p data-i="a1">Nej. ServerMester er gratis, og serveren kører på din egen computer, så der er ingen månedlig regning.</p></details>
+      <details><summary data-i="q2">Skal jeg eje spillet?</summary><p data-i="a2">For de fleste spil nej – deres servere er gratis at hente med enhver Steam-konto. Enkelte spil (fx DayZ, Factorio og Assetto Corsa) kræver at din konto ejer spillet. Programmet fortæller det tydeligt.</p></details>
+      <details><summary data-i="q3">Er mit Steam-kodeord sikkert?</summary><p data-i="a3">Ja. Du skriver kodeordet og evt. Steam Guard-koden direkte i Valves eget SteamCMD-vindue. ServerMester ser det aldrig og gemmer det ikke – kun dit brugernavn huskes.</p></details>
+      <details><summary data-i="q4">Kan mine venner joine over internettet?</summary><p data-i="a4">Ja. På samme netværk virker det med det samme. Venner udefra forbinder til din offentlige IP, som ServerMester viser – det kræver at porten også videresendes (port forwarding) i din router. Firewall-delen på PC'en klarer programmet for dig.</p></details>
+      <details><summary data-i="q5">Hvad kræver det af min computer?</summary><p data-i="a5">Windows 10 eller 11. Hvor kraftig PC'en skal være afhænger af spillet – en Minecraft- eller Valheim-server kører fint på en almindelig PC, mens fx Ark og CS2 fylder 20–35 GB og kræver mere.</p></details>
+      <details><summary data-i="q6">Hvilke spil kan ikke køres?</summary><p data-i="a6">Hell Let Loose og Deadside har ingen offentlige serverfiler (kan kun lejes hos godkendte udbydere), og Teardown har ingen dedikeret server. Alle andre spil på listen er understøttet.</p></details>
+      <details><summary data-i="q7">Hvilket sprog er programmet på?</summary><p data-i="a7">Programmet er på dansk. Knapperne er enkle (Installér, Start, Stop), så det er nemt at bruge uanset sprog.</p></details>
     </div>
   </div>
 </section>
@@ -377,66 +391,271 @@ footer a{color:var(--soft)}
 <section id="hent" style="padding-top:0">
   <div class="wrap">
     <div class="final vis">
-      <h2>Klar til at blive <span class="grad-text">servermester?</span></h2>
-      <p>Hent programmet, vælg et spil og inviter vennerne. Det tager kortere tid end at læse en serverguide.</p>
+      <h2 data-i="fh">Klar til at blive <span class="grad-text">servermester?</span></h2>
+      <p data-i="fp">Hent programmet, vælg et spil og inviter vennerne. Det tager kortere tid end at læse en serverguide.</p>
       <div class="cta-row">
-        <a class="btn btn-main" href="https://github.com/Dumdidumdk/servermester/releases/latest/download/ServerMester.exe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Hent ServerMester.exe</a>
-        <a class="btn btn-ghost" href="../">Se mine andre apps</a>
+        <a class="btn btn-main" href="https://github.com/Dumdidumdk/servermester/releases/latest/download/ServerMester.exe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-i="fbtn">Hent ServerMester.exe</span></a>
+        <a class="btn btn-ghost" href="../" data-i="fother">Se mine andre apps</a>
       </div>
-      <p style="font-size:14px;color:var(--muted);margin:22px auto 0">Gratis · Windows 10/11 · Windows kan vise en advarsel første gang – vælg "Flere oplysninger" → "Kør alligevel".</p>
+      <p style="font-size:14px;color:var(--muted);margin:22px auto 0" data-i="fnote">Gratis · Windows 10/11 · Windows kan vise en advarsel første gang – vælg "Flere oplysninger" → "Kør alligevel".</p>
     </div>
   </div>
 </section>
 </main>
 
 <footer>
-  <div class="wrap">ServerMester · lavet med ❤ · <a href="../">Tilbage til forsiden</a><br>
-  <span style="font-size:12px">Spilbilleder tilhører de respektive udviklere. ServerMester er ikke tilknyttet Valve, Mojang eller spiludviklerne.</span></div>
+  <div class="wrap">ServerMester · <span data-i="lavet">lavet med ❤</span> · <a href="../" data-i="tilbage">Tilbage til forsiden</a><br>
+  <span style="font-size:12px" data-i="disc">Spilbilleder tilhører de respektive udviklere. ServerMester er ikke tilknyttet Valve, Mojang eller spiludviklerne.</span></div>
 </footer>
 
 <script>
-var SPIL = [
-  ["minecraft","Minecraft","Survival",1,"tile:linear-gradient(135deg,#4AA02C,#79553A)"],
-  ["ark","Ark: Survival Evolved","Survival",1],["valheim","Valheim","Survival",1],["rust","Rust","Survival",1],
-  ["terraria","Terraria","Survival",0],["zomboid","Project Zomboid","Survival",1],["7dtd","7 Days to Die","Survival",1],
-  ["dst","Don't Starve Together","Survival",1],
-  ["factorio","Factorio","Strategi",0],["satisfactory","Satisfactory","Strategi",1],["spaceeng","Space Engineers","Strategi",1],
-  ["starbound","Starbound","Strategi",1],["unturned","Unturned","Strategi",1],["vintage","Vintage Story","Strategi",1,"tile:linear-gradient(135deg,#A0784A,#3C4632)"],
-  ["eco","Eco","Strategi",1],
-  ["cs2","Counter-Strike 2","Action",0],["tf2","Team Fortress 2","Action",0],["l4d2","Left 4 Dead 2","Action",1],
-  ["gmod","Garry's Mod","Action",1],["dayz","DayZ","Action",1],["arma3","Arma 3","Action",1],["squad","Squad","Action",1],
-  ["insurgency","Insurgency: Sandstorm","Action",0],["kf2","Killing Floor 2","Action",1],
-  ["conan","Conan Exiles","Co-op",1],["vrising","V Rising","Co-op",1],["atlas","Atlas","Co-op",0],["nwn","Neverwinter Nights","Co-op",0],
-  ["barotrauma","Barotrauma","Co-op",1],["avorion","Avorion","Co-op",1],["empyrion","Empyrion","Co-op",1],
-  ["stationeers","Stationeers","Co-op",1],["moe","Myth of Empires","Co-op",0],
-  ["ac","Assetto Corsa","Andet",0],["acc","Assetto Corsa Competizione","Andet",0],["beamng","BeamNG.drive (BeamMP)","Andet",1],
-  ["stormworks","Stormworks","Andet",0],["corekeeper","Core Keeper","Andet",1],["scum","SCUM","Andet",0],["miscreated","Miscreated","Andet",1]
-];
-function billede(s){ return s[4] ? "" : "img/spil/" + s[0] + ".jpg"; }
+// ---------------- Oversættelser (dansk står i selve HTML'en) ----------------
+var T = {
+en: {
+  _title:"ServerMester – your own game server in one click",
+  _desc:"ServerMester downloads, sets up and starts your own game server for Minecraft, Valheim, Rust, Ark, CS2 and 35 other games – with mods – in minutes. Free for Windows.",
+  nav1:"How it works", nav2:"Features", nav4:"Games", nav5:"FAQ", topcta:"Download free",
+  pill:"<b>NEW</b> Version 1.1 with new design and mods",
+  h1:'Your own game server. <span class="grad-text">One click.</span>',
+  lead:"ServerMester downloads, sets up and starts servers for Minecraft, Valheim, Rust, Ark, CS2 and 35 other games – with mods. No command line, no setup guides, no monthly bill.",
+  cta1:"Download free for Windows", cta2:"See how it works",
+  u1:"Free", u2:"Windows 10 and 11", u3:"40 games", u4:"One-click mods",
+  appsprog:"The app itself is in Danish – the buttons are simple, so it's easy to use anyway.",
+  alt1:"ServerMester with Valheim selected: game list with pictures on the left, server settings and Install and Start buttons on the right",
+  alt2:"The Mods tab in ServerMester with Minecraft selected: Modrinth search and a list of installed plugins",
+  alt3:"ServerMester with Rust selected and the game list showing 7 Days to Die, Ark, Don't Starve Together, Minecraft and more",
+  tag1:"Server running · friends can join", tag2:"⬇ Paper plugin installed",
+  mcap:"Supports 40 of the most popular games for self-hosting",
+  st1:"games ready to go", st2:"built-in mod sources", st3b:"$0", st3:"per month", st4:"click to start",
+  hsteps:'From nothing to a <span class="grad-text">game-ready server</span> in minutes',
+  psteps:"Forget long guides, config files and commands. ServerMester does the heavy lifting.",
+  s1h:"Pick your game", s1p:"Find the game in the list – with pictures and search. Sign in with your own Steam account once.",
+  s2h:"Name your server", s2p:"Enter a server name, password and player count. Ports and settings are already filled in for you.",
+  s3h:"Hit Install and Start", s3p:"ServerMester downloads the server, Java and everything else – and shows exactly which address your friends should connect to.",
+  hf:"Everything you need – in one place",
+  f1h:"Automatic installation", f1p:"Downloads server files via Valve's SteamCMD or straight from the developer. Minecraft automatically gets the right Java version.",
+  f2p:"Search Modrinth, Thunderstore and uMod right in the app – or paste a Steam Workshop link. Dependencies are fetched automatically.",
+  f3h:"Live console", f3p:"See what the server is doing and type commands directly – e.g. make yourself admin in Minecraft.",
+  f4h:"One-click firewall", f4p:"Opens the right ports in Windows Firewall and shows both your local and public IP address.",
+  f5h:"Your own Steam account", f5p:"You sign in through Valve's own window. ServerMester never sees or stores your password.",
+  f6h:"Multiple servers at once", f6p:"Run Minecraft for the kids and Valheim for your friends at the same time. Status shows right in the game list.",
+  km:"Mods and add-ons", hm:'Make the server <span class="grad-text">truly yours</span>',
+  pm:"Every game has its own mod world. ServerMester knows them all and installs mods in the right place – including the mod loader itself if it's missing.",
+  chip4:"· Ark, Arma 3, DayZ, Garry's Mod and more", chip5:"From file <i>· all the rest</i>",
+  m1:"Paper (plugins) or Fabric (mods) for Minecraft – your choice", m2:"BepInEx and Oxide are installed automatically", m3:"Remove a mod again with one click",
+  kl:"Made for everyone", hl:'No command line. <span class="grad-text">No headaches.</span>',
+  pl:"A game server normally means long guides, config files and commands. ServerMester knows the rules for each game and does the right thing automatically.",
+  l1:"Correct ports and launch settings for every game", l2:"Config files are written automatically (e.g. server.cfg and server.properties)",
+  l3:"Tells you clearly if a game needs a key or requires you to own it", l4:"Asks before deleting anything – and shuts servers down cleanly when you quit",
+  ks:"Supported games", hs:'40 games – <span class="grad-text">ready to host</span>', ps:"From cosy Minecraft worlds to 100-player Squad battles.",
+  gnote:"★ = mods and add-ons supported directly in the app. Some games require your Steam account to own the game.",
+  kc:"Why ServerMester", hc:"Save the time – and the monthly bill",
+  c0:"Renting or DIY", c1:"Renting costs money every month – for every game", c2:"DIY means guides and commands", c3:"Mods must be installed by hand", c4:"New game = start over",
+  w1:"Free – runs on your own PC", w2:"Install and start with one click", w3:"Search and install mods inside the app", w4:"40 games in one single app",
+  kq:"Questions & answers", hq:"Good to know",
+  q1:"Does it cost anything?", a1:"No. ServerMester is free, and the server runs on your own computer, so there's no monthly bill.",
+  q2:"Do I need to own the game?", a2:"For most games, no – their servers are free to download with any Steam account. A few games (e.g. DayZ, Factorio and Assetto Corsa) require your account to own the game. The app tells you clearly.",
+  q3:"Is my Steam password safe?", a3:"Yes. You type your password and any Steam Guard code directly into Valve's own SteamCMD window. ServerMester never sees or stores it – only your username is remembered.",
+  q4:"Can my friends join over the internet?", a4:"Yes. On the same network it works right away. Friends outside connect to your public IP, which ServerMester shows – this requires forwarding the port (port forwarding) in your router. The app handles the firewall on your PC for you.",
+  q5:"What does my computer need?", a5:"Windows 10 or 11. How powerful your PC needs to be depends on the game – a Minecraft or Valheim server runs fine on an ordinary PC, while e.g. Ark and CS2 take up 20–35 GB and need more.",
+  q6:"Which games aren't supported?", a6:"Hell Let Loose and Deadside have no public server files (they can only be rented from approved hosts), and Teardown has no dedicated server. Every other game on the list is supported.",
+  q7:"What language is the app in?", a7:"The app is in Danish. The buttons are simple (Install, Start, Stop), so it's easy to use whatever your language.",
+  fh:'Ready to become a <span class="grad-text">server master?</span>',
+  fp:"Download the app, pick a game and invite your friends. It takes less time than reading a server guide.",
+  fbtn:"Download ServerMester.exe", fother:"See my other apps",
+  fnote:'Free · Windows 10/11 · Windows may show a warning the first time – choose "More info" → "Run anyway".',
+  lavet:"made with ❤", tilbage:"Back to home", disc:"Game images belong to their respective developers. ServerMester is not affiliated with Valve, Mojang or the game developers.",
+  _kat:["All","Survival & sandbox","Strategy & simulation","Action & shooters","RPG & co-op","Other"], _filter:"Filter games by category"
+},
+de: {
+  _title:"ServerMester – dein eigener Gameserver mit einem Klick",
+  _desc:"ServerMester lädt, richtet ein und startet deinen eigenen Gameserver für Minecraft, Valheim, Rust, Ark, CS2 und 35 weitere Spiele – mit Mods – in Minuten. Kostenlos für Windows.",
+  nav1:"So funktioniert's", nav2:"Funktionen", nav4:"Spiele", nav5:"FAQ", topcta:"Gratis laden",
+  pill:"<b>NEU</b> Version 1.1 mit neuem Design und Mods",
+  h1:'Dein eigener Gameserver. <span class="grad-text">Ein Klick.</span>',
+  lead:"ServerMester lädt Server für Minecraft, Valheim, Rust, Ark, CS2 und 35 weitere Spiele herunter, richtet sie ein und startet sie – mit Mods. Keine Kommandozeile, keine Anleitungen, keine monatliche Rechnung.",
+  cta1:"Kostenlos für Windows laden", cta2:"So funktioniert's",
+  u1:"Kostenlos", u2:"Windows 10 und 11", u3:"40 Spiele", u4:"Mods mit einem Klick",
+  appsprog:"Das Programm selbst ist auf Dänisch – die Knöpfe sind einfach, also trotzdem leicht zu bedienen.",
+  alt1:"ServerMester mit Valheim ausgewählt: Spieleliste mit Bildern links, Servereinstellungen und Knöpfe für Installieren und Starten rechts",
+  alt2:"Der Mods-Tab in ServerMester mit Minecraft: Modrinth-Suche und Liste installierter Plugins",
+  alt3:"ServerMester mit Rust ausgewählt und der Spieleliste mit 7 Days to Die, Ark, Don't Starve Together, Minecraft und mehr",
+  tag1:"Server läuft · Freunde können joinen", tag2:"⬇ Paper-Plugin installiert",
+  mcap:"Unterstützt 40 der beliebtesten Spiele für eigene Server",
+  st1:"Spiele startklar", st2:"integrierte Mod-Quellen", st3b:"0 €", st3:"pro Monat", st4:"Klick zum Starten",
+  hsteps:'Von null zum <span class="grad-text">spielbereiten Server</span> in wenigen Minuten',
+  psteps:"Vergiss lange Anleitungen, Konfigurationsdateien und Befehle. ServerMester übernimmt die schwere Arbeit.",
+  s1h:"Wähle dein Spiel", s1p:"Finde das Spiel in der Liste – mit Bildern und Suche. Melde dich einmal mit deinem eigenen Steam-Konto an.",
+  s2h:"Benenne deinen Server", s2p:"Gib Servername, Passwort und Spielerzahl ein. Ports und Einstellungen sind schon für dich ausgefüllt.",
+  s3h:"Installieren und Starten", s3p:"ServerMester lädt Server, Java und alles andere – und zeigt genau, mit welcher Adresse sich deine Freunde verbinden.",
+  hf:"Alles, was du brauchst – an einem Ort",
+  f1h:"Automatische Installation", f1p:"Lädt Serverdateien über Valves SteamCMD oder direkt vom Entwickler. Minecraft bekommt automatisch die richtige Java-Version.",
+  f2p:"Durchsuche Modrinth, Thunderstore und uMod direkt im Programm – oder füge einen Steam-Workshop-Link ein. Abhängigkeiten werden automatisch geladen.",
+  f3h:"Live-Konsole", f3p:"Sieh, was der Server macht, und gib Befehle direkt ein – z. B. mach dich in Minecraft zum Admin.",
+  f4h:"Firewall mit einem Klick", f4p:"Öffnet die richtigen Ports in der Windows-Firewall und zeigt deine lokale und öffentliche IP-Adresse.",
+  f5h:"Dein eigenes Steam-Konto", f5p:"Du meldest dich in Valves eigenem Fenster an. ServerMester sieht und speichert dein Passwort nie.",
+  f6h:"Mehrere Server gleichzeitig", f6p:"Starte Minecraft für die Kinder und Valheim für die Freunde gleichzeitig. Der Status steht direkt in der Spieleliste.",
+  km:"Mods und Add-ons", hm:'Mach den Server <span class="grad-text">zu eurem eigenen</span>',
+  pm:"Jedes Spiel hat seine eigene Mod-Welt. ServerMester kennt sie alle und installiert Mods an der richtigen Stelle – auch den Mod-Loader selbst, falls er fehlt.",
+  chip4:"· Ark, Arma 3, DayZ, Garry's Mod u. a.", chip5:"Aus Datei <i>· alle anderen</i>",
+  m1:"Paper (Plugins) oder Fabric (Mods) für Minecraft – du entscheidest", m2:"BepInEx und Oxide werden automatisch installiert", m3:"Entferne eine Mod mit einem Klick",
+  kl:"Für alle gemacht", hl:'Keine Kommandozeile. <span class="grad-text">Kein Kopfzerbrechen.</span>',
+  pl:"Normalerweise braucht ein Gameserver lange Anleitungen, Konfigurationsdateien und Befehle. ServerMester kennt die Regeln jedes Spiels und macht automatisch das Richtige.",
+  l1:"Richtige Ports und Starteinstellungen für jedes Spiel", l2:"Konfigurationsdateien werden automatisch geschrieben (z. B. server.cfg und server.properties)",
+  l3:"Sagt dir klar, wenn ein Spiel einen Schlüssel braucht oder du es besitzen musst", l4:"Fragt, bevor etwas gelöscht wird – und fährt Server sauber herunter, wenn du beendest",
+  ks:"Unterstützte Spiele", hs:'40 Spiele – <span class="grad-text">bereit zum Hosten</span>', ps:"Von gemütlichen Minecraft-Welten bis zu Squad-Schlachten mit 100 Spielern.",
+  gnote:"★ = Mods und Add-ons werden direkt im Programm unterstützt. Manche Spiele setzen voraus, dass dein Steam-Konto das Spiel besitzt.",
+  kc:"Warum ServerMester", hc:"Spar dir die Zeit – und die monatliche Rechnung",
+  c0:"Mieten oder selbst basteln", c1:"Mieten kostet jeden Monat Geld – für jedes Spiel", c2:"Selbermachen heißt Anleitungen und Befehle", c3:"Mods müssen von Hand installiert werden", c4:"Neues Spiel = von vorne anfangen",
+  w1:"Kostenlos – läuft auf deinem eigenen PC", w2:"Installieren und starten mit einem Klick", w3:"Mods direkt im Programm suchen und installieren", w4:"40 Spiele in einem einzigen Programm",
+  kq:"Fragen & Antworten", hq:"Gut zu wissen",
+  q1:"Kostet es etwas?", a1:"Nein. ServerMester ist kostenlos, und der Server läuft auf deinem eigenen Computer – also keine monatliche Rechnung.",
+  q2:"Muss ich das Spiel besitzen?", a2:"Bei den meisten Spielen nicht – ihre Server kann jedes Steam-Konto kostenlos laden. Einige Spiele (z. B. DayZ, Factorio und Assetto Corsa) setzen voraus, dass dein Konto das Spiel besitzt. Das Programm sagt es dir deutlich.",
+  q3:"Ist mein Steam-Passwort sicher?", a3:"Ja. Du gibst Passwort und ggf. Steam-Guard-Code direkt in Valves eigenem SteamCMD-Fenster ein. ServerMester sieht es nie und speichert es nicht – nur dein Benutzername wird gemerkt.",
+  q4:"Können meine Freunde übers Internet beitreten?", a4:"Ja. Im selben Netzwerk klappt es sofort. Freunde von außen verbinden sich mit deiner öffentlichen IP, die ServerMester anzeigt – dafür muss der Port im Router weitergeleitet werden (Portweiterleitung). Die Firewall auf dem PC erledigt das Programm für dich.",
+  q5:"Was braucht mein Computer?", a5:"Windows 10 oder 11. Wie stark der PC sein muss, hängt vom Spiel ab – ein Minecraft- oder Valheim-Server läuft gut auf einem normalen PC, während z. B. Ark und CS2 20–35 GB belegen und mehr brauchen.",
+  q6:"Welche Spiele gehen nicht?", a6:"Hell Let Loose und Deadside haben keine öffentlichen Serverdateien (nur bei zugelassenen Anbietern mietbar), und Teardown hat keinen dedizierten Server. Alle anderen Spiele der Liste werden unterstützt.",
+  q7:"In welcher Sprache ist das Programm?", a7:"Das Programm ist auf Dänisch. Die Knöpfe sind einfach (Installieren, Starten, Stoppen), also ist es in jeder Sprache leicht zu bedienen.",
+  fh:'Bereit, <span class="grad-text">Servermeister</span> zu werden?',
+  fp:"Lade das Programm, wähle ein Spiel und lade deine Freunde ein. Das geht schneller, als eine Server-Anleitung zu lesen.",
+  fbtn:"ServerMester.exe laden", fother:"Meine anderen Apps",
+  fnote:"Kostenlos · Windows 10/11 · Windows zeigt beim ersten Mal evtl. eine Warnung – wähle „Weitere Informationen“ → „Trotzdem ausführen“.",
+  lavet:"mit ❤ gemacht", tilbage:"Zurück zur Startseite", disc:"Spielbilder gehören den jeweiligen Entwicklern. ServerMester ist nicht mit Valve, Mojang oder den Spieleentwicklern verbunden.",
+  _kat:["Alle","Survival & Sandbox","Strategie & Simulation","Action & Shooter","Rollenspiel & Koop","Sonstiges"], _filter:"Spiele nach Kategorie filtern"
+},
+fr: {
+  _title:"ServerMester – ton propre serveur de jeu en un clic",
+  _desc:"ServerMester télécharge, configure et lance ton propre serveur de jeu pour Minecraft, Valheim, Rust, Ark, CS2 et 35 autres jeux – avec mods – en quelques minutes. Gratuit pour Windows.",
+  nav1:"Comment ça marche", nav2:"Fonctionnalités", nav4:"Jeux", nav5:"FAQ", topcta:"Télécharger",
+  pill:"<b>NOUVEAU</b> Version 1.1 : nouveau design et mods",
+  h1:'Ton propre serveur de jeu. <span class="grad-text">En un clic.</span>',
+  lead:"ServerMester télécharge, configure et lance des serveurs pour Minecraft, Valheim, Rust, Ark, CS2 et 35 autres jeux – avec mods. Pas de ligne de commande, pas de tutoriels, pas d'abonnement mensuel.",
+  cta1:"Télécharger gratuitement pour Windows", cta2:"Voir comment ça marche",
+  u1:"Gratuit", u2:"Windows 10 et 11", u3:"40 jeux", u4:"Mods en un clic",
+  appsprog:"L'application elle-même est en danois – les boutons sont simples, elle reste facile à utiliser.",
+  alt1:"ServerMester avec Valheim sélectionné : liste des jeux avec images à gauche, réglages du serveur et boutons Installer et Démarrer à droite",
+  alt2:"L'onglet Mods de ServerMester avec Minecraft : recherche Modrinth et liste des plugins installés",
+  alt3:"ServerMester avec Rust sélectionné et la liste des jeux avec 7 Days to Die, Ark, Don't Starve Together, Minecraft et d'autres",
+  tag1:"Serveur en ligne · tes amis peuvent rejoindre", tag2:"⬇ Plugin Paper installé",
+  mcap:"Compatible avec 40 des jeux les plus populaires à héberger soi-même",
+  st1:"jeux prêts à l'emploi", st2:"sources de mods intégrées", st3b:"0 €", st3:"par mois", st4:"clic pour démarrer",
+  hsteps:'De zéro à un <span class="grad-text">serveur prêt à jouer</span> en quelques minutes',
+  psteps:"Oublie les longs tutoriels, les fichiers de config et les commandes. ServerMester fait le gros du travail.",
+  s1h:"Choisis ton jeu", s1p:"Trouve le jeu dans la liste – avec images et recherche. Connecte-toi une fois avec ton propre compte Steam.",
+  s2h:"Nomme ton serveur", s2p:"Saisis le nom du serveur, le mot de passe et le nombre de joueurs. Les ports et réglages sont déjà remplis.",
+  s3h:"Clique Installer puis Démarrer", s3p:"ServerMester télécharge le serveur, Java et tout le reste – et affiche l'adresse exacte à laquelle tes amis doivent se connecter.",
+  hf:"Tout ce qu'il te faut – au même endroit",
+  f1h:"Installation automatique", f1p:"Télécharge les fichiers serveur via SteamCMD de Valve ou directement chez le développeur. Minecraft reçoit automatiquement la bonne version de Java.",
+  f2p:"Cherche dans Modrinth, Thunderstore et uMod directement dans l'appli – ou colle un lien Steam Workshop. Les dépendances sont téléchargées automatiquement.",
+  f3h:"Console en direct", f3p:"Vois ce que fait le serveur et tape des commandes directement – par ex. te nommer admin dans Minecraft.",
+  f4h:"Pare-feu en un clic", f4p:"Ouvre les bons ports dans le pare-feu Windows et affiche ton adresse IP locale et publique.",
+  f5h:"Ton propre compte Steam", f5p:"Tu te connectes dans la fenêtre de Valve. ServerMester ne voit ni n'enregistre jamais ton mot de passe.",
+  f6h:"Plusieurs serveurs à la fois", f6p:"Lance Minecraft pour les enfants et Valheim pour les amis en même temps. Le statut s'affiche dans la liste des jeux.",
+  km:"Mods et add-ons", hm:'Rends le serveur <span class="grad-text">vraiment à toi</span>',
+  pm:"Chaque jeu a son propre univers de mods. ServerMester les connaît tous et installe les mods au bon endroit – y compris le chargeur de mods s'il manque.",
+  chip4:"· Ark, Arma 3, DayZ, Garry's Mod, etc.", chip5:"Depuis un fichier <i>· tous les autres</i>",
+  m1:"Paper (plugins) ou Fabric (mods) pour Minecraft – à toi de choisir", m2:"BepInEx et Oxide sont installés automatiquement", m3:"Supprime un mod en un clic",
+  kl:"Fait pour tout le monde", hl:'Pas de ligne de commande. <span class="grad-text">Pas de prise de tête.</span>',
+  pl:"Normalement, un serveur de jeu demande de longs tutoriels, des fichiers de config et des commandes. ServerMester connaît les règles de chaque jeu et fait ce qu'il faut automatiquement.",
+  l1:"Bons ports et paramètres de lancement pour chaque jeu", l2:"Les fichiers de config sont écrits automatiquement (par ex. server.cfg et server.properties)",
+  l3:"Indique clairement si un jeu demande une clé ou s'il faut le posséder", l4:"Demande avant de supprimer quoi que ce soit – et arrête proprement les serveurs à la fermeture",
+  ks:"Jeux compatibles", hs:'40 jeux – <span class="grad-text">prêts à héberger</span>', ps:"Du petit monde Minecraft tranquille aux batailles Squad à 100 joueurs.",
+  gnote:"★ = mods et add-ons pris en charge directement dans l'appli. Certains jeux exigent que ton compte Steam possède le jeu.",
+  kc:"Pourquoi ServerMester", hc:"Gagne du temps – et économise l'abonnement",
+  c0:"Location ou bricolage maison", c1:"La location coûte chaque mois – pour chaque jeu", c2:"Le faire soi-même demande tutoriels et commandes", c3:"Les mods s'installent à la main", c4:"Nouveau jeu = tout recommencer",
+  w1:"Gratuit – tourne sur ton propre PC", w2:"Installe et lance en un clic", w3:"Recherche et installation des mods dans l'appli", w4:"40 jeux dans une seule appli",
+  kq:"Questions & réponses", hq:"Bon à savoir",
+  q1:"Est-ce payant ?", a1:"Non. ServerMester est gratuit et le serveur tourne sur ton propre ordinateur, donc pas de facture mensuelle.",
+  q2:"Dois-je posséder le jeu ?", a2:"Pour la plupart des jeux, non – leurs serveurs se téléchargent gratuitement avec n'importe quel compte Steam. Quelques jeux (par ex. DayZ, Factorio et Assetto Corsa) exigent que ton compte possède le jeu. L'appli te le signale clairement.",
+  q3:"Mon mot de passe Steam est-il en sécurité ?", a3:"Oui. Tu saisis ton mot de passe et l'éventuel code Steam Guard directement dans la fenêtre SteamCMD de Valve. ServerMester ne le voit jamais et ne l'enregistre pas – seul ton nom d'utilisateur est retenu.",
+  q4:"Mes amis peuvent-ils rejoindre via Internet ?", a4:"Oui. Sur le même réseau, ça marche tout de suite. Les amis de l'extérieur se connectent à ton IP publique, affichée par ServerMester – il faut pour cela rediriger le port dans ta box (redirection de port). L'appli s'occupe du pare-feu de ton PC.",
+  q5:"De quoi mon ordinateur a-t-il besoin ?", a5:"Windows 10 ou 11. La puissance nécessaire dépend du jeu – un serveur Minecraft ou Valheim tourne très bien sur un PC ordinaire, tandis qu'Ark et CS2 occupent 20 à 35 Go et demandent plus.",
+  q6:"Quels jeux ne sont pas pris en charge ?", a6:"Hell Let Loose et Deadside n'ont pas de fichiers serveur publics (location uniquement chez des hébergeurs agréés), et Teardown n'a pas de serveur dédié. Tous les autres jeux de la liste sont pris en charge.",
+  q7:"En quelle langue est l'application ?", a7:"L'application est en danois. Les boutons sont simples (Installer, Démarrer, Arrêter), elle reste donc facile à utiliser quelle que soit ta langue.",
+  fh:'Prêt à devenir <span class="grad-text">maître du serveur ?</span>',
+  fp:"Télécharge l'appli, choisis un jeu et invite tes amis. C'est plus rapide que de lire un tutoriel serveur.",
+  fbtn:"Télécharger ServerMester.exe", fother:"Voir mes autres applis",
+  fnote:"Gratuit · Windows 10/11 · Windows peut afficher un avertissement la première fois – choisis « Informations complémentaires » → « Exécuter quand même ».",
+  lavet:"fait avec ❤", tilbage:"Retour à l'accueil", disc:"Les images des jeux appartiennent à leurs développeurs respectifs. ServerMester n'est pas affilié à Valve, Mojang ni aux développeurs des jeux.",
+  _kat:["Tous","Survie & bac à sable","Stratégie & simulation","Action & tir","RPG & coop","Autres"], _filter:"Filtrer les jeux par catégorie"
+}};
+// Dansk hentes fra siden selv, så teksten kun står ét sted
+var DA = { _title:document.title, _desc:document.querySelector('meta[name="description"]').content,
+  _kat:["Alle","Survival og sandbox","Strategi og simulation","Action og skydespil","Rollespil og co-op","Flere forskellige"], _filter:"Filtrér spil efter kategori" };
+document.querySelectorAll("[data-i]").forEach(function(el){ DA[el.dataset.i] = el.innerHTML; });
+document.querySelectorAll("[data-i-alt]").forEach(function(el){ DA[el.dataset.iAlt] = el.alt; });
+T.da = DA;
+var sprog = "da";
+function t(k){ var v = T[sprog][k]; return v !== undefined ? v : DA[k]; }
 
-// Rullende bånd
+// ---------------- Spil ----------------
+var SPIL = [
+  ["minecraft","Minecraft",1,1,"linear-gradient(135deg,#4AA02C,#79553A)"],
+  ["ark","Ark: Survival Evolved",1,1],["valheim","Valheim",1,1],["rust","Rust",1,1],
+  ["terraria","Terraria",1,0],["zomboid","Project Zomboid",1,1],["7dtd","7 Days to Die",1,1],
+  ["dst","Don't Starve Together",1,1],
+  ["factorio","Factorio",2,0],["satisfactory","Satisfactory",2,1],["spaceeng","Space Engineers",2,1],
+  ["starbound","Starbound",2,1],["unturned","Unturned",2,1],["vintage","Vintage Story",2,1,"linear-gradient(135deg,#A0784A,#3C4632)"],
+  ["eco","Eco",2,1],
+  ["cs2","Counter-Strike 2",3,0],["tf2","Team Fortress 2",3,0],["l4d2","Left 4 Dead 2",3,1],
+  ["gmod","Garry's Mod",3,1],["dayz","DayZ",3,1],["arma3","Arma 3",3,1],["squad","Squad",3,1],
+  ["insurgency","Insurgency: Sandstorm",3,0],["kf2","Killing Floor 2",3,1],
+  ["conan","Conan Exiles",4,1],["vrising","V Rising",4,1],["atlas","Atlas",4,0],["nwn","Neverwinter Nights",4,0],
+  ["barotrauma","Barotrauma",4,1],["avorion","Avorion",4,1],["empyrion","Empyrion",4,1],
+  ["stationeers","Stationeers",4,1],["moe","Myth of Empires",4,0],
+  ["ac","Assetto Corsa",5,0],["acc","Assetto Corsa Competizione",5,0],["beamng","BeamNG.drive (BeamMP)",5,1],
+  ["stormworks","Stormworks",5,0],["corekeeper","Core Keeper",5,1],["scum","SCUM",5,0],["miscreated","Miscreated",5,1]
+];
 var m = document.getElementById("marquee"), html = "";
-SPIL.filter(function(s){ return !s[4]; }).forEach(function(s){ html += '<img src="' + billede(s) + '" alt="" loading="lazy" width="184" height="86">'; });
+SPIL.filter(function(s){ return !s[4]; }).forEach(function(s){ html += '<img src="img/spil/' + s[0] + '.jpg" alt="" loading="lazy" width="184" height="86">'; });
 m.innerHTML = html + html;
 
-// Galleri med filtre
-var kategorier = [["Alle","Alle"],["Survival","Survival og sandbox"],["Strategi","Strategi og simulation"],["Action","Action og skydespil"],["Co-op","Rollespil og co-op"],["Andet","Flere forskellige"]];
-var f = document.getElementById("filters"), g = document.getElementById("games");
-function vis(kat){
-  g.innerHTML = SPIL.filter(function(s){ return kat === "Alle" || s[2] === kat; }).map(function(s){
-    var img = s[4] ? '<div class="img tile" style="background:' + s[4].slice(5) + '">' + s[1].toUpperCase() + '</div>'
-                   : '<div class="img" style="background-image:url(' + billede(s) + ')" role="img" aria-label="' + s[1] + '"></div>';
+var f = document.getElementById("filters"), g = document.getElementById("games"), aktivKat = 0;
+function visSpil(kat){
+  aktivKat = kat;
+  g.innerHTML = SPIL.filter(function(s){ return kat === 0 || s[2] === kat; }).map(function(s){
+    var img = s[4] ? '<div class="img tile" style="background:' + s[4] + '">' + s[1].toUpperCase() + '</div>'
+                   : '<div class="img" style="background-image:url(img/spil/' + s[0] + '.jpg)" role="img" aria-label="' + s[1] + '"></div>';
     return '<div class="game">' + img + '<div class="info"><b title="' + s[1] + '">' + s[1] + '</b>' + (s[3] ? '<span class="tag">★ Mods</span>' : '') + '</div></div>';
   }).join("");
-  [].forEach.call(f.children, function(b){ b.setAttribute("aria-pressed", b.dataset.k === kat); });
+  [].forEach.call(f.children, function(b, i){ b.setAttribute("aria-pressed", i === kat); });
 }
-kategorier.forEach(function(k){
-  var b = document.createElement("button"); b.type = "button"; b.textContent = k[1]; b.dataset.k = k[0];
-  b.onclick = function(){ vis(k[0]); }; f.appendChild(b);
-});
-vis("Alle");
+function byggFiltre(){
+  f.innerHTML = ""; f.setAttribute("aria-label", t("_filter"));
+  t("_kat").forEach(function(navn, i){
+    var b = document.createElement("button"); b.type = "button"; b.textContent = navn;
+    b.onclick = function(){ visSpil(i); }; f.appendChild(b);
+  });
+  visSpil(aktivKat);
+}
 
-// Ind-animationer og fladt skærmbillede når man scroller
+// ---------------- Skift sprog ----------------
+function sætSprog(l){
+  if (!T[l]) l = "en";
+  sprog = l;
+  document.documentElement.lang = l;
+  document.title = t("_title");
+  document.querySelector('meta[name="description"]').content = t("_desc");
+  document.querySelectorAll("[data-i]").forEach(function(el){ el.innerHTML = t(el.dataset.i); });
+  document.querySelectorAll("[data-i-alt]").forEach(function(el){ el.alt = t(el.dataset.iAlt); });
+  document.querySelectorAll(".sprog button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.l === l); });
+  byggFiltre();
+  try { localStorage.setItem("servermester-sprog", l); } catch (e) {}
+}
+document.querySelectorAll(".sprog button").forEach(function(b){
+  b.onclick = function(){ sætSprog(b.dataset.l); try { history.replaceState(null, "", "?lang=" + b.dataset.l + location.hash); } catch (e) {} };
+});
+(function(){
+  var valg = new URLSearchParams(location.search).get("lang");
+  if (!valg) { try { valg = localStorage.getItem("servermester-sprog"); } catch (e) {} }
+  if (!valg) {
+    var nav = (navigator.languages && navigator.languages[0] || navigator.language || "da").toLowerCase().slice(0, 2);
+    valg = ({da:"da", nb:"da", no:"da", nn:"da", de:"de", fr:"fr"})[nav] || "en";
+  }
+  sætSprog(valg);
+})();
+
+// ---------------- Animationer ----------------
 var io = new IntersectionObserver(function(e){ e.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add("ind"); io.unobserve(x.target); } }); }, {threshold:.12});
 document.querySelectorAll(".vis").forEach(function(el){ io.observe(el); });
 var shot = document.getElementById("shot");
