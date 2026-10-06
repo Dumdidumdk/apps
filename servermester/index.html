@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ServerMester – din egen spilserver med ét klik</title>
 <meta name="description" content="ServerMester installerer, opsætter og starter din egen spilserver til Minecraft, Valheim, Rust, Ark, CS2 og 35 andre spil – med mods – på få minutter. Gratis til Windows.">
-<meta name="theme-color" content="#0E1117">
+<meta name="theme-color" content="#F4F6FC">
 <meta property="og:title" content="ServerMester – din egen spilserver med ét klik">
 <meta property="og:description" content="40 spil. Mods med ét klik. Ingen kommandolinje, ingen månedlig regning.">
 <meta property="og:image" content="img/hovedvindue.png">
@@ -15,20 +15,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B0E14; --bg2:#0E1117; --panel:#151921; --card:#1A1F2A; --line:#262D3B;
-  --ink:#E8ECF3; --muted:#8B94A7; --soft:#B6BECD;
-  --blue:#4D7CFE; --purple:#A855F7; --green:#22C55E; --amber:#F59E0B; --cyan:#38BDF8; --red:#EF4444;
+  --bg:#F4F6FC; --bg2:#FFFFFF; --panel:#FFFFFF; --card:#EEF2FA; --line:#E0E6F1;
+  --ink:#121826; --muted:#5E677A; --soft:#3E475A;
+  --blue:#3B6CF6; --purple:#9333EA; --green:#16A34A; --amber:#D97706; --cyan:#0284C7; --red:#EF4444;
   --grad:linear-gradient(120deg,#4D7CFE 0%,#7C5CFF 45%,#A855F7 100%);
-}
-:root[data-theme="light"]{
-  --bg:#F6F7FB; --bg2:#FFFFFF; --panel:#FFFFFF; --card:#F1F3F9; --line:#E2E6EF;
-  --ink:#141823; --muted:#5B6476; --soft:#3C4456;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
+picture{display:block}
 h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.1;margin:0}
 .wrap{max-width:1140px;margin:0 auto;padding:0 16px}
 .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -58,7 +55,7 @@ h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line
 .hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
   radial-gradient(closest-side,#4D7CFE33,transparent 70%) 15% 30%/600px 600px no-repeat,
   radial-gradient(closest-side,#A855F733,transparent 70%) 85% 10%/700px 700px no-repeat;pointer-events:none}
-.hero .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.25;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 70%);pointer-events:none}
+.hero .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.7;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 70%);pointer-events:none}
 .hero-inner{position:relative;text-align:center;display:grid;justify-items:center;gap:22px}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
 .pill b{background:var(--green);color:#052e14;border-radius:999px;padding:2px 9px;font-size:12px}
@@ -69,10 +66,10 @@ h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line
 .under span::before{content:"✓ ";color:var(--green);font-weight:700}
 
 .shot{position:relative;margin:54px auto 0;max-width:1100px;perspective:1600px}
-.shot .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 120px #000c,0 0 0 1px #ffffff10;transform:rotateX(8deg);transform-origin:50% 0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.shot .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px #1E2A5A40,0 0 0 1px #12182610;transform:rotateX(8deg);transform-origin:50% 0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .shot.flat .frame{transform:rotateX(0)}
 .shot::after{content:"";position:absolute;inset:auto 10% -30px;height:120px;background:var(--grad);filter:blur(80px);opacity:.45;z-index:-1}
-.float-tag{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);backdrop-filter:blur(10px);font-size:14px;font-weight:600;box-shadow:0 14px 40px #0008;animation:svaev 6s ease-in-out infinite}
+.float-tag{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);backdrop-filter:blur(10px);font-size:14px;font-weight:600;box-shadow:0 14px 40px #1E2A5A26;animation:svaev 6s ease-in-out infinite}
 .float-tag .dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #22C55E33}
 .float-tag.t1{left:-14px;top:22%}
 .float-tag.t2{right:-14px;top:52%;animation-delay:-3s}
@@ -96,7 +93,7 @@ section{padding:96px 0}
 .sec-head p{color:var(--soft);margin:16px 0 0;font-size:18px}
 
 /* Tal */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
 .stat b{display:block;font:700 40px "Space Grotesk",sans-serif;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{color:var(--muted);font-size:14px;font-weight:600}
@@ -126,7 +123,7 @@ section{padding:96px 0}
 .split{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:center}
 .split.rev{grid-template-columns:1.25fr 1fr}
 .split.rev .txt{order:2}
-.split img{border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 80px #000a}
+.split img{border-radius:14px;border:1px solid var(--line);box-shadow:0 24px 60px #1E2A5A33}
 .split h2{font-size:clamp(28px,4vw,42px);margin-bottom:16px}
 .split p{color:var(--soft)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;padding:0;list-style:none}
@@ -179,6 +176,26 @@ details p{margin:0 0 18px;color:var(--soft)}
 footer{padding:40px 0 60px;color:var(--muted);font-size:14px;text-align:center}
 footer a{color:var(--soft)}
 
+/* Lyst tema: bløde skygger på kort */
+.stat,.step,.feat,.col,details,.game,.pill,.filters button,.chips li{box-shadow:0 1px 2px #1218260a,0 6px 20px #1E2A5A0f}
+.hero{background:linear-gradient(180deg,#EAF0FF 0%,var(--bg) 100%)}
+.final{background:radial-gradient(800px 300px at 50% 0%,#7C5CFF2e,transparent),var(--panel)!important;box-shadow:0 20px 60px #1E2A5A1f}
+.top{background:color-mix(in srgb,#FFFFFF 85%,transparent)}
+
+/* Mobil: læsbare udsnit af skærmbillederne og to spil pr. række */
+@media (max-width:640px){
+  .shot{max-width:340px}
+  .shot .frame,.shot.flat .frame{transform:none}
+  .shot::after{inset:auto 0 -20px}
+  .games{grid-template-columns:repeat(2,1fr);gap:10px}
+  .game .info{padding:8px 10px}
+  .game .info b{font-size:13px}
+  .game .tag{font-size:10px;padding:2px 6px}
+  .game .img.tile{font-size:15px}
+  .marquee img{width:140px;height:66px}
+  section{padding:64px 0}
+}
+
 /* Sprogvælger */
 .sprog{display:flex;gap:2px;padding:3px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
 .sprog button{font:700 12px Inter,sans-serif;letter-spacing:.04em;padding:6px 8px;border:0;border-radius:7px;background:transparent;color:var(--muted);cursor:pointer}
@@ -230,7 +247,7 @@ footer a{color:var(--soft)}
   </div>
   <div class="wrap">
     <div class="shot" id="shot">
-      <div class="frame"><img src="img/hovedvindue.png" width="1280" height="860" data-i-alt="alt1" alt="ServerMester med Valheim valgt: spil-liste med billeder til venstre, serverindstillinger og knapper til Installér og Start til højre"></div>
+      <div class="frame"><picture><source media="(max-width:640px)" srcset="img/m-hero.png" width="322" height="560"><img src="img/hovedvindue.png" width="1280" height="860" data-i-alt="alt1" alt="ServerMester med Valheim valgt: spil-liste med billeder til venstre, serverindstillinger og knapper til Installér og Start til højre"></picture></div>
       <div class="float-tag t1"><span class="dot"></span><span data-i="tag1">Serveren kører · vennerne kan joine</span></div>
       <div class="float-tag t2" data-i="tag2">⬇ Paper-plugin installeret</div>
     </div>
@@ -303,7 +320,7 @@ footer a{color:var(--soft)}
         <li data-i="m3">Fjern en mod igen med ét klik</li>
       </ul>
     </div>
-    <img class="vis" src="img/mods.png" width="1280" height="860" loading="lazy" data-i-alt="alt2" alt="Mods-fanen i ServerMester med Minecraft valgt: søgefelt til Modrinth og en liste over installerede plugins">
+    <picture class="vis"><source media="(max-width:640px)" srcset="img/m-mods.png" width="430" height="235"><img src="img/mods.png" width="1280" height="860" loading="lazy" data-i-alt="alt2" alt="Mods-fanen i ServerMester med Minecraft valgt: søgefelt til Modrinth og en liste over installerede plugins"></picture>
   </div>
 </section>
 
@@ -320,7 +337,7 @@ footer a{color:var(--soft)}
         <li data-i="l4">Spørger før den sletter noget – og stopper serverne pænt når du lukker</li>
       </ul>
     </div>
-    <img class="vis" src="img/rust.png" width="1280" height="860" loading="lazy" data-i-alt="alt3" alt="ServerMester med Rust valgt og spil-listen med billeder af 7 Days to Die, Ark, Don't Starve Together, Minecraft og flere">
+    <picture class="vis"><source media="(max-width:640px)" srcset="img/m-rust.png" width="400" height="300"><img src="img/rust.png" width="1280" height="860" loading="lazy" data-i-alt="alt3" alt="ServerMester med Rust valgt og spil-listen med billeder af 7 Days to Die, Ark, Don't Starve Together, Minecraft og flere"></picture>
   </div>
 </section>
 
