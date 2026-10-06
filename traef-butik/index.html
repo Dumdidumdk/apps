@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Træf-butik – kiosken til jeres LAN-party</title>
+<meta name="description" content="Træf-butik er et gratis bestillingssystem til computertræf og LAN-party: deltagerne bestiller sodavand, slik og toast fra deres egen PC, butikken ser ordrerne live, og alle betaler med forudbetalt saldo. Virker uden internet.">
+<meta name="theme-color" content="#F4F6FC">
+<meta property="og:title" content="Træf-butik – kiosken til jeres LAN-party">
+<meta property="og:description" content="Deltagerne bestiller fra deres PC, butikken ser ordrerne live. Forudbetalt saldo, ingen internet nødvendig. Gratis.">
+<meta property="og:image" content="img/butik.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2306B6D4'/%3E%3Cstop offset='1' stop-color='%23A855F7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' fill='white' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6FC; --panel:#FFFFFF; --card:#EEF2FA; --line:#E0E6F1;
+  --ink:#121826; --muted:#5E677A; --soft:#3E475A;
+  --blue:#3B6CF6; --purple:#9333EA; --green:#16A34A; --amber:#D97706; --cyan:#0284C7; --pink:#DB2777; --red:#EF4444;
+  --grad:linear-gradient(120deg,#06B6D4 0%,#4D7CFE 40%,#A855F7 100%);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+picture{display:block}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.1;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:10px}
+
+/* ---------- Topbar ---------- */
+.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,#FFFFFF 85%,transparent);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px "Space Grotesk",sans-serif;white-space:nowrap}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#fff;font-style:normal;font-size:17px;box-shadow:0 6px 20px #4D7CFE55}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:15px;font-weight:600;color:var(--soft)}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+.top .btn{height:40px;padding:0 18px;font-size:15px}
+@media (max-width:860px){.top nav{display:none}.top .btn{margin-left:auto}}
+
+/* ---------- Knapper ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border-radius:12px;font:600 16px Inter,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s}
+.btn-main{background:var(--grad);color:#fff;box-shadow:0 10px 30px #4D7CFE55, inset 0 1px 0 #ffffff40}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 40px #4D7CFE77, inset 0 1px 0 #ffffff40}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--blue)}
+.btn svg{flex:none}
+.btn-stor{height:auto;min-height:68px;padding:12px 30px;border-radius:16px;flex-direction:row;text-align:left}
+.btn-stor .tekst{display:grid;line-height:1.25}
+.btn-stor b{font:700 20px "Space Grotesk",Inter,sans-serif}
+.btn-stor small{font-size:13px;font-weight:500;opacity:.92}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:72px 0 40px;overflow:hidden;background:linear-gradient(180deg,#E6F4FF 0%,var(--bg) 100%)}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
+  radial-gradient(closest-side,#06B6D433,transparent 70%) 15% 30%/600px 600px no-repeat,
+  radial-gradient(closest-side,#A855F733,transparent 70%) 85% 10%/700px 700px no-repeat;pointer-events:none}
+.hero .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.7;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;text-align:center;display:grid;justify-items:center;gap:22px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
+.pill b{background:var(--green);color:#fff;border-radius:999px;padding:2px 9px;font-size:12px}
+.hero h1{font-size:clamp(38px,7.2vw,78px);font-weight:700;max-width:16ch;text-wrap:balance}
+.hero p.lead{font-size:clamp(17px,2.2vw,21px);color:var(--soft);max-width:60ch;margin:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center}
+.under{font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.under span::before{content:"✓ ";color:var(--green);font-weight:700}
+
+.shot{position:relative;margin:54px auto 0;max-width:1100px;perspective:1600px}
+.shot .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px #1E2A5A40,0 0 0 1px #12182610;transform:rotateX(8deg);transform-origin:50% 0;transition:transform .8s cubic-bezier(.2,.7,.2,1);background:#0B0E14}
+.shot.flat .frame{transform:rotateX(0)}
+.shot::after{content:"";position:absolute;inset:auto 10% -30px;height:120px;background:var(--grad);filter:blur(80px);opacity:.45;z-index:-1}
+.float-tag{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);backdrop-filter:blur(10px);font-size:14px;font-weight:600;box-shadow:0 14px 40px #1E2A5A26;animation:svaev 6s ease-in-out infinite}
+.float-tag .dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #22C55E33}
+.float-tag.t1{left:-14px;top:24%}
+.float-tag.t2{right:-14px;top:56%;animation-delay:-3s}
+@keyframes svaev{50%{transform:translateY(-10px)}}
+@media (max-width:760px){.float-tag{display:none}}
+
+/* ---------- Sektioner ---------- */
+section{padding:96px 0}
+.kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.sec-head{max-width:720px;margin-bottom:48px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-size:clamp(30px,4.6vw,48px)}
+.sec-head p{color:var(--soft);margin:16px 0 0;font-size:18px}
+
+/* Tal */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
+.stat b{display:block;font:700 40px "Space Grotesk",sans-serif;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{color:var(--muted);font-size:14px;font-weight:600}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.stat{padding:18px 12px}.stat b{font-size:32px}}
+
+/* Trin */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:trin}
+.step{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px}
+.step::before{counter-increment:trin;content:counter(trin);display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--grad);color:#fff;font:700 20px "Space Grotesk",sans-serif;margin-bottom:18px;box-shadow:0 8px 24px #4D7CFE55}
+.step h3{font-size:22px;margin-bottom:8px}
+.step p{margin:0;color:var(--soft)}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* Funktioner */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;transition:border-color .2s,transform .2s}
+.feat:hover{border-color:color-mix(in srgb,var(--blue) 60%,var(--line));transform:translateY(-3px)}
+.feat .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px}
+.feat h3{font-size:20px;margin-bottom:8px}
+.feat p{margin:0;color:var(--soft);font-size:16px}
+.ic.b{background:#4D7CFE22;color:var(--blue)} .ic.p{background:#A855F722;color:var(--purple)} .ic.g{background:#22C55E22;color:var(--green)}
+.ic.a{background:#F59E0B22;color:var(--amber)} .ic.c{background:#38BDF822;color:var(--cyan)} .ic.r{background:#EC489922;color:var(--pink)}
+@media (max-width:960px){.features{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.features{grid-template-columns:1fr}}
+
+/* Delt sektion */
+.split{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:center}
+.split.rev{grid-template-columns:1.25fr 1fr}
+.split.rev .txt{order:2}
+.split img{border-radius:14px;border:1px solid var(--line);box-shadow:0 24px 60px #1E2A5A33;background:#0B0E14}
+.split h2{font-size:clamp(28px,4vw,42px);margin-bottom:16px}
+.split p{color:var(--soft)}
+.check{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.check li{display:flex;gap:10px;color:var(--soft)}
+.check li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:7px;background:#22C55E22 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/14px no-repeat}
+@media (max-width:900px){.split,.split.rev{grid-template-columns:1fr;gap:32px}.split.rev .txt{order:0}}
+.duo{position:relative;padding:0 9% 56px 0}
+.mobil-ramme{position:absolute;right:0;bottom:0;width:31%;border-radius:24px;padding:7px;background:#121826;box-shadow:0 24px 60px #1E2A5A55}
+.mobil-ramme img{border-radius:18px;border:0;box-shadow:none}
+@media (max-width:640px){.duo{padding:0}.duo>img{display:none}.mobil-ramme{position:static;width:auto;max-width:280px;margin:0 auto}}
+
+/* Galleri */
+.galleri{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.galleri figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 1px 2px #1218260a,0 6px 20px #1E2A5A0f}
+.galleri img{border-radius:10px;background:#0B0E14}
+.galleri figcaption{padding:12px 6px 4px;color:var(--soft);font-size:15px}
+.galleri figcaption b{color:var(--ink)}
+@media (max-width:760px){.galleri{grid-template-columns:1fr}}
+
+/* Guide */
+.guide{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.guide>*,.trin li{min-width:0}
+.trin{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:g}
+.trin li{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px 18px 70px;color:var(--soft)}
+.trin li::before{counter-increment:g;content:counter(g);position:absolute;left:18px;top:16px;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#fff;font:700 17px "Space Grotesk",sans-serif}
+.trin li b{color:var(--ink)}
+code{font:600 14px ui-monospace,"Cascadia Mono",Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 6px;overflow-wrap:anywhere}
+.konsol{margin:10px 0 0;background:#0F1420;color:#D6E2FF;border-radius:12px;padding:14px 16px;font:500 13.5px/1.7 ui-monospace,"Cascadia Mono",Consolas,monospace;overflow-x:auto;white-space:pre}
+.konsol .k{color:#7DD3FC}
+.boks{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+.boks h3{font-size:21px;margin-bottom:10px}
+.boks p{margin:0 0 12px;color:var(--soft)}
+.boks p:last-child{margin-bottom:0}
+.boks + .boks{margin-top:16px}
+.boks.opd{border:1px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box}
+@media (max-width:900px){.guide{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{max-width:820px;margin:0 auto;display:grid;gap:12px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px 22px}
+details[open]{border-color:color-mix(in srgb,var(--blue) 50%,var(--line))}
+summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:600;font-size:17px;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 24px/1 Inter;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 18px;color:var(--soft)}
+
+/* Download */
+.final{position:relative;text-align:center;border-radius:28px;padding:72px 24px;overflow:hidden;background:radial-gradient(800px 300px at 50% 0%,#06B6D42e,transparent),var(--panel);border:1px solid var(--line);box-shadow:0 20px 60px #1E2A5A1f}
+.final h2{font-size:clamp(32px,5vw,56px);max-width:16ch;margin:0 auto 16px}
+.final p{color:var(--soft);max-width:54ch;margin:0 auto 28px;font-size:18px}
+.final .smaat{font-size:14px;color:var(--muted);margin:22px auto 0}
+footer{padding:40px 0 60px;color:var(--muted);font-size:14px;text-align:center}
+footer a{color:var(--soft)}
+
+.stat,.step,.feat,details,.pill,.trin li,.boks{box-shadow:0 1px 2px #1218260a,0 6px 20px #1E2A5A0f}
+
+@media (max-width:640px){
+  .shot .frame,.shot.flat .frame{transform:none}
+  .shot::after{inset:auto 0 -20px}
+  section{padding:64px 0}
+  .hero{padding-top:48px}
+  .btn-stor{width:100%;justify-content:center}
+  .final{padding:52px 18px}
+  .trin li{padding:16px 16px 16px 62px}
+  .trin li::before{left:14px}
+}
+
+/* Ind-animation */
+.vis{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.vis.ind{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.vis{opacity:1;transform:none}.shot .frame{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><i>T</i> Træf-butik</a>
+    <nav>
+      <a href="#saadan">Sådan virker det</a>
+      <a href="#funktioner">Funktioner</a>
+      <a href="#billeder">Skærmbilleder</a>
+      <a href="#guide">Kom i gang</a>
+      <a href="#faq">Spørgsmål</a>
+    </nav>
+    <a class="btn btn-main" href="https://github.com/Dumdidumdk/traef-butik/releases/latest" data-dl>Download</a>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="grid-bg"></div>
+  <div class="wrap hero-inner">
+    <span class="pill"><b>GRATIS</b> <span data-ver-tekst>Seneste version</span> · til Windows</span>
+    <h1>Kiosken til jeres <span class="grad-text">LAN-party</span></h1>
+    <p class="lead">Træf-butik er et bestillingssystem til computertræf. Deltagerne bestiller sodavand, slik og toast fra deres egen PC og betaler med en forudbetalt saldo. Bag disken ser butikken ordrerne live. Det hele kører på én bærbar og virker uden internet.</p>
+    <div class="cta-row">
+      <a class="btn btn-main btn-stor" href="https://github.com/Dumdidumdk/traef-butik/releases/latest" data-dl>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        <span class="tekst"><b>Download Træf-butik</b><small data-dl-info>Gratis · zip til Windows · ca. 35 MB</small></span>
+      </a>
+      <a class="btn btn-ghost" href="#billeder">Se skærmbillederne</a>
+    </div>
+    <div class="under"><span>Helt gratis</span><span>Virker uden internet</span><span>Klar til 250+ deltagere</span><span>Alt på dansk</span></div>
+  </div>
+  <div class="wrap">
+    <div class="shot" id="shot">
+      <div class="frame"><img src="img/butik.webp" width="1280" height="720" alt="Butiksskærmen i Træf-butik med kolonnerne Nye, Laves, Klar – bring ud og Klar – afhentning, fyldt med ordrer fra PC 88, PC 95, PC 103 og flere"></div>
+      <div class="float-tag t1"><span class="dot"></span>Ny ordre fra PC 88</div>
+      <div class="float-tag t2">🔔 Ordre #3 er klar – PC 56</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TAL ================= -->
+<div class="wrap">
+  <div class="stats vis">
+    <div class="stat"><b>0 kr.</b><span>gratis at bruge</span></div>
+    <div class="stat"><b>250+</b><span>deltagere på én gang</span></div>
+    <div class="stat"><b>88</b><span>varer klar med billeder</span></div>
+    <div class="stat"><b>1</b><span>bærbar ved disken</span></div>
+  </div>
+</div>
+
+<!-- ================= SÅDAN ================= -->
+<section id="saadan">
+  <div class="wrap">
+    <div class="sec-head center vis">
+      <span class="kicker">Sådan virker det</span>
+      <h2>Slut med kø, sedler og <span class="grad-text">byttepenge</span></h2>
+      <p>Deltagerne behøver ikke at forlade pladsen midt i et spil. De bestiller i browseren, og crewet kan se med det samme, hvad der skal laves.</p>
+    </div>
+    <div class="steps">
+      <div class="step vis"><h3>Check-in ved indgangen</h3><p>Crewet skriver PC-nr og navn og vælger evt. et startbeløb. Deltageren får en seddel med PIN og adressen til butikken.</p></div>
+      <div class="step vis"><h3>Bestil fra pladsen</h3><p>Deltageren logger ind med PC-nr og PIN, lægger varer i kurven og vælger "Bring til min plads" eller "Jeg henter selv".</p></div>
+      <div class="step vis"><h3>Butikken ser det live</h3><p>Nye ordrer dukker op med lyd på skærmen bag disken. Start → Klar → Leveret, og kunden får besked, når ordren er klar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FUNKTIONER ================= -->
+<section id="funktioner" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head vis">
+      <span class="kicker">Funktioner</span>
+      <h2>Alt, hvad kiosken skal bruge</h2>
+    </div>
+    <div class="features">
+      <div class="feat vis"><div class="ic g"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div><h3>Forudbetalt saldo</h3><p>Deltagerne sætter penge ind med MobilePay eller kontant, og butikken godkender. Restsaldoen udbetales, når træffet slutter.</p></div>
+      <div class="feat vis"><div class="ic c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Live butiksskærm</h3><p>Store PC-numre, kolonner pr. status, lyd og blink ved nye ordrer. Kan læses på afstand bag disken.</p></div>
+      <div class="feat vis"><div class="ic r"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><h3>Bring til plads</h3><p>Levering til bordet fra et beløb, du selv vælger, eller "Jeg henter selv". Kunden får lyd og besked, når det er klar.</p></div>
+      <div class="feat vis"><div class="ic p"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0M16 4.5a3.5 3.5 0 010 7M18 14.5a6 6 0 013.5 5.5"/></svg></div><h3>Personale med roller</h3><p>Hver i crewet har sit eget login som admin eller ekspedient, og systemet husker, hvem der gjorde hvad.</p></div>
+      <div class="feat vis"><div class="ic a"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7M12 11v10"/></svg></div><h3>88 varer med billeder</h3><p>Sodavand, energidrik, kaffe, toast, morgenmad, slik og frugt. Sæt flueben ved det, I sælger, ret priser, eller tilføj jeres egne varer.</p></div>
+      <div class="feat vis"><div class="ic b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div><h3>Regnskab og regneark</h3><p>Rapport med omsætning og salg pr. vare, og hele salget som Excel-regneark. Systemet tjekker selv, at regnskabet går op.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KUNDESIDEN ================= -->
+<section style="padding-top:0">
+  <div class="wrap split">
+    <div class="txt vis">
+      <span class="kicker">Kundesiden</span>
+      <h2>Bestil uden at <span class="grad-text">forlade spillet</span></h2>
+      <p>Store knapper, varebilleder i et gitter og kurven i siden. Det tager få sekunder at bestille, også på mobilen.</p>
+      <ul class="check">
+        <li>Log ind med PC-nr og PIN – ingen konti eller e-mails</li>
+        <li>Se saldo og ordrens status live</li>
+        <li>Lyd og besked, når ordren er klar</li>
+        <li>Virker på computer, tablet og mobil</li>
+      </ul>
+    </div>
+    <div class="duo vis">
+      <img src="img/kunde.webp" width="1280" height="820" loading="lazy" alt="Kundesiden: varer i et gitter med Coca-Cola, Fanta, Faxe Kondi og flere, saldo på 100 kr. og en kurv med pizza, cola og chips">
+      <div class="mobil-ramme"><img src="img/kunde-mobil.webp" width="585" height="1266" loading="lazy" alt="Kundesiden på en mobil med saldo, ordrestatus og kurven i bunden"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHECK-IN ================= -->
+<section style="padding-top:0">
+  <div class="wrap split rev">
+    <div class="txt vis">
+      <span class="kicker">Check-in og betaling</span>
+      <h2>200 deltagere ind på <span class="grad-text">ingen tid</span></h2>
+      <p>Ved indgangen skriver crewet PC-nr og navn og trykker på et startbeløb. Systemet laver selv en PIN og udskriver en lille seddel.</p>
+      <ul class="check">
+        <li>Hurtigknapper til 0, 100, 200 og 300 kr.</li>
+        <li>MobilePay-indbetalinger godkendes med ét klik</li>
+        <li>Glemt PIN? Nulstil den på et øjeblik</li>
+        <li>Restsaldo udbetales, når træffet slutter</li>
+      </ul>
+    </div>
+    <img class="vis" src="img/admin-checkin.webp" width="830" height="720" loading="lazy" alt="Check-in-kvittering for PC 131, Anton, med en firecifret PIN og saldo 200 kr. samt knapperne Udskriv seddel og Næste deltager">
+  </div>
+</section>
+
+<!-- ================= SKÆRMBILLEDER ================= -->
+<section id="billeder" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center vis">
+      <span class="kicker">Skærmbilleder</span>
+      <h2>Mørkt LAN-look, <span class="grad-text">stor tydelig tekst</span></h2>
+      <p>Sådan ser det ud under et træf: butiksskærmen bag disken og admin-siden til crewet.</p>
+    </div>
+    <div class="galleri">
+      <figure class="vis"><img src="img/butik.webp" width="1280" height="720" loading="lazy" alt="Butiksskærmen med ordrer i kolonnerne Nye, Laves og Klar"><figcaption><b>Butiksskærmen.</b> Start → Klar → Leveret. Filtre for levering og afhentning, udsolgt-knap og indbetalinger.</figcaption></figure>
+      <figure class="vis"><img src="img/admin-varer.webp" width="1280" height="820" loading="lazy" alt="Admin-siden med varer: flueben for hvilke varer der sælges, priser og knapper til Ret og Udsolgt"><figcaption><b>Varer.</b> Sæt flueben ved det, I sælger, ret priser, træk egne billeder ind, eller opret nye varer.</figcaption></figure>
+      <figure class="vis"><img src="img/admin-rapport.webp" width="1280" height="820" loading="lazy" alt="Rapporten med omsætning, antal ordrer, indbetalt, udbetalt og samlet saldo samt salg pr. vare"><figcaption><b>Rapport.</b> Omsætning, salg pr. vare og kontrol af, at regnskabet går op. Hent det hele som regneark.</figcaption></figure>
+      <figure class="vis"><img src="img/kunde.webp" width="1280" height="820" loading="lazy" alt="Kundesiden med varer, saldo og kurv"><figcaption><b>Kundesiden.</b> Varer i kategorier, saldo øverst og kurven i siden. Levering eller afhentning vælges ved bestilling.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GUIDE ================= -->
+<section id="guide" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head vis">
+      <span class="kicker">Kom i gang</span>
+      <h2>Klar til træffet på <span class="grad-text">5 minutter</span></h2>
+      <p>Alt er med i zip-filen, også Node.js. Du skal ikke installere noget.</p>
+    </div>
+    <div class="guide">
+      <ol class="trin vis">
+        <li><b>Pak zip-filen ud</b> på bærbaren ved disken, fx på skrivebordet. Du får en mappe, der hedder <code>traef-butik</code>.</li>
+        <li><b>Dobbeltklik på <code>start-butik.cmd</code>.</b> Vinduet viser adresserne. Lad det stå åbent, så længe butikken kører.
+          <div class="konsol"><span class="k">Kundesiden:</span>   http://192.168.1.20:3000
+<span class="k">Butiksskærm:</span>  http://192.168.1.20:3000/butik
+<span class="k">Admin:</span>        http://192.168.1.20:3000/admin</div></li>
+        <li><b>Tillad netværk.</b> Spørger Windows, om Node.js må bruge netværket, så svar <b>Tillad</b> på private netværk. Ellers kan de andre computere ikke nå butikken.</li>
+        <li><b>Opret den første admin.</b> Åbn Admin-adressen, skriv dit navn og en kode på mindst 6 tegn. Under Indstillinger skriver du træffets navn og MobilePay-nummer, og under Varer vælger du, hvad I sælger.</li>
+        <li><b>Opret crewet</b> under Personale. Ekspedienterne åbner <b>/butik</b>-adressen på skærmen bag disken og logger ind med deres eget navn.</li>
+        <li><b>Giv deltagerne adressen</b> til kundesiden. Den står også på check-in-sedlen.</li>
+      </ol>
+      <div>
+        <div class="boks opd vis">
+          <h3>Opdaterer sig selv</h3>
+          <p>Fra version 1.2 tjekker Træf-butik selv ved start, om der er en ny version. Svarer du J, hentes den, og din <code>data</code>-mappe kopieres først til en backup. Uden internet starter butikken bare som normalt.</p>
+          <p><b>Har du v1.0 eller v1.1?</b> Så skal v1.2 hentes og pakkes ud manuelt én gang. Kopiér din gamle <code>data</code>-mappe over i den nye <code>traef-butik</code>-mappe, så følger deltagere, saldi og varer med.</p>
+        </div>
+        <div class="boks vis">
+          <h3>Krav</h3>
+          <p>Én Windows 10/11-PC (fx en bærbar) ved disken. Deltagerne bruger bare browseren på deres egen computer på samme netværk.</p>
+          <p>Advarer Windows første gang, du starter, så vælg "Flere oplysninger" → "Kør alligevel".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center vis">
+      <span class="kicker">Spørgsmål og svar</span>
+      <h2>Godt at vide</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Hvad koster det?</summary><p>Ingenting. Træf-butik er gratis, og kildekoden ligger åbent på GitHub.</p></details>
+      <details><summary>Skal der være internet på træffet?</summary><p>Nej. Alt kører på bærbaren ved disken, og deltagerne forbinder over træffets eget netværk. Internet bruges kun til at tjekke for nye versioner, og uden internet springes tjekket bare over.</p></details>
+      <details><summary>Hvor mange deltagere kan det klare?</summary><p>Det er testet med 250 deltagere, der har siden åben og bestiller på samme tid. Ordrerne når butiksskærmen på et øjeblik.</p></details>
+      <details><summary>Hvordan kommer pengene ind?</summary><p>Hver deltager har en forudbetalt saldo. Ved check-in kan crewet sætte et startbeløb ind (kontant eller MobilePay). Undervejs sender deltageren penge på MobilePay og trykker "Jeg har betalt", og butikken godkender. Træf-butik trækker ikke selv penge, den holder bare styr på saldoen.</p></details>
+      <details><summary>Hvad sker der med pengene, der er tilbage?</summary><p>Under Udbetaling ser crewet alle, der har penge tilbage, sender dem retur og trykker "Udbetalt". Rapporten viser bagefter, at regnskabet går op.</p></details>
+      <details><summary>Hvor ligger data?</summary><p>I mappen <code>data</code> ved siden af programmet. Tag en kopi af den (og af regnearket) efter træffet.</p></details>
+      <details><summary>Kan vi bruge vores egne varer og priser?</summary><p>Ja. Vælg mellem 88 færdige varer med billeder, ret navn og pris, upload egne billeder, eller opret helt nye varer.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOWNLOAD ================= -->
+<section id="hent" style="padding-top:0">
+  <div class="wrap">
+    <div class="final vis">
+      <h2>Gør kiosken <span class="grad-text">klar til træffet</span></h2>
+      <p>Hent Træf-butik, pak den ud, og dobbeltklik. Gratis, på dansk og uden internet.</p>
+      <div class="cta-row">
+        <a class="btn btn-main btn-stor" href="https://github.com/Dumdidumdk/traef-butik/releases/latest" data-dl>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          <span class="tekst"><b>Download Træf-butik</b><small data-dl-info>Gratis · zip til Windows · ca. 35 MB</small></span>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Dumdidumdk/traef-butik">Se koden på GitHub</a>
+      </div>
+      <p class="smaat" data-dl-note>Zip-filen indeholder alt, også Node.js. Ældre versioner og ændringer finder du under <a href="https://github.com/Dumdidumdk/traef-butik/releases">Releases</a>.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Træf-butik · lavet med ❤ · <a href="../">Tilbage til forsiden</a> · <a href="https://github.com/Dumdidumdk/traef-butik">GitHub</a></div>
+</footer>
+
+<script>
+// Seneste release fra GitHub: version, størrelse og direkte link til zip'en.
+// Fejler API'et, peger knapperne fortsat på releases/latest.
+(function () {
+  var API = 'https://api.github.com/repos/Dumdidumdk/traef-butik/releases/latest';
+  var NOEGLE = 'traef-butik-release';
+
+  function mb(bytes) {
+    return (bytes / 1e6).toLocaleString('da-DK', { maximumFractionDigits: 1 }) + ' MB';
+  }
+
+  function vis(r) {
+    if (!r || !r.url) return;
+    document.querySelectorAll('[data-dl]').forEach(function (a) { a.href = r.url; });
+    document.querySelectorAll('[data-dl-info]').forEach(function (e) {
+      e.textContent = 'Version ' + r.version + ' · zip til Windows · ' + mb(r.size);
+    });
+    document.querySelectorAll('[data-ver-tekst]').forEach(function (e) { e.textContent = 'Version ' + r.version; });
+  }
+
+  function hent() {
+    return fetch(API, { headers: { Accept: 'application/vnd.github+json' } })
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+      .then(function (j) {
+        var a = (j.assets || []).filter(function (x) { return /^traef-butik-klar-til-brug-v.*\.zip$/i.test(x.name); })[0];
+        if (!a) throw new Error('Ingen zip i udgivelsen');
+        return { url: a.browser_download_url, size: a.size, version: String(j.tag_name || '').replace(/^v/i, ''), tid: Date.now() };
+      });
+  }
+
+  // Gem svaret en time, så siden ikke rammer GitHubs grænse for opslag
+  var gemt = null;
+  try { gemt = JSON.parse(sessionStorage.getItem(NOEGLE) || 'null'); } catch (e) { /* ingen lager */ }
+  if (gemt && Date.now() - gemt.tid < 3600e3) {
+    vis(gemt);
+  } else {
+    hent().then(function (r) {
+      vis(r);
+      try { sessionStorage.setItem(NOEGLE, JSON.stringify(r)); } catch (e) { /* ligegyldigt */ }
+    }).catch(function () { /* fallback: links peger allerede på releases/latest */ });
+  }
+})();
+
+// Hero-billedet retter sig ud, når man scroller
+(function () {
+  var shot = document.getElementById('shot');
+  addEventListener('scroll', function () { shot.classList.toggle('flat', scrollY > 80); }, { passive: true });
+})();
+
+// Ind-animation
+(function () {
+  var el = document.querySelectorAll('.vis');
+  if (!('IntersectionObserver' in window)) { el.forEach(function (e) { e.classList.add('ind'); }); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('ind'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  el.forEach(function (e) { io.observe(e); });
+})();
+</script>
+</body>
+</html>
