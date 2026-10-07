@@ -96,6 +96,10 @@ li.inv:first-child{border-top:0}
 .company{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .company .full{grid-column:1/-1}
 h3{font-size:1rem;margin:18px 0 4px}
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.synctxt{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;font-size:.9rem}
+.synctxt span{color:var(--muted)}
+.sync .btns{flex-basis:100%;margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:420px){.moms .big{font-size:2.1rem}}
 </style>
@@ -104,6 +108,15 @@ h3{font-size:1rem;margin:18px 0 4px}
 <div class="wrap">
   <h1>Mit regnskab</h1>
   <p class="sub">Indtast hvad du tjener og bruger. Moms og skat regnes ud for dig.</p>
+
+  <div class="sync" id="syncBar" hidden>
+    <div class="synctxt"><strong id="syncHead">Gem i din Google Drive</strong><span id="syncMsg">Log ind, så har du dit regnskab på både mobil og computer.</span></div>
+    <button type="button" class="ghost" id="gLogin">Log ind med Google</button>
+    <div class="btns" id="conflict" hidden>
+      <button type="button" class="ghost" id="useRemote">Brug Google Drive</button>
+      <button type="button" class="ghost" id="useLocal">Brug denne enhed</button>
+    </div>
+  </div>
 
   <div class="period">
     <select id="year" aria-label="År"></select>
@@ -317,9 +330,9 @@ function render(){
     m.textContent = new Date(e.date+"T00:00:00").toLocaleDateString("da-DK",{day:"numeric",month:"short"}) + ", " + c.name;
     info.append(d,m);
     if(e.receipt){
-      const r=document.createElement("a"); r.className="rlink"; r.href="/_blob/"+e.receipt; r.target="_blank"; r.rel="noopener";
+      const r=document.createElement("a"); r.className="rlink"; r.href=receiptUrl(e.receipt); r.target="_blank"; r.rel="noopener";
       r.textContent="Se kvittering"; info.appendChild(r);
-    } else if(assets && e.type==="out"){
+    } else if(canReceipt() && e.type==="out"){
       const r=document.createElement("button"); r.type="button"; r.className="rlink"; r.textContent="Tilføj kvittering";
       r.onclick=()=>{ rowTarget=e.id; $("rowFile").value=""; $("rowFile").click(); };
       info.appendChild(r);
@@ -334,7 +347,7 @@ function render(){
     }
     const del = document.createElement("button"); del.className="del"; del.type="button";
     del.textContent="✕"; del.setAttribute("aria-label","Slet "+(e.desc||c.name));
-    armConfirm(del, "Slet?", ()=>{ state.entries = state.entries.filter(x=>x.id!==e.id); save(); render(); if(e.receipt&&assets){ assets.delete(e.receipt).catch(()=>{}); } });
+    armConfirm(del, "Slet?", ()=>{ state.entries = state.entries.filter(x=>x.id!==e.id); save(); render(); if(e.receipt) deleteReceipt(e.receipt); });
     li.append(info,a,del); ul.appendChild(li);
   });
 }
@@ -359,7 +372,7 @@ function setType(t, keep){
   const sel=$("fCat"); sel.innerHTML="";
   CATS[t].forEach(c=>{ const o=document.createElement("option"); o.value=c.id; o.textContent=c.name; sel.appendChild(o); });
   if(keep && CATS[t].some(c=>c.id===prevCat)) sel.value=prevCat;
-  $("receiptBox").hidden = !assets;
+  $("receiptBox").hidden = !canReceipt();
   showHint();
 }
 function showHint(){ const c=catOf(type,$("fCat").value); $("catHint").textContent = c.hint || (c.vat ? "Beløbet er inkl. 25 % moms. Momsen trækkes ud automatisk." : "Der er ingen moms på denne type."); }
@@ -408,9 +421,13 @@ async function shrinkImage(file){
   } finally { URL.revokeObjectURL(url); }
 }
 async function uploadReceipt(file){
-  if(!assets) throw new Error("Kvitteringer kan ikke gemmes i denne visning.");
+  if(!canReceipt()) throw new Error("Log ind med Google for at gemme kvitteringer.");
   let blob=file;
   if(file.type!=="application/pdf"){ blob=await shrinkImage(file); }
+  if(!assets){
+    try{ return "gd:"+await gd.uploadReceipt(blob, file.type==="application/pdf"?"pdf":"jpg"); }
+    catch(e){ throw new Error(e&&e.auth ? "Log ind med Google igen og prøv så igen." : "Kvitteringen kunne ikke gemmes i Google Drive. Prøv igen."); }
+  }
   try{ const r=await assets.upload(blob); return r.id; }
   catch(e){
     if(e&&e.code==="quota_exceeded") throw new Error("Der er ikke mere plads til kvitteringer. Slet nogle gamle posteringer med kvittering.");
@@ -643,6 +660,133 @@ function save(){
       catch(e){ $("saveState").textContent="Kunne ikke gemme på kontoen. Data er gemt i browseren."; }
     },400);
   }
+  if(gd.on) gd.changed();
+}
+
+// ---------- Google Drive (kun på hjemmesiden) ----------
+// Regnskabet gemmes som regnskab.json i mappen "Mit regnskab" i brugerens egen Drive.
+const GOOGLE_CLIENT_ID = "898886291082-188g98ioisq9fu0kr0b54p0bofqiem8a.apps.googleusercontent.com";
+const GD_META = "regnskab-gdrive";
+const DRIVE = "https://www.googleapis.com/drive/v3/files", UPLOAD = "https://www.googleapis.com/upload/drive/v3/files";
+const hasData = s => s.entries.length>0 || s.invoices.length>0;
+const refreshAll = () => { fillSettings(); fillYears(); render(); renderInv(); };
+const gd = {
+  on:false, token:null, exp:0, client:null, folder:null, busy:false, timer:null, pending:null, edits:0,
+  meta: (()=>{ try{ return JSON.parse(localStorage.getItem(GD_META)||"null")||{}; }catch(e){ return {}; } })(),
+  keep(){ try{ localStorage.setItem(GD_META, JSON.stringify(this.meta)); }catch(e){} },
+  status(head,msg){ $("syncHead").textContent=head; $("syncMsg").textContent=msg; },
+  ready(){ return !!this.token && Date.now()<this.exp; },
+  async api(url,opt={}){
+    if(!this.ready()) throw {auth:true};
+    const r=await fetch(url,{...opt, headers:{Authorization:"Bearer "+this.token, ...(opt.headers||{})}});
+    if(r.status===401){ this.token=null; throw {auth:true}; }
+    if(!r.ok) throw {status:r.status};
+    return r;
+  },
+  async findFolder(){
+    if(this.folder) return this.folder;
+    const q=encodeURIComponent("name='Mit regnskab' and mimeType='application/vnd.google-apps.folder' and trashed=false");
+    const r=await (await this.api(`${DRIVE}?q=${q}&fields=files(id)`)).json();
+    if(r.files.length) return this.folder=r.files[0].id;
+    const c=await (await this.api(`${DRIVE}?fields=id`,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:"Mit regnskab",mimeType:"application/vnd.google-apps.folder"})})).json();
+    return this.folder=c.id;
+  },
+  async remoteFile(){
+    const folder=await this.findFolder();
+    const q=encodeURIComponent(`name='regnskab.json' and '${folder}' in parents and trashed=false`);
+    const r=await (await this.api(`${DRIVE}?q=${q}&fields=files(id,version)`)).json();
+    return r.files[0]||null;
+  },
+  async create(name,blob){
+    const folder=await this.findFolder(), fd=new FormData();
+    fd.append("metadata",new Blob([JSON.stringify({name,parents:[folder]})],{type:"application/json"}));
+    fd.append("file",blob);
+    return (await this.api(`${UPLOAD}?uploadType=multipart&fields=id,version`,{method:"POST",body:fd})).json();
+  },
+  json(){ return new Blob([JSON.stringify({app:"regnskab", ...state})],{type:"application/json"}); },
+  async pull(f){
+    const d=await (await this.api(`${DRIVE}/${f.id}?alt=media`)).json();
+    state=normalize(d); try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){}
+    this.meta={...this.meta, fileId:f.id, version:f.version, dirty:false}; this.keep(); refreshAll();
+  },
+  async push(f){
+    const n=this.edits; // ændringer lavet mens vi sender, skal sendes bagefter
+    if(!f){ const c=await this.create("regnskab.json",this.json()); f={id:c.id}; this.meta.version=c.version; }
+    else { const r=await (await this.api(`${UPLOAD}/${f.id}?uploadType=media&fields=version`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:this.json()})).json(); this.meta.version=r.version; }
+    this.meta={...this.meta, fileId:f.id, dirty:this.edits!==n}; this.keep();
+  },
+  // Hent eller send alt efter hvor der er ændringer. Er der ændret begge steder, vælger brugeren.
+  async sync(){
+    if(this.busy||!this.ready()||this.pending) return; this.busy=true;
+    try{
+      this.status("Synkroniserer…","Henter fra Google Drive.");
+      const f=await this.remoteFile();
+      const dirty=this.meta.fileId ? this.meta.dirty : hasData(state);
+      const same=f && f.id===this.meta.fileId && f.version===this.meta.version;
+      if(!f || same){ if(!f||dirty) await this.push(f); }
+      else if(!dirty) await this.pull(f);
+      else { this.conflict(f); return; }
+      this.synced();
+    }catch(e){ this.failed(e); }
+    finally{ this.busy=false; }
+  },
+  changed(){
+    this.edits++; this.meta.dirty=true; this.keep(); clearTimeout(this.timer);
+    if(this.pending) return;
+    if(!this.ready()){ this.loggedOut(); return; }
+    this.status("Gemmer…","Ændringerne sendes til Google Drive.");
+    this.timer=setTimeout(()=>{ this.busy ? this.changed() : this.sync(); },1500);
+  },
+  conflict(f){
+    this.pending=f; $("conflict").hidden=false; $("gLogin").hidden=true;
+    this.status("Ændret to steder","Regnskabet er ændret både her og på en anden enhed. Vælg hvilken version du vil beholde. Den anden bliver overskrevet.");
+  },
+  async resolve(useRemote){
+    const f=this.pending; $("conflict").hidden=true;
+    try{ if(useRemote) await this.pull(f); else await this.push(f); this.pending=null; this.synced(); }
+    catch(e){ $("conflict").hidden=false; this.failed(e); }
+  },
+  synced(){
+    this.status("Gemt i Google Drive","Mappen Mit regnskab i din Drive. Du ser de samme tal på alle dine enheder.");
+    $("gLogin").hidden=true; $("saveState").textContent="Gemt i Google Drive";
+  },
+  failed(e){
+    if(e&&e.auth) return this.loggedOut();
+    this.status("Kunne ikke synkronisere","Tjek din internetforbindelse. Dine tal er gemt på enheden og sendes, når der er forbindelse.");
+  },
+  loggedOut(){
+    this.token=null; $("gLogin").hidden=false; $("saveState").textContent="Gemt på denne enhed";
+    this.status("Log ind igen", this.meta.dirty ? "Du har ændringer, der ikke er gemt i Google Drive endnu." : "Dit login er udløbet. Log ind for at hente de seneste tal.");
+  },
+  login(){
+    if(!(window.google&&google.accounts&&google.accounts.oauth2)){ this.status("Google kunne ikke indlæses","Genindlæs siden og prøv igen."); return; }
+    if(!this.client) this.client=google.accounts.oauth2.initTokenClient({ client_id:GOOGLE_CLIENT_ID,
+      scope:"https://www.googleapis.com/auth/drive.file",
+      callback:r=>{
+        if(r.error){ this.status("Login blev ikke gennemført","Tryk Log ind med Google for at prøve igen."); return; }
+        this.token=r.access_token; this.exp=Date.now()+(Number(r.expires_in||3600)-60)*1000;
+        this.meta.user=true; this.keep(); setType(type,true); render(); this.sync();
+      },
+      error_callback:()=>this.status("Login blev ikke gennemført","Tillad pop op-vinduer for siden og prøv igen.") });
+    this.client.requestAccessToken({prompt:""});
+  },
+  async uploadReceipt(blob,ext){ return (await this.create(`kvittering-${today()}.${ext}`,blob)).id; },
+  init(){
+    if(!GOOGLE_CLIENT_ID || !/(^|\.)github\.io$/.test(location.hostname)) return;
+    this.on=true; $("syncBar").hidden=false; $("saveState").textContent="Gemt på denne enhed";
+    if(this.meta.user){ this.status("Google Drive","Log ind for at hente dine seneste tal."); }
+    const s=document.createElement("script"); s.src="https://accounts.google.com/gsi/client"; s.async=true; document.head.appendChild(s);
+    $("gLogin").onclick=()=>this.login();
+    $("useRemote").onclick=()=>this.resolve(true); $("useLocal").onclick=()=>this.resolve(false);
+    document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") this.sync(); });
+  }
+};
+const canReceipt = () => !!assets || gd.ready();
+const receiptUrl = id => id.startsWith("gd:") ? "https://drive.google.com/file/d/"+id.slice(3)+"/view" : "/_blob/"+id;
+function deleteReceipt(id){
+  if(id.startsWith("gd:")){ if(gd.ready()) gd.api(`${DRIVE}/${id.slice(3)}`,{method:"DELETE"}).catch(()=>{}); }
+  else if(assets) assets.delete(id).catch(()=>{});
 }
 
 // Opstart
@@ -653,6 +797,7 @@ $("taxPct").value = String(state.taxPct).replace(".",",");
 fillYears();
 setType("in");
 render();
+gd.init();
 
 $("tIn").onclick=()=>setType("in");
 $("tOut").onclick=()=>setType("out");
