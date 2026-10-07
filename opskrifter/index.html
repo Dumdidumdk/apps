@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Opskriftsbogen</title>
+<meta name="description" content="Over 250 madopskrifter med billeder og trin-for-trin guide: aftensmad, pasta, supper, salater, bagværk, kager og meget mere.">
+<meta name="theme-color" content="#1F3326">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231F3326'/%3E%3Cellipse cx='32' cy='38' rx='22' ry='14' fill='%23fff'/%3E%3Cellipse cx='32' cy='36' rx='14' ry='8' fill='%23E2572F'/%3E%3Ccircle cx='27' cy='34' r='3' fill='%234C9A3A'/%3E%3Ccircle cx='37' cy='35' r='3' fill='%23F2C14E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6EF; --card:#FFFFFF; --ink:#1F2A22; --muted:#64705F; --line:#ECE4D6; --soft:#F3ECE0;
+  --accent:#D9472B; --accent2:#3F8F4A; --good:#2F8F6E; --heart:#E0395A;
+  --shadow:0 2px 4px #1F2A220d, 0 12px 28px #1F2A2214; --lift:0 4px 10px #1F2A2214, 0 22px 44px #1F2A2224;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121814; --card:#1C241E; --ink:#EEF3EC; --muted:#AAB7A6; --line:#2C3830; --soft:#243028;
+  --accent:#FF7452; --accent2:#6CC47A; --good:#45C29A; --heart:#FF6F8A;
+  --shadow:0 2px 4px #0006, 0 12px 28px #0007; --lift:0 4px 10px #0007, 0 22px 44px #000a;
+}}
+:root[data-theme="dark"]{
+  --bg:#121814; --card:#1C241E; --ink:#EEF3EC; --muted:#AAB7A6; --line:#2C3830; --soft:#243028;
+  --accent:#FF7452; --accent2:#6CC47A; --good:#45C29A; --heart:#FF6F8A;
+  --shadow:0 2px 4px #0006, 0 12px 28px #0007; --lift:0 4px 10px #0007, 0 22px 44px #000a;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;letter-spacing:-.01em}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(120% 90% at 85% 0%,#E2572F 0%,transparent 55%),radial-gradient(90% 80% at 0% 100%,#4C9A3A 0%,transparent 60%),#1F3326;
+  padding:calc(22px + env(safe-area-inset-top,0px)) 0 90px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:34px}
+.back{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:8px 14px 8px 10px;border-radius:999px;background:#ffffff1f}
+.back:hover{background:#ffffff33}
+.tag{font-size:13px;font-weight:700;opacity:.85}
+.hero h1{margin:0;font-size:clamp(40px,9vw,86px);line-height:1;font-weight:800}
+.hero h1 em{font-style:normal;color:#FFD27A}
+.hero p{margin:14px 0 0;max-width:50ch;font-size:clamp(16px,2.3vw,19px);opacity:.92}
+.hero .dishes{position:absolute;right:max(16px,calc(50% - 560px));bottom:34px;display:flex;gap:4px;align-items:flex-end;pointer-events:none}
+.hero .dishes svg{width:100px;height:auto;filter:drop-shadow(0 10px 18px #0005)}
+@media (max-width:820px){.hero .dishes{display:none}}
+.hero-wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:60px}
+
+/* Controls */
+.controls{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;padding:12px 0}
+.controls.stuck{border-bottom-color:var(--line)}
+.row1{display:flex;gap:10px;align-items:center}
+.search{flex:1;position:relative}
+.search input{width:100%;height:50px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:600 16px Nunito,sans-serif;padding:0 18px 0 46px;box-shadow:var(--shadow)}
+.search input:focus{outline:none;border-color:var(--accent2)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.btn{height:50px;display:inline-flex;align-items:center;gap:8px;padding:0 18px;border-radius:999px;border:0;cursor:pointer;font-weight:800;white-space:nowrap}
+.btn-rand{background:var(--accent);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 65%,#000)}
+.btn-rand:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 65%,#000)}
+@media (max-width:520px){.btn-rand span{display:none}.btn-rand{padding:0 15px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 2px 2px}
+.chips .chip{flex:none}
+@media (max-width:760px){
+  .chips{display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;scrollbar-width:none}
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:38px;padding:0 15px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:700;font-size:15px;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip small{opacity:.6;font-weight:700;margin-left:4px}
+.chip.fav{color:var(--heart)}
+.chip.fav[aria-pressed="true"]{background:var(--heart);border-color:var(--heart);color:#fff}
+.row2{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;padding-top:10px}
+.row2 .sel{display:flex;flex-wrap:wrap;gap:8px 14px}
+.row2 label{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--muted)}
+.row2 select{height:36px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:700 14px Nunito,sans-serif;padding:0 8px}
+.count{font-weight:700;font-size:14px;color:var(--muted)}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;padding:18px 0 60px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.card{position:relative;display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;cursor:pointer;padding:0;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.2,.8,.3,1.2),box-shadow .2s ease}
+.card:hover{transform:translateY(-6px);box-shadow:var(--lift)}
+.card .pic{aspect-ratio:5/5;display:block;width:100%;overflow:hidden}
+.card .pic svg{display:block;width:100%;height:100%;transition:transform .45s ease}
+.card:hover .pic svg{transform:scale(1.06)}
+.card .meta{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.card h3{margin:0;font-size:18px;line-height:1.15}
+.card .sub{font-size:13px;color:var(--muted);font-weight:700;display:flex;gap:6px;flex-wrap:wrap}
+.card .heart{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#ffffffe6;display:grid;place-items:center;color:var(--heart);box-shadow:0 2px 8px #0002}
+.dot{opacity:.5}
+.empty{grid-column:1/-1;text-align:center;padding:50px 16px;color:var(--muted)}
+
+/* Modal */
+.modal{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:#0d140fb3;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.modal.open{opacity:1;pointer-events:auto}
+.sheet{position:relative;width:min(980px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:var(--card);border-radius:26px;box-shadow:0 30px 80px #0008;transform:translateY(16px) scale(.98);transition:transform .25s cubic-bezier(.2,.8,.3,1.1);overscroll-behavior:contain}
+.modal.open .sheet{transform:none}
+@media (max-width:700px){.modal{padding:0;place-items:end stretch}.sheet{max-height:94dvh;border-radius:24px 24px 0 0}}
+.close{position:sticky;top:12px;float:right;margin:12px 12px -56px 0;z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:#ffffffe6;color:#1F2A22;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 14px #0003}
+.d-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+@media (max-width:760px){.d-grid{grid-template-columns:1fr}}
+.d-pic{position:relative;align-self:start;position:sticky;top:0}
+.d-pic svg{display:block;width:100%;height:auto;aspect-ratio:200/220}
+@media (max-width:760px){.d-pic{position:relative}.d-pic svg{height:300px;aspect-ratio:auto}}
+.d-body{padding:28px 28px 32px;display:flex;flex-direction:column;gap:20px}
+@media (max-width:520px){.d-body{padding:22px 18px 30px}}
+.d-cat{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.d-head{padding-right:52px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.d-body h2{margin:4px 0 0;font-size:clamp(28px,5vw,42px);line-height:1.05;font-weight:800}
+.d-desc{margin:8px 0 0;color:var(--muted);font-size:17px}
+.favbtn{flex:none;width:46px;height:46px;border-radius:50%;border:2px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center;color:var(--heart)}
+.favbtn[aria-pressed="true"]{background:var(--heart);border-color:var(--heart);color:#fff}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{background:var(--soft);border-radius:14px;padding:10px 12px}
+.fact b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.fact span{font-weight:800;font-size:15px}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-left:2px}
+.meter i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.meter i.on{background:var(--accent)}
+.sec h3{margin:0 0 10px;font-size:22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sec .hint{font:700 13px Nunito,sans-serif;color:var(--muted);margin:-4px 0 10px}
+.portion{display:inline-flex;align-items:center;gap:4px;background:var(--soft);border-radius:999px;padding:4px;font:700 14px Nunito,sans-serif}
+.portion button{width:34px;height:34px;border-radius:50%;border:0;background:var(--card);cursor:pointer;font-size:18px;font-weight:800;box-shadow:0 1px 3px #0002}
+.portion span{min-width:92px;text-align:center}
+.ing{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ing li{display:grid;grid-template-columns:24px 92px 1fr;gap:10px;align-items:start;padding:10px 14px;border-top:1px solid var(--line);cursor:pointer;user-select:none}
+.ing li:first-child{border-top:0}
+.ing li .box{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;margin-top:1px;color:#fff}
+.ing li.done .box{background:var(--good);border-color:var(--good)}
+.ing li.done .amt,.ing li.done .nm{text-decoration:line-through;opacity:.5}
+.ing .amt{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;cursor:pointer}
+.steps li::before{content:counter(s);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--bg);font-weight:800;font-size:15px}
+.steps li.done::before{content:"✓";background:var(--good);color:#fff}
+.steps li.done p{opacity:.5}
+.steps li p{margin:5px 0 0}
+.tip{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:color-mix(in srgb,var(--good) 14%,var(--card));border:1px solid color-mix(in srgb,var(--good) 35%,transparent);border-radius:16px;padding:14px 16px}
+.tip b{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:18px}
+.nav button{height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:800;display:inline-flex;align-items:center;gap:6px;max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+footer{padding:10px 0 calc(40px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--muted);font-size:14px}
+footer a{color:var(--accent);font-weight:800;text-decoration:none}
+@media (prefers-reduced-motion:reduce){.card,.card:hover,.card .pic svg,.card:hover .pic svg,.sheet,.modal{transition:none;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="../"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Alle apps</a>
+      <span class="tag">Hjemmelavet er bedst</span>
+    </div>
+    <h1>Opskrifts<em>bogen</em></h1>
+    <p id="heroText">Opskrifter med præcise mål og trin-for-trin guide. Tryk på en ret for at se, hvordan du laver den.</p>
+  </div>
+  <div class="dishes" id="heroDishes" aria-hidden="true"></div>
+  <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 240 0, 480 60, 720 30 S 1200 0, 1440 30 L1440 60 L0 60 Z" fill="var(--bg)"/></svg>
+</header>
+
+<div class="controls" id="controls">
+  <div class="wrap">
+    <div class="row1">
+      <label class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="Søg efter ret eller ingrediens, fx 'kylling' eller 'kokos'" autocomplete="off" aria-label="Søg efter ret eller ingrediens">
+      </label>
+      <button class="btn btn-rand" id="rand" title="Vis en tilfældig ret"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/></svg><span>Hvad skal vi have?</span></button>
+    </div>
+    <div class="chips" id="cats" role="toolbar" aria-label="Kategorier"></div>
+    <div class="row2">
+      <div class="sel">
+        <label>Type <select id="type"></select></label>
+        <label>Tid <select id="time"><option value="0">Alle</option><option value="20">Under 20 min.</option><option value="30">Under 30 min.</option><option value="45">Under 45 min.</option><option value="60">Under 1 time</option></select></label>
+        <label>Sortér <select id="sort"><option value="navn">A–Å</option><option value="tid">Hurtigste først</option><option value="nem">Nemmeste først</option></select></label>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap"><div class="grid" id="grid"></div></main>
+
+<footer class="wrap">God fornøjelse i køkkenet · <a href="../">Tilbage til alle apps</a></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="dName">
+  <div class="sheet" id="sheet">
+    <button class="close" id="close" aria-label="Luk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div id="detail"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="data-1.js"></script>
+<script src="data-2.js"></script>
+<script src="data-3.js"></script>
+<script src="data-4.js"></script>
+<script>
+(function(){
+'use strict';
+var CATS = {morgenmad:'Morgenmad',frokost:'Frokost',aftensmad:'Aftensmad',pasta:'Pasta',suppe:'Supper',salat:'Salater',bagvaerk:'Bagværk',kage:'Kager & dessert',snack:'Snacks & tilbehør'};
+var TYPES = {kod:'Kød',kylling:'Kylling',fisk:'Fisk',vegetar:'Vegetar',vegansk:'Vegansk'};
+var DIFF = ['','Nem','Mellem','Svær'];
+var HEART = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>';
+var HEART_O = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 20s-7-4.3-9-8.6C1.6 8.3 3.5 5 6.8 5c2 0 3.4 1.1 4.2 2.4C11.8 6.1 13.2 5 15.2 5c3.3 0 5.2 3.3 3.8 6.4C17 15.7 12 20 12 20z"/></svg>';
+
+var seen = {};
+var D = (window.OPSKRIFTER||[]).filter(function(d){
+  if(!d || !d.n || !d.i || !d.s) return false;
+  var id = slug(d.n); if(seen[id]) return false; seen[id]=1; return true;
+}).map(function(d,i){
+  d.id = slug(d.n); d.idx = i; d.col = d.col && d.col.length ? d.col : ['#E3B66A','#C8552A','#4C9A3A'];
+  while(d.col.length<3) d.col.push(d.col[0]);
+  d.top = d.top||[]; d.p = d.p||4; d.tid = d.tid||30; d.diff = d.diff||1;
+  if(!CATS[d.c]) d.c = 'aftensmad'; if(!TYPES[d.k]) d.k = 'vegetar';
+  return d;
+});
+function slug(s){return s.toLowerCase().replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa').replace(/[éèê]/g,'e').replace(/[áà]/g,'a').replace(/ñ/g,'n').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ä/g,'a').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+/* Favoritter (kun i denne browser) */
+var FAV = {};
+try{ FAV = JSON.parse(localStorage.getItem('opskrifter-fav')||'{}')||{}; }catch(e){ FAV = {}; }
+function saveFav(){ try{ localStorage.setItem('opskrifter-fav', JSON.stringify(FAV)); }catch(e){} }
+
+/* ================= Illustrationer ================= */
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+function mix(a,b,t){var A=hex2rgb(a),B=hex2rgb(b);return '#'+A.map(function(v,i){var x=Math.round(v+(B[i]-v)*t);return (x<16?'0':'')+x.toString(16);}).join('');}
+function hash(s){var h=7;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h;}
+function rng(seed){var s=seed||1;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+function f1(v){return Math.round(v*10)/10;}
+
+// Hver form tegner retten og returnerer området, hvor pynten skal ligge
+var SHAPES = {
+  plate:function(d,o,R){
+    plate(o,100,150,88,56);
+    var c=d.col, n=2+Math.floor(R()*2);
+    // tilbehør
+    for(var i=0;i<7;i++){ var x=122+R()*26, y=140+R()*24; o.push('<circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="'+f1(7+R()*3)+'" fill="'+c[1]+'" stroke="'+mix(c[1],'#000000',.18)+'" stroke-width="1"/>'); }
+    // grønt
+    for(var g=0;g<4;g++){ var gx=62+R()*20, gy=138+R()*26; o.push('<ellipse cx="'+f1(gx)+'" cy="'+f1(gy)+'" rx="11" ry="6" fill="'+c[2]+'" transform="rotate('+Math.round(R()*180)+' '+f1(gx)+' '+f1(gy)+')"/>'); }
+    // hovedret
+    for(var m=0;m<n;m++){ var mx=86+m*14-n*3+R()*6, my=136+R()*16+m*3; o.push('<ellipse cx="'+f1(mx)+'" cy="'+f1(my)+'" rx="'+f1(20+R()*5)+'" ry="'+f1(14+R()*3)+'" fill="'+c[0]+'" stroke="'+mix(c[0],'#000000',.25)+'" stroke-width="1.2"/><ellipse cx="'+f1(mx-6)+'" cy="'+f1(my-5)+'" rx="7" ry="3" fill="#fff" opacity=".22"/>'); }
+    return {cx:100,cy:140,rx:46,ry:20};
+  },
+  bowl:function(d,o){ bowl(o,d.col[0],d.col[1],false); return {cx:100,cy:120,rx:52,ry:13}; },
+  soup:function(d,o){ bowl(o,d.col[0],d.col[1],true); return {cx:100,cy:120,rx:50,ry:12}; },
+  pasta:function(d,o,R){
+    plate(o,100,152,88,56);
+    var c=d.col;
+    for(var i=0;i<16;i++){ var x=62+R()*76, y=132+R()*36, w=18+R()*22; o.push('<path d="M'+f1(x-w/2)+' '+f1(y)+' q'+f1(w/4)+' '+f1(-10-R()*8)+' '+f1(w/2)+' 0 t'+f1(w/2)+' 0" fill="none" stroke="'+mix(c[0],'#000000',.15)+'" stroke-width="5.5" stroke-linecap="round"/><path d="M'+f1(x-w/2)+' '+f1(y)+' q'+f1(w/4)+' '+f1(-10-R()*8)+' '+f1(w/2)+' 0 t'+f1(w/2)+' 0" fill="none" stroke="'+c[0]+'" stroke-width="3.5" stroke-linecap="round"/>'); }
+    o.push('<path d="M76 140 C80 122 120 118 126 136 C132 150 112 158 98 154 C84 152 72 150 76 140 Z" fill="'+c[1]+'" opacity=".95"/>');
+    o.push('<ellipse cx="94" cy="134" rx="9" ry="3" fill="#fff" opacity=".25"/>');
+    return {cx:100,cy:140,rx:30,ry:12};
+  },
+  cake:function(d,o){
+    var c=d.col;
+    o.push('<ellipse cx="100" cy="196" rx="82" ry="16" fill="#fff" opacity=".9" stroke="#3a3530" stroke-opacity=".15"/>');
+    var y0=128, h=60, layers=[c[0],c[1],c[0],c[1],c[0]], lh=h/layers.length;
+    layers.forEach(function(col,i){ o.push('<rect x="40" y="'+f1(y0+i*lh)+'" width="120" height="'+f1(lh+.5)+'" fill="'+col+'"/>'); });
+    o.push('<path d="M160 '+y0+' L182 112 L182 '+(112+h)+' L160 '+(y0+h)+' Z" fill="'+mix(c[0],'#000000',.25)+'"/>');
+    o.push('<path d="M40 '+y0+' L62 112 L182 112 L160 '+y0+' Z" fill="'+c[2]+'"/>');
+    o.push('<rect x="40" y="'+y0+'" width="120" height="'+h+'" fill="none" stroke="#000" stroke-opacity=".12"/>');
+    return {cx:111,cy:120,rx:50,ry:6};
+  },
+  loaf:function(d,o){
+    var c=d.col;
+    o.push('<rect x="22" y="182" width="156" height="16" rx="6" fill="#B07A48"/><rect x="22" y="182" width="156" height="5" rx="2" fill="#C99464"/>');
+    o.push('<path d="M34 182 C30 130 60 108 100 108 C140 108 170 130 166 182 Z" fill="'+c[0]+'" stroke="'+mix(c[0],'#000000',.3)+'" stroke-width="1.5"/>');
+    o.push('<path d="M44 176 C42 140 66 120 100 118" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".18"/>');
+    [[66,126],[96,118],[126,122]].forEach(function(p){ o.push('<path d="M'+(p[0]-8)+' '+(p[1]+18)+' L'+(p[0]+12)+' '+(p[1]-2)+'" stroke="'+c[1]+'" stroke-width="7" stroke-linecap="round" opacity=".55"/><path d="M'+(p[0]-8)+' '+(p[1]+18)+' L'+(p[0]+12)+' '+(p[1]-2)+'" stroke="'+c[2]+'" stroke-width="3" stroke-linecap="round"/>'); });
+    return {cx:100,cy:126,rx:40,ry:10};
+  },
+  pie:function(d,o){
+    var c=d.col;
+    o.push('<ellipse cx="100" cy="160" rx="86" ry="54" fill="#2a2420" opacity=".85"/>');
+    o.push('<ellipse cx="100" cy="154" rx="84" ry="52" fill="'+mix(c[1],'#000000',.1)+'"/>');
+    o.push('<ellipse cx="100" cy="152" rx="72" ry="44" fill="'+c[0]+'"/>');
+    o.push('<ellipse cx="86" cy="140" rx="30" ry="12" fill="#fff" opacity=".12"/>');
+    o.push('<path d="M176 140 h18" stroke="#2a2420" stroke-width="8" stroke-linecap="round"/>');
+    return {cx:100,cy:150,rx:54,ry:30};
+  },
+  stack:function(d,o){
+    var c=d.col;
+    plate(o,100,176,82,26);
+    for(var i=0;i<5;i++){ var y=166-i*13; o.push('<ellipse cx="100" cy="'+(y+5)+'" rx="62" ry="20" fill="'+mix(c[0],'#000000',.22)+'"/><ellipse cx="100" cy="'+y+'" rx="62" ry="20" fill="'+c[0]+'"/>'); }
+    var top=166-4*13;
+    o.push('<path d="M60 '+top+' C70 '+(top+14)+' 130 '+(top+16)+' 142 '+(top+2)+' L144 '+(top+30)+' C140 '+(top+38)+' 136 '+(top+30)+' 134 '+(top+20)+' C110 '+(top+24)+' 84 '+(top+22)+' 70 '+(top+16)+' L68 '+(top+34)+' C64 '+(top+40)+' 60 '+(top+30)+' 60 '+top+' Z" fill="'+c[1]+'" opacity=".85"/>');
+    o.push('<ellipse cx="100" cy="'+top+'" rx="44" ry="13" fill="'+c[1]+'" opacity=".8"/>');
+    o.push('<rect x="90" y="'+(top-10)+'" width="20" height="10" rx="3" fill="'+c[2]+'"/>');
+    return {cx:100,cy:top-2,rx:40,ry:10};
+  },
+  cookies:function(d,o,R){
+    var c=d.col;
+    plate(o,100,160,86,48);
+    [[72,150,30],[128,146,28],[100,170,30]].forEach(function(k){
+      o.push('<circle cx="'+k[0]+'" cy="'+(k[1]+3)+'" r="'+k[2]+'" fill="'+mix(c[0],'#000000',.25)+'"/><circle cx="'+k[0]+'" cy="'+k[1]+'" r="'+k[2]+'" fill="'+c[0]+'"/><circle cx="'+k[0]+'" cy="'+k[1]+'" r="'+(k[2]-5)+'" fill="'+c[2]+'" opacity=".25"/>');
+      for(var i=0;i<6;i++){ var a=R()*6.28, r=R()*(k[2]-8); o.push('<rect x="'+f1(k[0]+Math.cos(a)*r-3.5)+'" y="'+f1(k[1]+Math.sin(a)*r-3)+'" width="7" height="6" rx="2" fill="'+c[1]+'" transform="rotate('+Math.round(R()*90)+' '+f1(k[0]+Math.cos(a)*r)+' '+f1(k[1]+Math.sin(a)*r)+')"/>'); }
+    });
+    return {cx:100,cy:150,rx:40,ry:16};
+  },
+  glass:function(d,o){
+    var c=d.col, inner='M64 60 L136 60 L130 200 L70 200 Z';
+    o.push('<ellipse cx="100" cy="206" rx="52" ry="7" fill="#000" opacity=".1"/>');
+    o.push('<defs><clipPath id="gc'+d.idx+'"><path d="'+inner+'"/></clipPath></defs>');
+    o.push('<g clip-path="url(#gc'+d.idx+')"><rect x="0" y="84" width="200" height="120" fill="'+c[0]+'"/><rect x="0" y="134" width="200" height="22" fill="'+c[1]+'"/><rect x="0" y="84" width="200" height="16" fill="'+c[1]+'"/><path d="M0 84 h200 v8 c-20 6 -40 -4 -60 2 s-40 6 -60 0 s-40 -6 -80 0 Z" fill="'+c[2]+'"/></g>');
+    o.push('<path d="'+inner+'" fill="#fff" opacity=".18"/><path d="'+inner+'" fill="none" stroke="#3a3530" stroke-opacity=".35" stroke-width="2.4" stroke-linejoin="round"/>');
+    o.push('<path d="M74 72 L78 186" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>');
+    o.push('<path d="M136 128 l30 -96" stroke="#C9A06A" stroke-width="5" stroke-linecap="round"/>');
+    return {cx:100,cy:84,rx:28,ry:5};
+  },
+  burger:function(d,o){
+    var c=d.col;
+    plate(o,100,186,84,22);
+    o.push('<path d="M44 168 h112 a8 8 0 0 1 -8 12 h-96 a8 8 0 0 1 -8 -12 Z" fill="'+c[0]+'"/>');
+    o.push('<rect x="40" y="148" width="120" height="20" rx="10" fill="'+c[1]+'"/>');
+    o.push('<path d="M38 150 l8 -8 l8 8 l8 -8 l8 8 l8 -8 l8 8 l8 -8 l8 8 l8 -8 l8 8 l8 -8 l8 8 l8 -8 l8 8" fill="none" stroke="'+c[2]+'" stroke-width="7" stroke-linejoin="round"/>');
+    o.push('<path d="M48 142 L152 142 L146 152 L56 150 Z" fill="#F2C14E"/>');
+    o.push('<path d="M40 140 C40 96 160 96 160 140 Z" fill="'+c[0]+'"/><path d="M58 118 C70 104 90 100 104 100" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".25" fill="none"/>');
+    return {cx:100,cy:116,rx:40,ry:10};
+  },
+  pizza:function(d,o,R){
+    var c=d.col;
+    o.push('<ellipse cx="100" cy="158" rx="90" ry="58" fill="#B07A48"/><ellipse cx="100" cy="152" rx="90" ry="58" fill="#C99464"/>');
+    o.push('<ellipse cx="100" cy="150" rx="78" ry="48" fill="'+c[0]+'"/><ellipse cx="100" cy="150" rx="68" ry="40" fill="'+c[1]+'"/>');
+    for(var i=0;i<9;i++){ var x=50+R()*100, y=126+R()*48; if(Math.pow((x-100)/64,2)+Math.pow((y-150)/36,2)>1) continue; o.push('<ellipse cx="'+f1(x)+'" cy="'+f1(y)+'" rx="'+f1(12+R()*6)+'" ry="'+f1(8+R()*4)+'" fill="'+c[2]+'" opacity=".95"/>'); }
+    o.push('<path d="M100 150 L178 150 M100 150 L58 112" stroke="'+mix(c[0],'#000000',.25)+'" stroke-width="2" opacity=".4"/>');
+    return {cx:100,cy:150,rx:52,ry:28};
+  },
+  rolls:function(d,o){
+    var c=d.col;
+    o.push('<rect x="20" y="182" width="160" height="16" rx="6" fill="#B07A48"/><rect x="20" y="182" width="160" height="5" rx="2" fill="#C99464"/>');
+    [[62,150,34],[138,150,34],[100,160,36]].forEach(function(b){
+      o.push('<ellipse cx="'+b[0]+'" cy="'+(b[1]+16)+'" rx="'+(b[2]+2)+'" ry="'+(b[2]*.55)+'" fill="'+mix(c[0],'#000000',.25)+'"/>');
+      o.push('<ellipse cx="'+b[0]+'" cy="'+b[1]+'" rx="'+b[2]+'" ry="'+(b[2]*.72)+'" fill="'+c[0]+'"/>');
+      o.push('<path d="M'+(b[0]-6)+' '+b[1]+' a6 5 0 1 1 12 0 a12 9 0 1 1 -22 2 a18 13 0 1 1 30 -6" fill="none" stroke="'+c[1]+'" stroke-width="3.5" opacity=".55" stroke-linecap="round"/>');
+      o.push('<ellipse cx="'+(b[0]-12)+'" cy="'+(b[1]-12)+'" rx="10" ry="5" fill="#fff" opacity=".2"/>');
+    });
+    return {cx:100,cy:140,rx:60,ry:16};
+  }
+};
+function plate(o,cx,cy,rx,ry){
+  o.push('<ellipse cx="'+cx+'" cy="'+(cy+6)+'" rx="'+rx+'" ry="'+ry+'" fill="#000" opacity=".1"/>');
+  o.push('<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#FFFFFF" stroke="#3a3530" stroke-opacity=".12" stroke-width="1.5"/>');
+  o.push('<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+(rx*.74)+'" ry="'+(ry*.72)+'" fill="#F3EFE8"/>');
+}
+function bowl(o,food,second,soup){
+  o.push('<ellipse cx="100" cy="206" rx="56" ry="8" fill="#000" opacity=".1"/>');
+  o.push('<path d="M34 120 C34 172 64 196 100 196 C136 196 166 172 166 120 Z" fill="#FFFFFF" stroke="#3a3530" stroke-opacity=".15" stroke-width="1.5"/>');
+  o.push('<path d="M44 140 C52 172 74 186 100 188" fill="none" stroke="#E8E1D6" stroke-width="6" stroke-linecap="round"/>');
+  o.push('<rect x="78" y="194" width="44" height="8" rx="3" fill="#EDE7DD"/>');
+  o.push('<ellipse cx="100" cy="120" rx="66" ry="17" fill="#F3EFE8"/>');
+  o.push('<ellipse cx="100" cy="121" rx="60" ry="14" fill="'+food+'"/>');
+  if(soup){ o.push('<path d="M70 120 c8 -8 28 -8 34 0 c6 8 22 6 26 -2" fill="none" stroke="'+second+'" stroke-width="3.5" stroke-linecap="round" opacity=".9"/>'); }
+  else { o.push('<ellipse cx="88" cy="117" rx="26" ry="5" fill="'+second+'" opacity=".5"/>'); }
+}
+
+var TOP = {
+  herbs:function(x,y,R){ var s=''; for(var i=0;i<4;i++){ var a=Math.round(R()*180); s+='<ellipse cx="'+f1(x+R()*10-5)+'" cy="'+f1(y+R()*6-3)+'" rx="6" ry="3" fill="'+(i%2?'#3E8E3A':'#58A845')+'" transform="rotate('+a+' '+f1(x)+' '+f1(y)+')"/>'; } return s; },
+  basil:function(x,y,R){ return '<path d="M'+x+' '+y+' q8 -12 18 -4 q-8 10 -18 4 Z" fill="#2F8F3A"/><path d="M'+x+' '+y+' q-6 -12 -16 -6 q6 10 16 6 Z" fill="#3FA34D"/>'; },
+  dill:function(x,y,R){ var s='<path d="M'+x+' '+(y+6)+' l0 -12" stroke="#4F9A3A" stroke-width="1.2"/>'; for(var i=0;i<6;i++) s+='<path d="M'+x+' '+(y-i*2+4)+' l'+(i%2?6:-6)+' -4" stroke="#5FAA45" stroke-width="1.2" stroke-linecap="round"/>'; return s; },
+  chives:function(x,y,R){ var s=''; for(var i=0;i<4;i++){ s+='<rect x="'+f1(x+R()*14-7)+'" y="'+f1(y+R()*6-3)+'" width="5" height="2.4" rx="1" fill="#4FA040" transform="rotate('+Math.round(R()*180)+' '+x+' '+y+')"/>'; } return s; },
+  tomato:function(x,y){ return '<circle cx="'+x+'" cy="'+y+'" r="7" fill="#D8352A"/><circle cx="'+x+'" cy="'+y+'" r="4.5" fill="#F06A55"/><circle cx="'+(x-1.5)+'" cy="'+(y-1)+'" r="1" fill="#FFE08A"/><circle cx="'+(x+1.5)+'" cy="'+(y+1)+'" r="1" fill="#FFE08A"/>'; },
+  lemon:function(x,y){ return citrus(x,y,'#F6D32D','#FFF6C2'); },
+  lime:function(x,y){ return citrus(x,y,'#8CC63F','#E4F4B8'); },
+  chili:function(x,y){ return '<circle cx="'+x+'" cy="'+y+'" r="4" fill="none" stroke="#D22A1E" stroke-width="2.4"/><circle cx="'+(x+8)+'" cy="'+(y+3)+'" r="3.4" fill="none" stroke="#D22A1E" stroke-width="2.2"/>'; },
+  berries:function(x,y,R){ var s=''; for(var i=0;i<3;i++){ var c=['#3A4BA8','#C8142E','#5B2A6E'][i]; s+='<circle cx="'+f1(x+i*7-7)+'" cy="'+f1(y+(i%2)*4)+'" r="4.6" fill="'+c+'"/><circle cx="'+f1(x+i*7-8)+'" cy="'+f1(y+(i%2)*4-1.5)+'" r="1.3" fill="#fff" opacity=".5"/>'; } return s; },
+  cheese:function(x,y,R){ var s=''; for(var i=0;i<4;i++){ s+='<rect x="'+f1(x+R()*16-8)+'" y="'+f1(y+R()*6-3)+'" width="9" height="3" rx="1" fill="#F6E7A6" transform="rotate('+Math.round(R()*180)+' '+x+' '+y+')"/>'; } return s; },
+  seeds:function(x,y,R){ var s=''; for(var i=0;i<6;i++) s+='<ellipse cx="'+f1(x+R()*18-9)+'" cy="'+f1(y+R()*8-4)+'" rx="2.4" ry="1.4" fill="'+(i%2?'#6A8A3A':'#E9DDB8')+'"/>'; return s; },
+  sesame:function(x,y,R){ var s=''; for(var i=0;i<8;i++) s+='<ellipse cx="'+f1(x+R()*22-11)+'" cy="'+f1(y+R()*8-4)+'" rx="1.8" ry="1" fill="#F8EFD6"/>'; return s; },
+  egg:function(x,y){ return '<path d="M'+(x-14)+' '+y+' c0 -10 10 -12 16 -10 c10 -2 16 6 12 12 c-2 8 -12 8 -18 6 c-8 2 -10 -2 -10 -8 Z" fill="#FFFFFF"/><circle cx="'+(x+1)+'" cy="'+(y-1)+'" r="5.5" fill="#F5B21E"/><circle cx="'+(x-1)+'" cy="'+(y-3)+'" r="1.6" fill="#fff" opacity=".6"/>'; },
+  avocado:function(x,y){ var s=''; for(var i=0;i<4;i++) s+='<ellipse cx="'+(x+i*5-7)+'" cy="'+y+'" rx="3.4" ry="9" fill="#B9D86A" stroke="#4E7A2A" stroke-width="1.4" transform="rotate('+(i*12-18)+' '+(x+i*5-7)+' '+y+')"/>'; return s; },
+  cream:function(x,y){ return '<path d="M'+(x-11)+' '+(y+3)+' c0 -8 22 -8 22 0 c0 4 -22 4 -22 0 Z" fill="#FFFDF6"/><path d="M'+(x-6)+' '+(y-1)+' c0 -6 12 -6 12 0 c-2 -6 -10 -6 -12 0 Z" fill="#FFFDF6"/><path d="M'+x+' '+(y-6)+' q3 -4 1 -6" stroke="#FFFDF6" stroke-width="3" stroke-linecap="round" fill="none"/>'; },
+  sugar:function(x,y,R){ var s=''; for(var i=0;i<14;i++) s+='<circle cx="'+f1(x+R()*36-18)+'" cy="'+f1(y+R()*10-5)+'" r="1.2" fill="#fff" opacity=".9"/>'; return s; },
+  banana:function(x,y){ return '<circle cx="'+(x-6)+'" cy="'+y+'" r="6" fill="#FBEFB8" stroke="#E9D27A"/><circle cx="'+(x+6)+'" cy="'+(y+2)+'" r="6" fill="#FBEFB8" stroke="#E9D27A"/>'; },
+  olive:function(x,y){ return '<ellipse cx="'+x+'" cy="'+y+'" rx="5" ry="3.6" fill="#3A2240"/><ellipse cx="'+(x+10)+'" cy="'+(y+3)+'" rx="5" ry="3.6" fill="#4A2E50"/>'; },
+  nuts:function(x,y,R){ var s=''; for(var i=0;i<3;i++) s+='<path d="M'+f1(x+i*8-8)+' '+f1(y)+' c-4 -6 4 -10 6 -4 c4 -4 8 2 4 6 c-2 4 -10 4 -10 -2 Z" fill="#A86A34"/>'; return s; },
+  coconut:function(x,y,R){ var s=''; for(var i=0;i<6;i++) s+='<rect x="'+f1(x+R()*24-12)+'" y="'+f1(y+R()*8-4)+'" width="6" height="2" rx="1" fill="#FFFFFF" transform="rotate('+Math.round(R()*180)+' '+x+' '+y+')"/>'; return s; },
+  icing:function(x,y){ return '<path d="M'+(x-22)+' '+y+' l10 -5 l10 6 l10 -6 l10 6 l6 -3" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'; },
+  pepper:function(x,y,R){ var s=''; for(var i=0;i<10;i++) s+='<circle cx="'+f1(x+R()*30-15)+'" cy="'+f1(y+R()*8-4)+'" r=".9" fill="#222"/>'; return s; },
+  croutons:function(x,y,R){ var s=''; for(var i=0;i<3;i++) s+='<rect x="'+f1(x+i*9-13)+'" y="'+f1(y-3+(i%2)*3)+'" width="7" height="7" rx="1.5" fill="#D9A050" stroke="#A8702A"/>'; return s; },
+  bacon:function(x,y,R){ var s=''; for(var i=0;i<4;i++) s+='<rect x="'+f1(x+R()*18-9)+'" y="'+f1(y+R()*6-3)+'" width="6" height="4" rx="1" fill="#A8402A" stroke="#F2C8A0" stroke-width=".8"/>'; return s; },
+  oil:function(x,y){ return '<path d="M'+(x-18)+' '+y+' c6 -4 12 4 18 0 s12 -4 18 0" fill="none" stroke="#C9B640" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>'; },
+  cherrysauce:function(x,y){ return '<path d="M'+(x-16)+' '+y+' c4 -8 28 -8 32 0 c-2 6 -8 4 -10 12 c-2 -6 -6 -6 -10 -2 c-2 -6 -10 -2 -12 -10 Z" fill="#8E1020"/><circle cx="'+(x+2)+'" cy="'+(y-4)+'" r="3" fill="#B8142E"/>'; }
+};
+function citrus(x,y,a,b){ var s='<circle cx="'+x+'" cy="'+y+'" r="9" fill="'+a+'"/><circle cx="'+x+'" cy="'+y+'" r="7" fill="'+b+'"/>'; for(var i=0;i<6;i++){ var an=i*Math.PI/3; s+='<path d="M'+x+' '+y+' l'+f1(Math.cos(an)*6.5)+' '+f1(Math.sin(an)*6.5)+'" stroke="'+a+'" stroke-width="1"/>'; } return s; }
+
+function dishSVG(d, tag){
+  var uid = 'p'+d.idx+(tag||''), R = rng(hash(d.n)), main = d.col[0];
+  var bgA = mix(main,'#FFFFFF',.8), bgB = mix(main,'#FFFFFF',.6), o=[];
+  o.push('<svg viewBox="0 0 200 220" preserveAspectRatio="xMidYMid '+(tag==='b'?'meet':'slice')+'" role="img" aria-label="'+esc(d.n)+'" xmlns="http://www.w3.org/2000/svg">');
+  if(tag!=='h'){
+    o.push('<defs><linearGradient id="bg'+uid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+bgA+'"/><stop offset="1" stop-color="'+bgB+'"/></linearGradient></defs>');
+    o.push('<rect x="-400" y="-200" width="1000" height="620" fill="url(#bg'+uid+')"/>');
+    for(var k=0;k<6;k++) o.push('<circle cx="'+Math.round(R()*200)+'" cy="'+Math.round(10+R()*80)+'" r="'+(2+k%3)+'" fill="#fff" opacity=".35"/>');
+  }
+  var area = (SHAPES[d.v]||SHAPES.plate)(d,o,R);
+  var tops = d.top.filter(function(t){return TOP[t];});
+  tops.forEach(function(t,ti){
+    var n = (t==='sugar'||t==='pepper'||t==='icing'||t==='oil'||t==='cherrysauce'||t==='cream'||t==='egg') ? 1 : 2;
+    for(var j=0;j<n;j++){
+      var a = (ti*2.1+j*3.3+R()*1.2), r = (tops.length===1&&n===1)?0:(.25+R()*.6);
+      var x = area.cx+Math.cos(a)*area.rx*r, y = area.cy+Math.sin(a)*area.ry*r;
+      o.push(TOP[t](Math.round(x),Math.round(y),R));
+    }
+  });
+  o.push('</svg>');
+  return o.join('').replace(/gc(\d+)/g,'gc$1'+(tag||''));
+}
+
+/* ================= Mængder ================= */
+var FR = {0.25:'¼',0.5:'½',0.75:'¾'};
+var PLUR = {'skive':'skiver','dåse':'dåser','pose':'poser','knivspids':'knivspidser','portion':'portioner','kop':'kopper'};
+function num(v,unit){
+  if(unit==='g'){ v = v>=100 ? Math.round(v/5)*5 : Math.round(v); return String(v); }
+  var q = Math.round(v*4)/4;
+  if(Math.abs(q-v)<0.02 || ['stk','fed','dåse','bundt','skive','blad','pose','knivspids','portion','spsk','tsk'].indexOf(unit)>=0){
+    if(q===0) q=0.25;
+    var w = Math.floor(q), f = q-w;
+    return (w?w:'')+(FR[f]||'') || '0';
+  }
+  return (Math.round(v*10)/10).toString().replace('.',',');
+}
+function amt(q,unit,mult){
+  if(q==null) return '';
+  var v=q*mult;
+  if(unit==='g' && v>=1000) return (Math.round(v/100)/10).toString().replace('.',',')+' kg';
+  var t = num(v,unit);
+  var u = unit; if(v>1 && PLUR[u]) u = PLUR[u];
+  return t+(u?' '+u:'');
+}
+function meter(v,max){ var s='<span class="meter" aria-hidden="true">'; for(var i=1;i<=max;i++) s+='<i class="'+(i<=v?'on':'')+'"></i>'; return s+'</span>'; }
+function tidTxt(m){ if(m<60) return m+' min.'; var h=Math.floor(m/60), r=m%60; return h+' t.'+(r?' '+r+' min.':''); }
+
+/* ================= Oversigt ================= */
+var state = {cat:'alle', type:'alle', time:0, q:'', sort:'navn'};
+var grid = document.getElementById('grid');
+
+function renderFilters(){
+  var cc = {}; D.forEach(function(d){cc[d.c]=(cc[d.c]||0)+1;});
+  var nf = D.filter(function(d){return FAV[d.id];}).length;
+  var html = '<button class="chip" data-c="alle" aria-pressed="'+(state.cat==='alle')+'">Alle<small>'+D.length+'</small></button>';
+  Object.keys(CATS).forEach(function(k){ if(cc[k]) html+='<button class="chip" data-c="'+k+'" aria-pressed="'+(state.cat===k)+'">'+CATS[k]+'<small>'+cc[k]+'</small></button>'; });
+  html += '<button class="chip fav" data-c="fav" aria-pressed="'+(state.cat==='fav')+'">♥ Favoritter<small>'+nf+'</small></button>';
+  document.getElementById('cats').innerHTML = html;
+}
+function renderTypes(){
+  var sel = '<option value="alle">Alle</option>'; Object.keys(TYPES).forEach(function(k){ sel+='<option value="'+k+'">'+TYPES[k]+(k==='vegetar'?' (inkl. vegansk)':'')+'</option>'; });
+  document.getElementById('type').innerHTML = sel;
+}
+function hay(d){ return d._h || (d._h = (d.n+' '+d.i.map(function(x){return x[2];}).join(' ')+' '+CATS[d.c]+' '+TYPES[d.k]).toLowerCase()); }
+function matches(d){
+  if(state.cat==='fav'){ if(!FAV[d.id]) return false; }
+  else if(state.cat!=='alle' && d.c!==state.cat) return false;
+  if(state.type!=='alle'){ if(state.type==='vegetar'){ if(d.k!=='vegetar'&&d.k!=='vegansk') return false; } else if(d.k!==state.type) return false; }
+  if(state.time && d.tid>state.time) return false;
+  if(state.q){ var h=hay(d); return state.q.split(/\s+/).every(function(w){return h.indexOf(w)>=0;}); }
+  return true;
+}
+function sorter(a,b){
+  if(state.sort==='tid') return (a.tid-b.tid)||a.n.localeCompare(b.n,'da');
+  if(state.sort==='nem') return (a.diff-b.diff)||(a.tid-b.tid)||a.n.localeCompare(b.n,'da');
+  return a.n.localeCompare(b.n,'da');
+}
+function render(){
+  var list = D.filter(matches).sort(sorter);
+  document.getElementById('count').textContent = list.length===1 ? '1 opskrift' : list.length+' opskrifter';
+  if(!list.length){ grid.innerHTML='<div class="empty"><h3>'+(state.cat==='fav'?'Ingen favoritter endnu':'Ingen opskrifter fundet')+'</h3><p>'+(state.cat==='fav'?'Tryk på hjertet i en opskrift for at gemme den her.':'Prøv et andet søgeord, eller vælg "Alle".')+'</p></div>'; return; }
+  grid.innerHTML = list.map(function(d){
+    return '<button class="card" data-id="'+d.id+'" aria-label="Se opskrift på '+esc(d.n)+'"><span class="pic">'+dishSVG(d)+'</span>'+(FAV[d.id]?'<span class="heart">'+HEART.replace(/20/g,'16')+'</span>':'')+'<span class="meta"><h3>'+esc(d.n)+'</h3><span class="sub"><span>'+CATS[d.c]+'</span><span class="dot">·</span><span>'+tidTxt(d.tid)+'</span></span></span></button>';
+  }).join('');
+}
+
+/* ================= Detalje ================= */
+var modal = document.getElementById('modal'), detail = document.getElementById('detail'), sheet = document.getElementById('sheet');
+var current = null, count = 0, lastFocus = null, doneI = {}, doneS = {};
+function openRecipe(id, push){
+  var d = D.filter(function(x){return x.id===id;})[0]; if(!d) return;
+  if(!modal.classList.contains('open')) lastFocus = document.activeElement;
+  current = d; count = d.p; doneI = {}; doneS = {}; drawDetail();
+  modal.classList.add('open'); document.body.classList.add('locked');
+  sheet.scrollTop = 0; document.getElementById('close').focus({preventScroll:true});
+  if(push!==false) history.pushState({d:id}, '', '#'+id);
+  document.title = d.n+' · Opskriftsbogen';
+}
+function portionLabel(d,n){ if(d.pu) return n+' '+d.pu; return n+' '+(n===1?'person':'personer'); }
+function drawDetail(){
+  var d = current, mult = count/d.p;
+  var visible = D.filter(matches).sort(sorter); if(visible.indexOf(d)<0) visible = D.slice().sort(sorter);
+  var pos = visible.indexOf(d), prev = visible[(pos-1+visible.length)%visible.length], next = visible[(pos+1)%visible.length];
+  var ings = d.i.map(function(x,i){ var a = amt(x[0],x[1],mult); return '<li data-i="'+i+'" class="'+(doneI[i]?'done':'')+'"><span class="box">'+(doneI[i]?'✓':'')+'</span><span class="amt">'+(a||'&nbsp;')+'</span><span class="nm">'+esc(x[2])+'</span></li>'; }).join('');
+  var steps = d.s.map(function(s,i){return '<li data-s="'+i+'" class="'+(doneS[i]?'done':'')+'"><p>'+esc(s)+'</p></li>';}).join('');
+  var fav = !!FAV[d.id];
+  detail.innerHTML =
+    '<div class="d-grid"><div class="d-pic">'+dishSVG(d,'b')+'</div><div class="d-body">'+
+      '<div class="d-head"><div><div class="d-cat">'+CATS[d.c]+' · '+TYPES[d.k]+'</div><h2 id="dName">'+esc(d.n)+'</h2><p class="d-desc">'+esc(d.d||'')+'</p></div>'+
+      '<button class="favbtn" id="fav" aria-pressed="'+fav+'" aria-label="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'" title="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'">'+(fav?HEART:HEART_O)+'</button></div>'+
+      '<div class="facts">'+
+        '<div class="fact"><b>Tid</b><span>'+tidTxt(d.tid)+'</span></div>'+
+        '<div class="fact"><b>Sværhed</b><span>'+DIFF[d.diff]+' '+meter(d.diff,3)+'</span></div>'+
+        '<div class="fact"><b>Giver</b><span>'+portionLabel(d,d.p)+'</span></div>'+
+        '<div class="fact"><b>Type</b><span>'+TYPES[d.k]+'</span></div>'+
+      '</div>'+
+      '<section class="sec"><h3>Ingredienser <span class="portion" aria-label="Antal"><button id="minus" aria-label="Færre">−</button><span id="pc">'+portionLabel(d,count)+'</span><button id="plus" aria-label="Flere">+</button></span></h3><p class="hint">Tryk på en ingrediens for at krydse den af.</p><ul class="ing" id="ing">'+ings+'</ul></section>'+
+      '<section class="sec"><h3>Sådan gør du</h3><ol class="steps" id="steps">'+steps+'</ol></section>'+
+      (d.t?'<div class="tip"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--good)"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3z"/></svg><div><b>Kokkens tip</b>'+esc(d.t)+'</div></div>':'')+
+      '<div class="nav"><button data-go="'+prev.id+'">‹ '+esc(prev.n)+'</button><button data-go="'+next.id+'">'+esc(next.n)+' ›</button></div>'+
+    '</div></div>';
+  var step = d.pu ? d.p : 1, min = d.pu ? d.p : 1, max = d.pu ? d.p*6 : 20;
+  if(d.pu && d.p===1){ step=1; min=1; max=6; }
+  document.getElementById('minus').onclick = function(){ if(count-step>=min){count-=step; redraw();} };
+  document.getElementById('plus').onclick = function(){ if(count+step<=max){count+=step; redraw();} };
+  document.getElementById('fav').onclick = function(){ if(FAV[d.id]) delete FAV[d.id]; else FAV[d.id]=1; saveFav(); redraw(); renderFilters(); render(); };
+  document.getElementById('ing').onclick = function(e){ var li=e.target.closest('li'); if(!li) return; var i=li.dataset.i; doneI[i]=!doneI[i]; redraw(); };
+  document.getElementById('steps').onclick = function(e){ var li=e.target.closest('li'); if(!li) return; var i=li.dataset.s; doneS[i]=!doneS[i]; redraw(); };
+}
+function redraw(){ var st = sheet.scrollTop; drawDetail(); sheet.scrollTop = st; }
+function closeRecipe(push){
+  modal.classList.remove('open'); document.body.classList.remove('locked'); current = null;
+  document.title = 'Opskriftsbogen';
+  if(push!==false && location.hash) history.pushState({}, '', location.pathname+location.search);
+  if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+}
+
+/* ================= Hændelser ================= */
+document.getElementById('cats').addEventListener('click', function(e){ var b=e.target.closest('.chip'); if(!b) return; state.cat=b.dataset.c; renderFilters(); render(); });
+document.getElementById('type').addEventListener('change', function(e){ state.type=e.target.value; render(); });
+document.getElementById('time').addEventListener('change', function(e){ state.time=+e.target.value; render(); });
+document.getElementById('sort').addEventListener('change', function(e){ state.sort=e.target.value; render(); });
+document.getElementById('q').addEventListener('input', function(e){ state.q=e.target.value.trim().toLowerCase(); render(); });
+grid.addEventListener('click', function(e){ var c=e.target.closest('.card'); if(c) openRecipe(c.dataset.id); });
+document.getElementById('rand').addEventListener('click', function(){ var pool=D.filter(matches); if(!pool.length) pool=D; openRecipe(pool[Math.floor(Math.random()*pool.length)].id); });
+document.getElementById('close').addEventListener('click', function(){ closeRecipe(); });
+modal.addEventListener('click', function(e){ if(e.target===modal) closeRecipe(); var g=e.target.closest('[data-go]'); if(g){ openRecipe(g.dataset.go, false); history.replaceState({d:g.dataset.go},'','#'+g.dataset.go); } });
+document.addEventListener('keydown', function(e){
+  if(!current) return;
+  if(e.key==='Escape') closeRecipe();
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ var b=modal.querySelectorAll('[data-go]')[e.key==='ArrowRight'?1:0]; if(b) b.click(); }
+});
+window.addEventListener('popstate', function(){ var id=location.hash.slice(1); if(id) openRecipe(id,false); else if(current) closeRecipe(false); });
+var controls = document.getElementById('controls');
+window.addEventListener('scroll', function(){ controls.classList.toggle('stuck', controls.getBoundingClientRect().top<=0); }, {passive:true});
+
+/* ================= Start ================= */
+document.getElementById('heroText').textContent = D.length+' opskrifter med præcise mål og trin-for-trin guide. Tryk på en ret for at se, hvordan du laver den.';
+var heroPick = ['hjemmelavet-pizza','spaghetti-bolognese','amerikanske-pandekager','tomatsuppe'].map(function(id){return D.filter(function(d){return d.id===id;})[0];}).filter(Boolean);
+document.getElementById('heroDishes').innerHTML = heroPick.map(function(d){return dishSVG(d,'h');}).join('');
+renderFilters(); renderTypes(); render();
+if(location.hash.length>1) openRecipe(location.hash.slice(1), false);
+})();
+</script>
+</body>
+</html>

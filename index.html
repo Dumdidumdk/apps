@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mine apps og spil</title>
-<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Rejsefinder, Drinksbogen, Spilhallen, Neon Forsvar og Fugleklatten – plus ServerMester til egne spilservere og Træf-butik, det gratis bestillingssystem til LAN-party.">
+<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Rejsefinder, Drinksbogen, Opskriftsbogen, Spilhallen, Neon Forsvar og Fugleklatten – plus ServerMester til egne spilservere og Træf-butik, det gratis bestillingssystem til LAN-party.">
 <meta name="theme-color" content="#FF7A45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD66B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +87,7 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .card.spil{--c:var(--pink)}
 .card.fugl{--c:var(--purple)}
 .card.drink{--c:#C2185B}
+.card.mad{--c:#C2452A}
 .card.td{--c:#2F6BFF}
 .card.server{--c:#7C5CFF}
 .card.traef{--c:#0891B2}
@@ -196,6 +197,33 @@ footer a:hover{text-decoration:underline}
         <h3>Drinksbogen</h3>
         <p>Over 250 drinks med billeder og trin-for-trin opskrifter. Klassikere, tropiske drinks, shots og alkoholfrie til hele familien.</p>
         <span class="play">Bland en drink <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>
+
+    <a class="card mad" href="opskrifter/">
+      <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="mk-bg" cx=".85" cy="0" r="1"><stop offset="0" stop-color="#E2572F"/><stop offset=".6" stop-color="#2F5A36"/><stop offset="1" stop-color="#1F3326"/></radialGradient>
+          </defs>
+          <rect width="320" height="220" fill="url(#mk-bg)"/>
+          <circle cx="40" cy="30" r="2" fill="#FFD27A"/><circle cx="280" cy="40" r="2.5" fill="#fff" opacity=".7"/><circle cx="150" cy="20" r="1.8" fill="#fff" opacity=".6"/>
+          <ellipse cx="112" cy="156" rx="86" ry="46" fill="#000" opacity=".18"/>
+          <ellipse cx="112" cy="148" rx="86" ry="46" fill="#fff"/><ellipse cx="112" cy="148" rx="64" ry="33" fill="#F3EFE8"/>
+          <g fill="none" stroke-linecap="round" stroke="#E9CC80" stroke-width="5"><path d="M70 146 q10 -14 20 0 t20 0 t20 0"/><path d="M82 160 q10 -12 20 0 t20 0 t20 0"/><path d="M76 134 q10 -12 20 0 t20 0 t20 0"/><path d="M96 150 q10 -12 20 0 t20 0"/></g>
+          <path d="M88 142 C92 126 132 122 138 140 C142 152 122 160 108 156 C94 154 84 152 88 142 Z" fill="#C8361E"/>
+          <g fill="#3F8F3A"><ellipse cx="104" cy="138" rx="8" ry="4" transform="rotate(-30 104 138)"/><ellipse cx="116" cy="136" rx="8" ry="4" transform="rotate(30 116 136)"/></g>
+          <g fill="#F6E7A6"><rect x="120" y="146" width="9" height="3" rx="1"/><rect x="96" y="148" width="9" height="3" rx="1" transform="rotate(30 100 149)"/></g>
+          <path d="M214 112 C214 158 236 178 262 178 C288 178 310 158 310 112 Z" fill="#fff"/>
+          <ellipse cx="262" cy="112" rx="48" ry="12" fill="#F3EFE8"/><ellipse cx="262" cy="113" rx="43" ry="9" fill="#D8432A"/>
+          <path d="M240 112 c6 -6 20 -6 24 0 c4 6 16 4 18 -2" fill="none" stroke="#FFFDF6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="badge">Opskrifter</span>
+      </div>
+      <div class="body">
+        <h3>Opskriftsbogen</h3>
+        <p>Over 250 madopskrifter med billeder og trin-for-trin guide. Aftensmad, pasta, supper, salater, bagværk og kager.</p>
+        <span class="play">Find aftensmad <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </a>
 
