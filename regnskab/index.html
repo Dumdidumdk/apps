@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mit regnskab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F8; --panel:#FFFFFF; --ink:#16212C; --muted:#5B6B7A; --line:#D8E0E7;
+  --blue:#2B5C8A; --in:#23784F; --out:#B0443A; --tint:#E6EEF5;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0F161D; --panel:#18222C; --ink:#E8EEF3; --muted:#9AAAB8; --line:#2A3743;
+  --blue:#7FB0DE; --in:#5CC291; --out:#EE8A7F; --tint:#1F2D3A; } }
+:root[data-theme="dark"]{
+  --bg:#0F161D; --panel:#18222C; --ink:#E8EEF3; --muted:#9AAAB8; --line:#2A3743;
+  --blue:#7FB0DE; --in:#5CC291; --out:#EE8A7F; --tint:#1F2D3A; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.6rem;font-weight:800;margin:4px 0 2px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 20px}
+.num{font-variant-numeric:tabular-nums}
+.period{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+select,input{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:44px;width:100%}
+.period select{width:auto}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.moms{background:var(--blue);color:#fff;border-radius:14px;padding:20px;margin-bottom:12px}
+:root[data-theme="dark"] .moms{color:#0F161D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .moms{color:#0F161D}}
+.moms .lbl{font-weight:600;opacity:.9}
+.moms .big{font-size:2.6rem;font-weight:800;line-height:1.1;margin:4px 0 8px}
+.moms .calc{opacity:.9;font-size:.95rem}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat .lbl{color:var(--muted);font-size:.9rem}
+.stat .v{font-size:1.25rem;font-weight:700}
+.stat.wide{grid-column:1/-1}
+.note{color:var(--muted);font-size:.85rem;margin-top:4px}
+
+section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:20px}
+h2{font-size:1.15rem;margin:0 0 12px}
+.toggle{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.toggle button{font:inherit;font-weight:600;border:0;background:transparent;color:var(--muted);padding:10px;min-height:44px;cursor:pointer}
+.toggle button[aria-pressed="true"].in{background:var(--in);color:#fff}
+.toggle button[aria-pressed="true"].out{background:var(--out);color:#fff}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fields .full{grid-column:1/-1}
+label{display:block;font-size:.9rem;font-weight:600;margin-bottom:4px}
+.hint{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+.primary{font:inherit;font-weight:700;background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:12px 16px;min-height:48px;width:100%;margin-top:12px;cursor:pointer}
+.err{color:var(--out);font-size:.9rem;margin-top:8px;min-height:1em}
+
+ul{list-style:none;margin:0;padding:0}
+li.row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+li.row:first-child{border-top:0}
+.row .d{font-weight:600}
+.row .m{color:var(--muted);font-size:.85rem}
+.row .a{font-weight:700;text-align:right}
+.a.in{color:var(--in)} .a.out{color:var(--out)}
+.del{font:inherit;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;min-width:44px;min-height:44px;cursor:pointer}
+.empty{color:var(--muted);padding:8px 0}
+details{margin-top:4px}
+summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+.save{color:var(--muted);font-size:.85rem;text-align:center}
+.filebtn{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.ghost{font:inherit;font-weight:600;background:transparent;color:var(--blue);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-height:44px;cursor:pointer}
+.fname{color:var(--muted);font-size:.9rem;overflow-wrap:anywhere}
+.rlink{font-size:.85rem;font-weight:600;color:var(--blue);background:none;border:0;padding:6px 0;min-height:32px;cursor:pointer;text-decoration:underline;font-family:inherit}
+.listhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.listhead h2{margin:0}
+[hidden]{display:none!important}
+.sub2{color:var(--muted);font-size:.9rem;margin:-6px 0 12px}
+.form{border-top:1px solid var(--line);padding-top:14px;margin-bottom:14px}
+.line{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;padding:10px 0;border-top:1px dashed var(--line)}
+.line .full{grid-column:1/-1}
+.check{display:flex;align-items:center;gap:10px;font-weight:600;margin:12px 0;min-height:44px}
+.check input{width:22px;height:22px;min-height:0}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.btns .ghost{padding:8px 12px;font-size:.9rem}
+.tag{display:inline-block;font-size:.8rem;font-weight:700;border-radius:6px;padding:1px 8px;margin-left:6px}
+.tag.paid{background:var(--in);color:#fff}
+.tag.open{background:var(--tint);color:var(--ink)}
+.tag.late{background:var(--out);color:#fff}
+li.inv{padding:12px 0;border-top:1px solid var(--line)}
+li.inv:first-child{border-top:0}
+.invtop{display:flex;justify-content:space-between;gap:10px}
+.company{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.company .full{grid-column:1/-1}
+h3{font-size:1rem;margin:18px 0 4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:420px){.moms .big{font-size:2.1rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mit regnskab</h1>
+  <p class="sub">Indtast hvad du tjener og bruger. Moms og skat regnes ud for dig.</p>
+
+  <div class="period">
+    <select id="year" aria-label="År"></select>
+    <select id="quarter" aria-label="Periode">
+      <option value="0">Hele året</option>
+      <option value="1">1. kvartal (jan–mar)</option>
+      <option value="2">2. kvartal (apr–jun)</option>
+      <option value="3">3. kvartal (jul–sep)</option>
+      <option value="4">4. kvartal (okt–dec)</option>
+    </select>
+  </div>
+
+  <div class="moms" aria-live="polite">
+    <div class="lbl" id="momsLbl">Moms at betale</div>
+    <div class="big num" id="momsBig">0 kr.</div>
+    <div class="calc num" id="momsCalc"></div>
+  </div>
+
+  <div class="grid">
+    <div class="stat"><div class="lbl">Omsætning uden moms</div><div class="v num" id="sInc">0 kr.</div></div>
+    <div class="stat"><div class="lbl">Fradrag (udgifter)</div><div class="v num" id="sExp">0 kr.</div></div>
+    <div class="stat"><div class="lbl">Overskud</div><div class="v num" id="sProfit">0 kr.</div></div>
+    <div class="stat"><div class="lbl">Skat, cirka</div><div class="v num" id="sTax">0 kr.</div></div>
+    <div class="stat wide"><div class="lbl">Til dig selv efter skat, cirka</div><div class="v num" id="sNet">0 kr.</div>
+      <div class="note">Skatten er et groft estimat: 8 % AM-bidrag og derefter din skatteprocent. Den rigtige skat afhænger af kommune, fradrag og anden indkomst.</div></div>
+  </div>
+
+  <section>
+    <h2>Ny postering</h2>
+    <div class="toggle" role="group" aria-label="Type">
+      <button type="button" class="in" id="tIn" aria-pressed="true">Indtægt</button>
+      <button type="button" class="out" id="tOut" aria-pressed="false">Udgift</button>
+    </div>
+    <div class="fields">
+      <div><label for="fDate">Dato</label><input type="date" id="fDate"></div>
+      <div><label for="fAmt">Beløb inkl. moms</label><input type="text" inputmode="decimal" id="fAmt" placeholder="0,00"></div>
+      <div class="full"><label for="fDesc">Beskrivelse</label><input type="text" id="fDesc" placeholder="Fx Faktura 12 til kunde"></div>
+      <div class="full"><label for="fCat">Kategori</label><select id="fCat"></select></div>
+    </div>
+    <p class="hint" id="catHint"></p>
+    <div class="filebtn" id="receiptBox" hidden>
+      <button type="button" class="ghost" id="pickReceipt">Vedhæft kvittering</button>
+      <span class="fname" id="fname">Foto eller PDF</span>
+    </div>
+    <input type="file" id="fFile" class="sr" accept="image/*,application/pdf" tabindex="-1" aria-hidden="true">
+    <input type="file" id="rowFile" class="sr" accept="image/*,application/pdf" tabindex="-1" aria-hidden="true">
+    <button type="button" class="primary" id="add">Tilføj indtægt</button>
+    <div class="err" id="err" role="alert"></div>
+  </section>
+
+  <section>
+    <div class="listhead">
+      <h2 id="listTitle">Posteringer</h2>
+      <button type="button" class="ghost" id="exportBtn">Hent Excel</button>
+    </div>
+    <div class="err" id="exportErr" role="alert"></div>
+    <ul id="list"></ul>
+  </section>
+
+  <section id="invSec">
+    <div class="listhead">
+      <h2>Fakturaer</h2>
+      <button type="button" class="ghost" id="newInv">Ny faktura</button>
+    </div>
+    <p class="sub2 num" id="invSum"></p>
+    <div class="form" id="invForm" hidden>
+      <p class="hint" id="companyMissing" hidden>Udfyld først dit firmas navn og CVR-nummer under Indstillinger nederst. De skal stå på fakturaen.</p>
+      <div class="fields">
+        <div class="full"><label for="iName">Kundens navn</label><input type="text" id="iName" autocomplete="off"></div>
+        <div class="full"><label for="iAddr">Kundens adresse</label><input type="text" id="iAddr" placeholder="Vej, postnr. og by"></div>
+        <div class="full"><label for="iCvr">Kundens CVR-nr. (hvis firma)</label><input type="text" inputmode="numeric" id="iCvr"></div>
+        <div><label for="iDate">Fakturadato</label><input type="date" id="iDate"></div>
+        <div><label for="iDue">Betalingsfrist</label>
+          <select id="iDue"><option value="8">8 dage</option><option value="14" selected>14 dage</option><option value="30">30 dage</option></select></div>
+      </div>
+      <h3>Linjer</h3>
+      <div id="iLines"></div>
+      <button type="button" class="ghost" id="addLine">Tilføj linje</button>
+      <label class="check"><input type="checkbox" id="iVat" checked> Med 25 % moms</label>
+      <div class="num" id="iTotals"></div>
+      <button type="button" class="primary" id="createInv">Opret faktura</button>
+      <button type="button" class="ghost" id="cancelInv" style="width:100%;margin-top:8px">Annuller</button>
+      <div class="err" id="invErr" role="alert"></div>
+    </div>
+    <div class="err" id="invListErr" role="alert"></div>
+    <ul id="invList"></ul>
+  </section>
+
+  <section>
+    <details id="settings">
+      <summary>Indstillinger</summary>
+      <label for="taxPct" style="margin-top:8px">Din skatteprocent efter AM-bidrag</label>
+      <input type="text" inputmode="decimal" id="taxPct">
+      <p class="hint">Find den på din forskudsopgørelse på skat.dk. Mange ligger mellem 37 og 52 %.</p>
+      <h3>Dit firma (står på fakturaen)</h3>
+      <div class="company">
+        <div class="full"><label for="cName">Firmanavn</label><input type="text" id="cName" data-k="name"></div>
+        <div><label for="cCvr">CVR-nr.</label><input type="text" inputmode="numeric" id="cCvr" data-k="cvr"></div>
+        <div><label for="cPhone">Telefon</label><input type="tel" id="cPhone" data-k="phone"></div>
+        <div class="full"><label for="cAddr">Adresse</label><input type="text" id="cAddr" data-k="addr"></div>
+        <div class="full"><label for="cCity">Postnr. og by</label><input type="text" id="cCity" data-k="city"></div>
+        <div class="full"><label for="cEmail">E-mail</label><input type="email" id="cEmail" data-k="email"></div>
+        <div><label for="cReg">Bank reg.nr.</label><input type="text" inputmode="numeric" id="cReg" data-k="reg"></div>
+        <div><label for="cKonto">Kontonr.</label><input type="text" inputmode="numeric" id="cKonto" data-k="konto"></div>
+        <div class="full"><label for="nextNo">Næste fakturanummer</label><input type="text" inputmode="numeric" id="nextNo"></div>
+      </div>
+      <p class="hint">Fakturanumre skal være fortløbende. Har du sendt fakturaer før, så fortsæt fra dit sidste nummer.</p>
+      <h3>Backup</h3>
+      <p class="hint" style="margin-top:0">Regnskab skal gemmes i 5 år. Hent en backup jævnligt, fx hvert kvartal, og gem den et sikkert sted.</p>
+      <div class="btns">
+        <button type="button" class="ghost" id="backupBtn">Hent backup</button>
+        <button type="button" class="ghost" id="restoreBtn">Indlæs backup</button>
+      </div>
+      <input type="file" id="restoreFile" class="sr" accept="application/json,.json" tabindex="-1" aria-hidden="true">
+      <div class="err" id="backupErr" role="alert"></div>
+    </details>
+  </section>
+
+  <p class="save" id="saveState">Gemmes i din browser</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// Kategorier: moms = andel af købsmomsen du kan trække fra, skat = andel af udgiften der er fradragsberettiget
+const CATS = {
+  in: [
+    {id:"salg", name:"Salg / faktura (25 % moms)", vat:true},
+    {id:"salg0", name:"Salg uden moms (fx til udland)", vat:false}
+  ],
+  out: [
+    {id:"udstyr", name:"Computer og udstyr", vat:true, moms:1, skat:1, hint:"Dyre ting kan skulle afskrives over flere år. Spørg en revisor ved køb over ca. 34.000 kr."},
+    {id:"abon", name:"Software og abonnementer", vat:true, moms:1, skat:1},
+    {id:"tlf", name:"Telefon og internet", vat:true, moms:1, skat:1},
+    {id:"kontor", name:"Kontorartikler", vat:true, moms:1, skat:1},
+    {id:"transport", name:"Transport", vat:true, moms:1, skat:1},
+    {id:"reklame", name:"Reklame og markedsføring", vat:true, moms:1, skat:1},
+    {id:"rep", name:"Restaurant og repræsentation", vat:true, moms:0.25, skat:0.25, hint:"Kun 25 % af momsen og 25 % af udgiften kan trækkes fra."},
+    {id:"gebyr", name:"Bank- og betalingsgebyrer", vat:false, moms:0, skat:1, hint:"Gebyrer er normalt uden moms."},
+    {id:"forsikring", name:"Forsikring", vat:false, moms:0, skat:1, hint:"Forsikring er uden moms."},
+    {id:"andet", name:"Andet med moms", vat:true, moms:1, skat:1},
+    {id:"andet0", name:"Andet uden moms", vat:false, moms:0, skat:1}
+  ]
+};
+const catOf = (t,id) => CATS[t].find(c=>c.id===id) || CATS[t][0];
+
+const DEFAULTS = () => ({ entries: [], taxPct: 40, company: {}, invoices: [], nextNo: 1 });
+let state = DEFAULTS();
+function normalize(d){ const s=DEFAULTS();
+  if(d&&typeof d==="object"){
+    if(Array.isArray(d.entries)) s.entries=d.entries;
+    if(typeof d.taxPct==="number") s.taxPct=d.taxPct;
+    if(d.company&&typeof d.company==="object") s.company=d.company;
+    if(Array.isArray(d.invoices)) s.invoices=d.invoices;
+    if(typeof d.nextNo==="number") s.nextNo=d.nextNo;
+  } return s; }
+let type = "in";
+let db = null, docRef = null, assets = null, downloads = null, pendingFile = null, rowTarget = null;
+const LS = "regnskab-v1";
+
+const $ = id => document.getElementById(id);
+const kr = n => n.toLocaleString("da-DK",{minimumFractionDigits:0,maximumFractionDigits:0}) + " kr.";
+const kr2 = n => n.toLocaleString("da-DK",{minimumFractionDigits:2,maximumFractionDigits:2}) + " kr.";
+const parseNum = s => { const v = parseFloat(String(s).trim().replace(/\./g,"").replace(",",".")); return isFinite(v) ? v : NaN; };
+
+function calc(e){
+  const c = catOf(e.type, e.cat);
+  const ex = c.vat ? e.amount/1.25 : e.amount;
+  const vat = e.amount - ex;
+  if(e.type==="in") return {ex, vat, deduct:0, vatDeduct:0};
+  const vatDeduct = vat * c.moms;
+  // Den moms du ikke kan trække fra, indgår i udgiften
+  const cost = ex + (vat - vatDeduct);
+  return {ex, vat, deduct: cost * c.skat, vatDeduct};
+}
+
+function inPeriod(e){
+  const y = +$("year").value, q = +$("quarter").value;
+  const d = new Date(e.date+"T00:00:00");
+  if(d.getFullYear()!==y) return false;
+  return q===0 || Math.floor(d.getMonth()/3)+1===q;
+}
+
+function render(){
+  const list = state.entries.filter(inPeriod).sort((a,b)=>b.date.localeCompare(a.date));
+  let inc=0, salesVat=0, exp=0, buyVat=0;
+  list.forEach(e=>{ const r=calc(e); if(e.type==="in"){inc+=r.ex; salesVat+=r.vat;} else {exp+=r.deduct; buyVat+=r.vatDeduct;} });
+  const moms = salesVat - buyVat;
+  const profit = inc - exp;
+  const am = Math.max(0,profit)*0.08;
+  const tax = am + Math.max(0,profit-am)*(state.taxPct/100);
+
+  $("momsLbl").textContent = moms >= 0 ? "Moms at betale" : "Moms du får tilbage";
+  $("momsBig").textContent = kr(Math.abs(moms));
+  $("momsCalc").textContent = `Salgsmoms ${kr(salesVat)} minus købsmoms ${kr(buyVat)}`;
+  $("sInc").textContent = kr(inc);
+  $("sExp").textContent = kr(exp);
+  $("sProfit").textContent = kr(profit);
+  $("sTax").textContent = kr(tax);
+  $("sNet").textContent = kr(profit - tax);
+
+  const ul = $("list"); ul.innerHTML = "";
+  $("listTitle").textContent = `Posteringer (${list.length})`;
+  if(!list.length){ const li=document.createElement("li"); li.className="empty"; li.textContent="Ingen posteringer i perioden. Tilføj din første ovenfor."; ul.appendChild(li); }
+  list.forEach(e=>{
+    const c = catOf(e.type,e.cat);
+    const li = document.createElement("li"); li.className="row";
+    const info = document.createElement("div");
+    const d = document.createElement("div"); d.className="d"; d.textContent = e.desc || c.name;
+    const m = document.createElement("div"); m.className="m";
+    m.textContent = new Date(e.date+"T00:00:00").toLocaleDateString("da-DK",{day:"numeric",month:"short"}) + ", " + c.name;
+    info.append(d,m);
+    if(e.receipt){
+      const r=document.createElement("a"); r.className="rlink"; r.href="/_blob/"+e.receipt; r.target="_blank"; r.rel="noopener";
+      r.textContent="Se kvittering"; info.appendChild(r);
+    } else if(assets && e.type==="out"){
+      const r=document.createElement("button"); r.type="button"; r.className="rlink"; r.textContent="Tilføj kvittering";
+      r.onclick=()=>{ rowTarget=e.id; $("rowFile").value=""; $("rowFile").click(); };
+      info.appendChild(r);
+    }
+    const a = document.createElement("div"); a.className="a num "+e.type;
+    const neg = (e.type==="out") !== (e.amount<0);
+    a.textContent = (neg?"−":"+") + kr2(Math.abs(e.amount));
+    if(e.invoiceId){
+      // Posteringer fra fakturaer styres under Fakturaer, så nummerrækken bevares
+      const m2=document.createElement("div"); m2.className="m"; m2.textContent="Rettes under Fakturaer";
+      info.appendChild(m2); li.append(info,a,document.createElement("span")); ul.appendChild(li); return;
+    }
+    const del = document.createElement("button"); del.className="del"; del.type="button";
+    del.textContent="✕"; del.setAttribute("aria-label","Slet "+(e.desc||c.name));
+    armConfirm(del, "Slet?", ()=>{ state.entries = state.entries.filter(x=>x.id!==e.id); save(); render(); if(e.receipt&&assets){ assets.delete(e.receipt).catch(()=>{}); } });
+    li.append(info,a,del); ul.appendChild(li);
+  });
+}
+
+// Bekræft ved at trykke to gange (confirm() virker ikke i alle visninger)
+function armConfirm(btn, askText, action){
+  const orig=btn.textContent; let t=null;
+  btn.onclick=()=>{
+    if(btn.dataset.armed){ clearTimeout(t); delete btn.dataset.armed; btn.textContent=orig; action(); return; }
+    btn.dataset.armed="1"; btn.textContent=askText;
+    t=setTimeout(()=>{ delete btn.dataset.armed; btn.textContent=orig; },4000);
+  };
+}
+
+function setType(t, keep){
+  const prevCat=$("fCat").value;
+  type=t;
+  $("tIn").setAttribute("aria-pressed", t==="in");
+  $("tOut").setAttribute("aria-pressed", t==="out");
+  $("add").textContent = t==="in" ? "Tilføj indtægt" : "Tilføj udgift";
+  $("fDesc").placeholder = t==="in" ? "Fx Faktura 12 til kunde" : "Fx Adobe abonnement";
+  const sel=$("fCat"); sel.innerHTML="";
+  CATS[t].forEach(c=>{ const o=document.createElement("option"); o.value=c.id; o.textContent=c.name; sel.appendChild(o); });
+  if(keep && CATS[t].some(c=>c.id===prevCat)) sel.value=prevCat;
+  $("receiptBox").hidden = !assets;
+  showHint();
+}
+function showHint(){ const c=catOf(type,$("fCat").value); $("catHint").textContent = c.hint || (c.vat ? "Beløbet er inkl. 25 % moms. Momsen trækkes ud automatisk." : "Der er ingen moms på denne type."); }
+
+async function add(){
+  const amount = parseNum($("fAmt").value);
+  const date = $("fDate").value;
+  if(!date){ $("err").textContent="Vælg en dato."; return; }
+  if(!(amount>0)){ $("err").textContent="Skriv et beløb større end 0, fx 1250,00."; return; }
+  $("err").textContent="";
+  let receipt=null;
+  if(pendingFile){
+    $("add").disabled=true; $("add").textContent="Uploader kvittering…";
+    try{ receipt = await uploadReceipt(pendingFile); }
+    catch(err){ $("err").textContent=err.message; $("add").disabled=false; setType(type, true); return; }
+    $("add").disabled=false;
+  }
+  const entry={ id: Date.now().toString(36)+Math.random().toString(36).slice(2,6), type, date, amount, cat:$("fCat").value, desc:$("fDesc").value.trim() };
+  if(receipt) entry.receipt=receipt;
+  state.entries.push(entry);
+  $("fAmt").value=""; $("fDesc").value=""; clearFile(); setType(type, true);
+  const y = new Date(date+"T00:00:00").getFullYear();
+  fillYears(y);
+  save(); render();
+}
+
+function fillYears(select){
+  const ys = new Set([new Date().getFullYear(), ...state.entries.map(e=>+e.date.slice(0,4))]);
+  const cur = select || +$("year").value || new Date().getFullYear();
+  const sel=$("year"); sel.innerHTML="";
+  [...ys].sort((a,b)=>b-a).forEach(y=>{ const o=document.createElement("option"); o.value=y; o.textContent=y; sel.appendChild(o); });
+  sel.value = cur;
+}
+
+function clearFile(){ pendingFile=null; $("fFile").value=""; $("fname").textContent="Foto eller PDF"; $("pickReceipt").textContent="Vedhæft kvittering"; }
+
+// Billeder gøres mindre og laves om til JPG, så fotos fra telefonen altid kan gemmes
+async function shrinkImage(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error("Billedet kunne ikke læses. Prøv at tage et nyt foto eller vælg en PDF.")); i.src=url; });
+    const max=1800, sc=Math.min(1, max/Math.max(img.naturalWidth,img.naturalHeight));
+    const c=document.createElement("canvas"); c.width=Math.round(img.naturalWidth*sc); c.height=Math.round(img.naturalHeight*sc);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    return await new Promise(res=>c.toBlob(b=>res(b),"image/jpeg",0.82));
+  } finally { URL.revokeObjectURL(url); }
+}
+async function uploadReceipt(file){
+  if(!assets) throw new Error("Kvitteringer kan ikke gemmes i denne visning.");
+  let blob=file;
+  if(file.type!=="application/pdf"){ blob=await shrinkImage(file); }
+  try{ const r=await assets.upload(blob); return r.id; }
+  catch(e){
+    if(e&&e.code==="quota_exceeded") throw new Error("Der er ikke mere plads til kvitteringer. Slet nogle gamle posteringer med kvittering.");
+    if(e&&e.code==="too_large") throw new Error("Filen er for stor. Den må højst være 20 MB.");
+    throw new Error("Kvitteringen kunne ikke uploades. Prøv igen.");
+  }
+}
+
+function exportExcel(){
+  $("exportErr").textContent="";
+  if(typeof XLSX==="undefined"){ $("exportErr").textContent="Excel-funktionen kunne ikke indlæses. Genindlæs siden og prøv igen."; return; }
+  const list = state.entries.filter(inPeriod).sort((a,b)=>a.date.localeCompare(b.date));
+  const r2=n=>Math.round(n*100)/100;
+  const rows = list.map(e=>{ const c=catOf(e.type,e.cat), r=calc(e); return {
+    "Dato": e.date, "Type": e.type==="in"?"Indtægt":"Udgift", "Beskrivelse": e.desc||"", "Kategori": c.name,
+    "Beløb inkl. moms": r2(e.amount), "Moms": r2(r.vat), "Beløb uden moms": r2(r.ex),
+    "Købsmoms til fradrag": e.type==="out"?r2(r.vatDeduct):0, "Fradrag i skat": e.type==="out"?r2(r.deduct):0,
+    "Kvittering": e.receipt?"Ja":"Nej" }; });
+  let inc=0,salesVat=0,exp=0,buyVat=0;
+  list.forEach(e=>{ const r=calc(e); if(e.type==="in"){inc+=r.ex;salesVat+=r.vat;} else {exp+=r.deduct;buyVat+=r.vatDeduct;} });
+  const profit=inc-exp, am=Math.max(0,profit)*0.08, tax=am+Math.max(0,profit-am)*(state.taxPct/100);
+  const y=$("year").value, q=+$("quarter").value, per = q? `${y} ${q}. kvartal` : `${y} hele året`;
+  const sum=[["Periode",per],[],["Omsætning uden moms",r2(inc)],["Fradrag (udgifter)",r2(exp)],["Overskud",r2(profit)],[],
+    ["Salgsmoms",r2(salesVat)],["Købsmoms",r2(buyVat)],["Moms at betale",r2(salesVat-buyVat)],[],
+    ["Skat, cirka (estimat)",r2(tax)],["Skatteprocent brugt",state.taxPct/100]];
+  const wb=XLSX.utils.book_new();
+  const ws1=XLSX.utils.aoa_to_sheet(sum); ws1["!cols"]=[{wch:24},{wch:16}];
+  const ws2=XLSX.utils.json_to_sheet(rows.length?rows:[{"Dato":"Ingen posteringer i perioden"}]);
+  ws2["!cols"]=[{wch:11},{wch:9},{wch:28},{wch:30},{wch:15},{wch:11},{wch:15},{wch:18},{wch:14},{wch:10}];
+  XLSX.utils.book_append_sheet(wb,ws1,"Oversigt");
+  XLSX.utils.book_append_sheet(wb,ws2,"Posteringer");
+  const data=XLSX.write(wb,{bookType:"xlsx",type:"array"});
+  const name = q? `regnskab-${y}-Q${q}.xlsx` : `regnskab-${y}.xlsx`;
+  saveFile(name, new Uint8Array(data), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "exportErr");
+}
+
+// Gem fil: i Claude bruges downloads, uden for Claude (fx GitHub Pages) et almindeligt download-link
+function saveFile(filename, data, mime, errId){
+  if(downloads){
+    return downloads.save({filename, data}).catch(e=>{
+      if(e&&e.code==="declined") return;
+      $(errId).textContent = e&&e.code==="rate_limited" ? "Vent et øjeblik og prøv igen." : "Filen kunne ikke hentes her.";
+    });
+  }
+  if(window.claude){ $(errId).textContent="Download er ikke muligt i denne visning."; return; }
+  const url=URL.createObjectURL(new Blob([data],{type:mime}));
+  const a=document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+// ---------- Fakturaer ----------
+let formLines=[];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const addDays=(d,n)=>{ const x=new Date(d+"T00:00:00"); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10); };
+const today=()=>{ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+const dk=d=>new Date(d+"T00:00:00").toLocaleDateString("da-DK",{day:"numeric",month:"long",year:"numeric"});
+const money=n=>n.toLocaleString("da-DK",{minimumFractionDigits:2,maximumFractionDigits:2}).replace(/\u00a0/g," ");
+function invTotals(inv){ const sub=inv.lines.reduce((a,l)=>a+l.qty*l.price,0); const vat=inv.vat?sub*0.25:0; return {sub, vat, total:sub+vat}; }
+
+function fillSettings(){
+  document.querySelectorAll("[data-k]").forEach(i=>{ i.value=state.company[i.dataset.k]||""; });
+  $("nextNo").value=state.nextNo; $("taxPct").value=String(state.taxPct).replace(".",",");
+}
+
+function renderLines(){
+  const box=$("iLines"); box.innerHTML="";
+  formLines.forEach((l,ix)=>{
+    const row=document.createElement("div"); row.className="line";
+    row.innerHTML=`<div class="full"><label for="ld${ix}">Beskrivelse</label><input type="text" id="ld${ix}" placeholder="Fx Konsulentarbejde, marts"></div>
+      <div><label for="lq${ix}">Antal</label><input type="text" inputmode="decimal" id="lq${ix}"></div>
+      <div><label for="lp${ix}">Pris pr. stk. uden moms</label><input type="text" inputmode="decimal" id="lp${ix}" placeholder="0,00"></div>
+      <div style="align-self:end"><button type="button" class="del" aria-label="Fjern linje">✕</button></div>`;
+    const d=row.querySelector("#ld"+ix), q=row.querySelector("#lq"+ix), p=row.querySelector("#lp"+ix);
+    d.value=l.desc; q.value=l.qtyText; p.value=l.priceText;
+    d.oninput=()=>{l.desc=d.value;}; q.oninput=()=>{l.qtyText=q.value; showTotals();}; p.oninput=()=>{l.priceText=p.value; showTotals();};
+    row.querySelector(".del").onclick=()=>{ if(formLines.length>1){ formLines.splice(ix,1); renderLines(); } else { formLines[0]={desc:"",qtyText:"1",priceText:""}; renderLines(); } };
+    box.appendChild(row);
+  });
+  showTotals();
+}
+function showTotals(){
+  const sub=formLines.reduce((a,l)=>{ const q=parseNum(l.qtyText), p=parseNum(l.priceText); return a+((q>0&&p>=0)?q*p:0); },0);
+  const vat=$("iVat").checked?sub*0.25:0;
+  $("iTotals").innerHTML=`<div class="total" style="font-weight:500;font-size:1rem;border:0;padding:0"><span>Uden moms</span><span>${money(sub)} kr.</span></div>
+    <div class="total" style="font-weight:500;font-size:1rem;border:0;padding:0;margin-top:4px"><span>Moms</span><span>${money(vat)} kr.</span></div>
+    <div class="total"><span>I alt</span><span>${money(sub+vat)} kr.</span></div>`;
+}
+function openInvForm(){
+  $("invForm").hidden=false; $("newInv").hidden=true; $("invErr").textContent="";
+  $("companyMissing").hidden = !!(state.company.name && state.company.cvr);
+  ["iName","iAddr","iCvr"].forEach(i=>$(i).value=""); $("iDate").value=today(); $("iVat").checked=true;
+  formLines=[{desc:"",qtyText:"1",priceText:""}]; renderLines(); $("iName").focus();
+}
+function closeInvForm(){ $("invForm").hidden=true; $("newInv").hidden=false; }
+
+function createInv(){
+  const err=m=>{ $("invErr").textContent=m; };
+  if(!(state.company.name&&state.company.cvr)){ err("Udfyld dit firmanavn og CVR-nr. under Indstillinger først."); $("settings").open=true; return; }
+  const name=$("iName").value.trim(); if(!name) return err("Skriv kundens navn.");
+  const date=$("iDate").value; if(!date) return err("Vælg en fakturadato.");
+  const lines=[];
+  for(const l of formLines){
+    if(!l.desc.trim() && !l.priceText.trim()) continue;
+    const q=parseNum(l.qtyText), pr=parseNum(l.priceText);
+    if(!l.desc.trim()) return err("Hver linje skal have en beskrivelse.");
+    if(!(q>0)) return err(`Skriv et antal større end 0 på linjen "${l.desc}".`);
+    if(!(pr>=0)) return err(`Skriv en pris på linjen "${l.desc}".`);
+    lines.push({desc:l.desc.trim(), qty:q, price:pr});
+  }
+  if(!lines.length) return err("Tilføj mindst én linje med beskrivelse og pris.");
+  const inv={ id:uid(), no:state.nextNo, date, due:addDays(date,+$("iDue").value), vat:$("iVat").checked, paid:false,
+    customer:{name, addr:$("iAddr").value.trim(), cvr:$("iCvr").value.trim()}, lines };
+  const t=invTotals(inv);
+  const entry={ id:uid(), type:"in", date, amount:Math.round(t.total*100)/100, cat:inv.vat?"salg":"salg0", desc:`Faktura ${inv.no}, ${name}`, invoiceId:inv.id };
+  inv.entryId=entry.id;
+  state.invoices.push(inv); state.entries.push(entry); state.nextNo++;
+  $("nextNo").value=state.nextNo;
+  closeInvForm(); fillYears(new Date(date+"T00:00:00").getFullYear()); save(); render(); renderInv();
+}
+
+function creditInv(orig){
+  const date=today();
+  const cn={ id:uid(), no:state.nextNo, date, due:date, vat:orig.vat, paid:false, credit:orig.no,
+    customer:{...orig.customer}, lines:orig.lines.map(l=>({...l, price:-l.price})) };
+  const t=invTotals(cn);
+  const entry={ id:uid(), type:"in", date, amount:Math.round(t.total*100)/100, cat:cn.vat?"salg":"salg0", desc:`Kreditnota ${cn.no} til faktura ${orig.no}, ${orig.customer.name}`, invoiceId:cn.id };
+  cn.entryId=entry.id; orig.creditedBy=cn.no;
+  state.invoices.push(cn); state.entries.push(entry); state.nextNo++;
+  fillSettings(); fillYears(new Date(date+"T00:00:00").getFullYear()); save(); render(); renderInv();
+}
+
+function renderInv(){
+  const ul=$("invList"); ul.innerHTML="";
+  const list=[...state.invoices].sort((a,b)=>b.no-a.no);
+  const now=today(); let open=0, late=0;
+  const isOpen=inv=>!inv.paid && !inv.credit && !inv.creditedBy;
+  list.forEach(inv=>{ if(isOpen(inv)){ open+=invTotals(inv).total; if(inv.due<now) late++; } });
+  $("invSum").textContent = list.length ? `Ubetalt i alt: ${money(open)} kr.` + (late? `, heraf ${late} ${late===1?"faktura":"fakturaer"} over betalingsfristen` : "") : "";
+  if(!list.length){ const li=document.createElement("li"); li.className="empty"; li.textContent="Ingen fakturaer endnu. Tryk Ny faktura for at lave den første."; ul.appendChild(li); return; }
+  list.forEach(inv=>{
+    const t=invTotals(inv), li=document.createElement("li"); li.className="inv";
+    const top=document.createElement("div"); top.className="invtop";
+    const left=document.createElement("div");
+    const d=document.createElement("div"); d.className="d"; d.textContent=`${inv.credit?"Kreditnota":"Nr."} ${inv.no}, ${inv.customer.name}`;
+    const st = inv.credit ? ["open","Krediterer nr. "+inv.credit] : inv.creditedBy ? ["open","Krediteret"] : inv.paid ? ["paid","Betalt"] : inv.due<now ? ["late","Over frist"] : ["open","Ubetalt"];
+    const tag=document.createElement("span"); tag.className="tag "+st[0]; tag.textContent=st[1]; d.appendChild(tag);
+    const m=document.createElement("div"); m.className="m";
+    m.textContent = inv.credit ? `Udstedt ${dk(inv.date)}` : inv.creditedBy ? `Sendt ${dk(inv.date)}, krediteret med kreditnota ${inv.creditedBy}` : `Sendt ${dk(inv.date)}, betales senest ${dk(inv.due)}`;
+    left.append(d,m);
+    const a=document.createElement("div"); a.className="a num"; a.textContent=money(t.total)+" kr.";
+    top.append(left,a);
+    const b=document.createElement("div"); b.className="btns";
+    const pdf=document.createElement("button"); pdf.type="button"; pdf.className="ghost"; pdf.textContent="Hent PDF"; pdf.onclick=()=>invPdf(inv);
+    b.append(pdf);
+    if(!inv.credit && !inv.creditedBy){
+      const paid=document.createElement("button"); paid.type="button"; paid.className="ghost"; paid.textContent=inv.paid?"Markér som ubetalt":"Markér som betalt";
+      paid.onclick=()=>{ inv.paid=!inv.paid; save(); renderInv(); };
+      const cr=document.createElement("button"); cr.type="button"; cr.className="ghost"; cr.textContent="Krediter";
+      armConfirm(cr, "Lav kreditnota?", ()=>creditInv(inv));
+      b.append(paid,cr);
+    }
+    // Kun det nyeste nummer må slettes, ellers opstår der huller i nummerrækken
+    if(inv.no===state.nextNo-1){
+      const del=document.createElement("button"); del.type="button"; del.className="ghost"; del.textContent="Slet";
+      armConfirm(del, "Tryk igen for at slette", ()=>{
+        state.invoices=state.invoices.filter(x=>x.id!==inv.id); state.entries=state.entries.filter(x=>x.id!==inv.entryId);
+        if(inv.credit){ const o=state.invoices.find(x=>x.no===inv.credit&&!x.credit); if(o) delete o.creditedBy; }
+        state.nextNo=inv.no; fillSettings(); save(); render(); renderInv(); });
+      b.append(del);
+    }
+    li.append(top,b); ul.appendChild(li);
+  });
+}
+
+function invPdf(inv){
+  $("invListErr").textContent="";
+  if(!window.jspdf){ $("invListErr").textContent="PDF-funktionen kunne ikke indlæses. Genindlæs siden og prøv igen."; return; }
+  const { jsPDF } = window.jspdf; const doc=new jsPDF({unit:"mm",format:"a4"});
+  const c=state.company, t=invTotals(inv), L=20, R=190;
+  doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.text(c.name||"",L,24);
+  doc.setFont("helvetica","normal"); doc.setFontSize(10);
+  let y=30; [c.addr,c.city,c.cvr?"CVR-nr. "+c.cvr:"",c.email,c.phone?"Tlf. "+c.phone:""].filter(Boolean).forEach(x=>{ doc.text(x,L,y); y+=5; });
+  doc.setFont("helvetica","bold"); doc.setFontSize(22); doc.text(inv.credit?"Kreditnota":"Faktura",R,24,{align:"right"});
+  doc.setFont("helvetica","normal"); doc.setFontSize(10);
+  doc.text((inv.credit?"Kreditnotanr. ":"Fakturanr. ")+inv.no,R,31,{align:"right"});
+  doc.text("Dato: "+dk(inv.date),R,36,{align:"right"});
+  doc.text(inv.credit?"Krediterer faktura nr. "+inv.credit:"Betales senest: "+dk(inv.due),R,41,{align:"right"});
+  y=Math.max(y,46)+10;
+  doc.setFont("helvetica","bold"); doc.text("Faktureres til",L,y); doc.setFont("helvetica","normal"); y+=5;
+  [inv.customer.name,inv.customer.addr,inv.customer.cvr?"CVR-nr. "+inv.customer.cvr:""].filter(Boolean).forEach(x=>{ doc.text(x,L,y); y+=5; });
+  y+=10;
+  const head=()=>{ doc.setFont("helvetica","bold"); doc.text("Beskrivelse",L,y); doc.text("Antal",125,y,{align:"right"}); doc.text("Pris",155,y,{align:"right"}); doc.text("Beløb",R,y,{align:"right"});
+    doc.setFont("helvetica","normal"); y+=2; doc.setDrawColor(180); doc.line(L,y,R,y); y+=6; };
+  head();
+  inv.lines.forEach(l=>{
+    const txt=doc.splitTextToSize(l.desc,95);
+    if(y+txt.length*5>265){ doc.addPage(); y=24; head(); }
+    doc.text(txt,L,y);
+    doc.text(String(l.qty).replace(".",","),125,y,{align:"right"});
+    doc.text(money(l.price),155,y,{align:"right"});
+    doc.text(money(l.qty*l.price),R,y,{align:"right"});
+    y+=txt.length*5+2;
+  });
+  if(y>235){ doc.addPage(); y=24; }
+  doc.line(110,y,R,y); y+=6;
+  doc.text("Beløb uden moms",110,y); doc.text(money(t.sub),R,y,{align:"right"}); y+=6;
+  doc.text(inv.vat?"Moms 25 %":"Moms",110,y); doc.text(money(t.vat),R,y,{align:"right"}); y+=6;
+  doc.setFont("helvetica","bold"); doc.text("I alt DKK",110,y); doc.text(money(t.total),R,y,{align:"right"}); doc.setFont("helvetica","normal");
+  y+=14;
+  if(!inv.vat){ doc.text(inv.credit?"Kreditnotaen er uden moms.":"Fakturaen er uden moms.",L,y); y+=6; }
+  if(inv.credit){
+    doc.text(`Kreditnotaen annullerer faktura nr. ${inv.credit}. Beløbet skal ikke betales.`,L,y);
+    saveFile(`kreditnota-${inv.no}.pdf`, doc.output("arraybuffer"), "application/pdf", "invListErr"); return;
+  }
+  doc.setFont("helvetica","bold"); doc.text("Betaling",L,y); doc.setFont("helvetica","normal"); y+=5;
+  if(c.reg||c.konto){ doc.text(`Reg.nr. ${c.reg||""}   Kontonr. ${c.konto||""}`,L,y); y+=5; }
+  doc.text(`Betales senest ${dk(inv.due)}. Skriv fakturanr. ${inv.no} ved betaling.`,L,y);
+  const data=doc.output("arraybuffer");
+  saveFile(`faktura-${inv.no}.pdf`, data, "application/pdf", "invListErr");
+}
+
+let saveTimer=null;
+function save(){
+  try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){}
+  if(docRef){
+    $("saveState").textContent="Gemmer…";
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(async()=>{
+      try{ await docRef.set({entries:state.entries, taxPct:state.taxPct, company:state.company, invoices:state.invoices, nextNo:state.nextNo}); $("saveState").textContent="Gemt på din konto"; }
+      catch(e){ $("saveState").textContent="Kunne ikke gemme på kontoen. Data er gemt i browseren."; }
+    },400);
+  }
+}
+
+// Opstart
+try{ const s=JSON.parse(localStorage.getItem(LS)||"null"); if(s) state=normalize(s); }catch(e){}
+$("fDate").value = today();
+$("quarter").value = String(Math.floor(new Date().getMonth()/3)+1);
+$("taxPct").value = String(state.taxPct).replace(".",",");
+fillYears();
+setType("in");
+render();
+
+$("tIn").onclick=()=>setType("in");
+$("tOut").onclick=()=>setType("out");
+$("fCat").onchange=showHint;
+$("add").onclick=add;
+$("exportBtn").onclick=exportExcel;
+$("newInv").onclick=openInvForm; $("cancelInv").onclick=closeInvForm; $("createInv").onclick=createInv;
+$("addLine").onclick=()=>{ formLines.push({desc:"",qtyText:"1",priceText:""}); renderLines(); };
+$("iVat").onchange=showTotals;
+document.querySelectorAll("[data-k]").forEach(i=>{ i.onchange=()=>{ state.company[i.dataset.k]=i.value.trim(); save(); $("companyMissing").hidden=!!(state.company.name&&state.company.cvr); }; });
+$("nextNo").onchange=()=>{ const v=parseInt($("nextNo").value,10); if(v>0){ state.nextNo=v; save(); } else $("nextNo").value=state.nextNo; };
+fillSettings(); renderInv();
+$("pickReceipt").onclick=()=>$("fFile").click();
+$("fFile").onchange=()=>{ const f=$("fFile").files[0]; if(!f) return; pendingFile=f; $("fname").textContent=f.name; $("pickReceipt").textContent="Skift kvittering"; };
+$("rowFile").onchange=async()=>{
+  const f=$("rowFile").files[0], e=state.entries.find(x=>x.id===rowTarget); if(!f||!e) return;
+  $("saveState").textContent="Uploader kvittering…";
+  try{ e.receipt=await uploadReceipt(f); save(); render(); }
+  catch(err){ $("saveState").textContent=err.message; }
+};
+$("backupBtn").onclick=()=>{
+  $("backupErr").textContent="";
+  const data=new TextEncoder().encode(JSON.stringify({app:"regnskab", saved:new Date().toISOString(), ...state}, null, 1));
+  saveFile(`regnskab-backup-${today()}.json`, data, "application/json", "backupErr");
+};
+let restoreData=null;
+$("restoreBtn").onclick=()=>{
+  if(restoreData){ state=restoreData; restoreData=null; $("restoreBtn").textContent="Indlæs backup";
+    fillSettings(); fillYears(); save(); render(); renderInv(); $("backupErr").textContent="Backup indlæst."; return; }
+  $("restoreFile").value=""; $("restoreFile").click();
+};
+$("restoreFile").onchange=async()=>{
+  const f=$("restoreFile").files[0]; if(!f) return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d||d.app!=="regnskab"||!Array.isArray(d.entries)) throw 0;
+    restoreData=normalize(d);
+    $("backupErr").textContent=`Backuppen har ${restoreData.entries.length} posteringer og ${restoreData.invoices.length} fakturaer. Den erstatter alt, der er her nu. Tryk "Erstat nu" for at fortsætte.`;
+    $("restoreBtn").textContent="Erstat nu";
+  }catch(e){ restoreData=null; $("backupErr").textContent="Filen er ikke en backup fra Mit regnskab."; }
+};
+$("year").onchange=render; $("quarter").onchange=render;
+$("taxPct").onchange=()=>{ const v=parseNum($("taxPct").value); if(v>=0&&v<100){ state.taxPct=v; save(); render(); } else { $("taxPct").value=String(state.taxPct).replace(".",","); } };
+
+(async()=>{
+  try{
+    if(!window.claude || !window.claude.use) return;
+    const [d,u,a,dl] = await Promise.all([claude.use("db"), claude.use("user"), claude.use("assets"), claude.use("downloads")]);
+    assets=a; downloads=dl;
+    if(assets){ $("receiptBox").hidden=false; render(); }
+    if(!d||!u) return;
+    const id = await u.id(); if(!id) return;
+    db=d; docRef = db.doc("data/users/"+id+"/regnskab");
+    const snap = await docRef.get();
+    if(snap.exists){
+      const data=snap.data();
+      state=normalize(data); fillSettings(); renderInv();
+      $("taxPct").value=String(state.taxPct).replace(".",",");
+      fillYears(); render();
+      $("saveState").textContent="Gemt på din konto";
+    } else if(state.entries.length){ save(); }
+    else { $("saveState").textContent="Gemmes på din konto"; }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
