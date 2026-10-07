@@ -145,6 +145,73 @@ button{font:inherit;color:inherit}
 .tip b{display:block;margin-bottom:2px}
 .nav{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:18px}
 .nav button{height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:800;display:inline-flex;align-items:center;gap:6px;max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Madplan */
+.btn-plan{position:relative;background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:var(--shadow)}
+.btn-plan:hover{border-color:var(--accent2)}
+.btn-plan .badge{position:absolute;top:-6px;right:-4px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--accent2);color:#fff;font-size:12px;display:grid;place-items:center}
+.btn-plan .badge[hidden]{display:none}
+@media (max-width:520px){.btn-plan span.lbl{display:none}.btn-plan{padding:0 14px}}
+.plan-body{padding:26px 26px 32px;display:flex;flex-direction:column;gap:18px}
+@media (max-width:520px){.plan-body{padding:20px 14px 28px}}
+.plan-body h2{margin:0;font-size:clamp(28px,5vw,40px);line-height:1.05;padding-right:52px}
+.ptabs{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:999px;align-self:flex-start;max-width:100%;overflow-x:auto}
+.ptabs button{height:38px;padding:0 16px;border-radius:999px;border:0;background:transparent;cursor:pointer;font-weight:800;white-space:nowrap}
+.ptabs button[aria-selected="true"]{background:var(--card);box-shadow:0 1px 4px #0002}
+.ptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.ptools .grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sbtn{height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.sbtn:hover{border-color:var(--accent2)}
+.sbtn.pri{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.sbtn.warn{border-color:var(--accent);color:var(--accent)}
+.days{display:flex;flex-direction:column;gap:10px}
+.day{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:10px 12px;background:var(--card)}
+.day.today{border-color:var(--accent2);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent2) 30%,transparent)}
+@media (max-width:520px){.day{grid-template-columns:1fr auto}.day .dname{grid-column:1/-1}}
+.dname{font-weight:800}
+.dname small{display:block;font-weight:700;color:var(--muted);font-size:12px}
+.dpick{display:flex;align-items:center;gap:12px;border:0;background:transparent;padding:0;cursor:pointer;text-align:left;min-width:0}
+.dpick .mini{flex:none;width:52px;height:52px;border-radius:14px;overflow:hidden;display:block}
+.dpick .mini svg{width:100%;height:100%;display:block}
+.dpick b{display:block;font-size:16px;line-height:1.2}
+.dpick small{color:var(--muted);font-weight:700;font-size:13px}
+.dact{display:flex;gap:6px}
+.ibtn{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center;font-size:17px;font-weight:800}
+.ibtn:hover{border-color:var(--accent2)}
+.dadd{justify-self:start;height:40px;padding:0 14px;border-radius:999px;border:2px dashed var(--line);background:transparent;cursor:pointer;font-weight:800;color:var(--muted)}
+.dadd:hover{border-color:var(--accent2);color:var(--ink)}
+.chooser{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
+.chooser input{height:44px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:600 15px Nunito,sans-serif;padding:0 16px}
+.chooser input:focus{outline:none;border-color:var(--accent2)}
+.pres{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.pres button{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:6px 10px 6px 6px;cursor:pointer;text-align:left;font-weight:700;font-size:14px;line-height:1.2}
+.pres button:hover{border-color:var(--accent2)}
+.pres .mini{flex:none;width:36px;height:36px;border-radius:10px;overflow:hidden}
+.pres .mini svg{width:100%;height:100%;display:block}
+.saverow{display:flex;gap:8px;flex-wrap:wrap}
+.saverow input{flex:1;min-width:160px;height:42px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:700 15px Nunito,sans-serif;padding:0 16px}
+.saverow input:focus{outline:none;border-color:var(--accent2)}
+.note{font-size:13px;color:var(--muted);font-weight:700;margin:0}
+.shop{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.shop li{display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);cursor:pointer;user-select:none}
+.shop li:first-child{border-top:0}
+.shop li .box{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;color:#fff}
+.shop li.done .box{background:var(--good);border-color:var(--good)}
+.shop li.done span:not(.box){text-decoration:line-through;opacity:.5}
+.shop .q{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;text-align:right}
+.saved{display:flex;flex-direction:column;gap:10px}
+.sv{border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.sv h3{margin:0;font-size:19px}
+.sv p{margin:0;color:var(--muted);font-size:14px}
+.sv .grp{display:flex;gap:8px;flex-wrap:wrap}
+.empty-s{color:var(--muted);text-align:center;padding:24px 10px}
+.toplan{display:flex;flex-direction:column;gap:8px;background:var(--soft);border-radius:16px;padding:12px 14px}
+.toplan b{font-size:15px}
+.daychips{display:flex;flex-wrap:wrap;gap:6px}
+.daychips button{height:36px;min-width:52px;padding:0 10px;border-radius:999px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:800;font-size:14px}
+.daychips button.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.daychips button:hover{border-color:var(--accent2)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);font-weight:800;padding:12px 20px;border-radius:999px;box-shadow:0 10px 30px #0004;opacity:0;pointer-events:none;transition:all .2s ease;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 footer{padding:10px 0 calc(40px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--muted);font-size:14px}
 footer a{color:var(--accent);font-weight:800;text-decoration:none}
 @media (prefers-reduced-motion:reduce){.card,.card:hover,.card .pic svg,.card:hover .pic svg,.sheet,.modal{transition:none;transform:none}}
@@ -173,6 +240,7 @@ footer a{color:var(--accent);font-weight:800;text-decoration:none}
         <input id="q" type="search" placeholder="Søg efter ret eller ingrediens, fx 'kylling' eller 'kokos'" autocomplete="off" aria-label="Søg efter ret eller ingrediens">
       </label>
       <button class="btn btn-rand" id="rand" title="Vis en tilfældig ret"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/></svg><span>Hvad skal vi have?</span></button>
+      <button class="btn btn-plan" id="planBtn" title="Ugens madplan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span class="lbl">Madplan</span><span class="badge" id="planCount" hidden></span></button>
     </div>
     <div class="chips" id="cats" role="toolbar" aria-label="Kategorier"></div>
     <div class="row2">
@@ -196,6 +264,14 @@ footer a{color:var(--accent);font-weight:800;text-decoration:none}
     <div id="detail"></div>
   </div>
 </div>
+
+<div class="modal" id="planModal" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+  <div class="sheet" id="planSheet">
+    <button class="close" id="planClose" aria-label="Luk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="plan-body" id="planBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="data.js"></script>
 <script src="data-1.js"></script>
@@ -508,6 +584,7 @@ function drawDetail(){
         '<div class="fact"><b>Giver</b><span>'+portionLabel(d,d.p)+'</span></div>'+
         '<div class="fact"><b>Type</b><span>'+TYPES[d.k]+'</span></div>'+
       '</div>'+
+      '<div class="toplan"><b>Læg på madplanen</b><div class="daychips" id="dayChips">'+DAYS.map(function(n,i){return '<button data-day="'+i+'" class="'+(PLAN.days[i]===d.id?'on':'')+'" aria-pressed="'+(PLAN.days[i]===d.id)+'" title="'+n+(PLAN.days[i]&&PLAN.days[i]!==d.id&&byId(PLAN.days[i])?': '+esc(byId(PLAN.days[i]).n):'')+'">'+n.slice(0,3)+'</button>';}).join('')+'</div></div>'+
       '<section class="sec"><h3>Ingredienser <span class="portion" aria-label="Antal"><button id="minus" aria-label="Færre">−</button><span id="pc">'+portionLabel(d,count)+'</span><button id="plus" aria-label="Flere">+</button></span></h3><p class="hint">Tryk på en ingrediens for at krydse den af.</p><ul class="ing" id="ing">'+ings+'</ul></section>'+
       '<section class="sec"><h3>Sådan gør du</h3><ol class="steps" id="steps">'+steps+'</ol></section>'+
       (d.t?'<div class="tip"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--good)"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3z"/></svg><div><b>Kokkens tip</b>'+esc(d.t)+'</div></div>':'')+
@@ -520,6 +597,12 @@ function drawDetail(){
   document.getElementById('fav').onclick = function(){ if(FAV[d.id]) delete FAV[d.id]; else FAV[d.id]=1; saveFav(); redraw(); renderFilters(); render(); };
   document.getElementById('ing').onclick = function(e){ var li=e.target.closest('li'); if(!li) return; var i=li.dataset.i; doneI[i]=!doneI[i]; redraw(); };
   document.getElementById('steps').onclick = function(e){ var li=e.target.closest('li'); if(!li) return; var i=li.dataset.s; doneS[i]=!doneS[i]; redraw(); };
+  document.getElementById('dayChips').onclick = function(e){
+    var b=e.target.closest('[data-day]'); if(!b) return; var i=+b.dataset.day;
+    if(PLAN.days[i]===d.id){ PLAN.days[i]=null; toast(d.n+' er fjernet fra '+DAYS[i].toLowerCase()); }
+    else { PLAN.days[i]=d.id; toast(d.n+' er lagt på '+DAYS[i].toLowerCase()); }
+    savePlan(); redraw();
+  };
 }
 function redraw(){ var st = sheet.scrollTop; drawDetail(); sheet.scrollTop = st; }
 function closeRecipe(push){
@@ -528,6 +611,165 @@ function closeRecipe(push){
   if(push!==false && location.hash) history.pushState({}, '', location.pathname+location.search);
   if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
 }
+
+/* ================= Madplan ================= */
+var DAYS = ['Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag','Søndag'];
+function load(k,def){ try{ var v = JSON.parse(localStorage.getItem(k)); return v==null ? def : v; }catch(e){ return def; } }
+function store(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function byId(id){ for(var i=0;i<D.length;i++) if(D[i].id===id) return D[i]; return null; }
+var PLAN = load('opskrifter-plan', null);
+if(!PLAN || !PLAN.days || PLAN.days.length!==7) PLAN = {days:[null,null,null,null,null,null,null], persons:4};
+PLAN.persons = Math.min(20, Math.max(1, +PLAN.persons||4));
+var SAVED = load('opskrifter-planer', []); if(!Array.isArray(SAVED)) SAVED = [];
+var SHOPDONE = load('opskrifter-indkob', {}) || {};
+var planModal = document.getElementById('planModal'), planBody = document.getElementById('planBody'), planSheet = document.getElementById('planSheet');
+var planOpen = false, planTab = 'uge', choosing = -1, chooseQ = '', confirmKey = '';
+
+function savePlan(){ store('opskrifter-plan', PLAN); updateBadge(); if(planOpen) drawPlan(); }
+function updateBadge(){ var n = PLAN.days.filter(function(x){return x && byId(x);}).length, b = document.getElementById('planCount'); b.textContent = n; b.hidden = !n; }
+function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); var day = d.getUTCDay()||7; d.setUTCDate(d.getUTCDate()+4-day); var y = new Date(Date.UTC(d.getUTCFullYear(),0,1)); return Math.ceil(((d-y)/86400000+1)/7); }
+function todayIdx(){ return (new Date().getDay()+6)%7; }
+var toastT;
+function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},2200); }
+function mini(d){ return '<span class="mini">'+dishSVG(d,'m'+Math.random().toString(36).slice(2,6))+'</span>'; }
+function pickRandom(exclude){
+  var pool = D.filter(function(d){ return (d.c==='aftensmad'||d.c==='pasta') && exclude.indexOf(d.id)<0; });
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function drawPlan(){
+  var h = '<h2 id="pTitle">Ugens madplan</h2>';
+  h += '<div class="ptabs" role="tablist">'+[['uge','Ugeplan'],['indkob','Indkøbsliste'],['gemte','Gemte uger'+(SAVED.length?' ('+SAVED.length+')':'')]].map(function(t){return '<button role="tab" data-tab="'+t[0]+'" aria-selected="'+(planTab===t[0])+'">'+t[1]+'</button>';}).join('')+'</div>';
+  if(planTab==='uge') h += drawWeek(); else if(planTab==='indkob') h += drawShop(); else h += drawSaved();
+  planBody.innerHTML = h;
+  var inp = document.getElementById('pq'); if(inp) inp.focus({preventScroll:true});
+}
+function drawWeek(){
+  var t = todayIdx(), h = '';
+  h += '<div class="ptools"><div class="grp"><span class="portion" aria-label="Antal personer"><button data-act="pminus" aria-label="Færre personer">−</button><span>'+PLAN.persons+' '+(PLAN.persons===1?'person':'personer')+'</span><button data-act="pplus" aria-label="Flere personer">+</button></span></div>'+
+       '<div class="grp"><button class="sbtn" data-act="fill">🎲 Fyld tomme dage</button><button class="sbtn'+(confirmKey==='clear'?' warn':'')+'" data-act="clear">'+(confirmKey==='clear'?'Tryk igen for at rydde':'Ryd ugen')+'</button></div></div>';
+  h += '<div class="days">';
+  DAYS.forEach(function(name,i){
+    var d = PLAN.days[i] && byId(PLAN.days[i]);
+    h += '<div class="day'+(i===t?' today':'')+'"><div class="dname">'+name+(i===t?'<small>I dag</small>':'')+'</div>';
+    if(d){
+      h += '<button class="dpick" data-open="'+d.id+'">'+mini(d)+'<span><b>'+esc(d.n)+'</b><small>'+tidTxt(d.tid)+' · '+CATS[d.c]+'</small></span></button>'+
+           '<div class="dact"><button class="ibtn" data-act="swap" data-i="'+i+'" title="Vælg en anden ret" aria-label="Vælg en anden ret til '+name+'">✎</button><button class="ibtn" data-act="rand" data-i="'+i+'" title="Tilfældig ret" aria-label="Tilfældig ret til '+name+'">🎲</button><button class="ibtn" data-act="del" data-i="'+i+'" title="Fjern" aria-label="Fjern retten fra '+name+'">×</button></div>';
+    } else {
+      h += '<button class="dadd" data-act="swap" data-i="'+i+'">+ Vælg ret</button><div class="dact"><button class="ibtn" data-act="rand" data-i="'+i+'" title="Tilfældig ret" aria-label="Tilfældig ret til '+name+'">🎲</button></div>';
+    }
+    if(choosing===i){
+      h += '<div class="chooser"><input id="pq" type="search" placeholder="Søg efter en ret til '+name.toLowerCase()+'" value="'+esc(chooseQ)+'" autocomplete="off" aria-label="Søg efter ret"><div class="pres" id="pres">'+chooserResults(i)+'</div></div>';
+    }
+    h += '</div>';
+  });
+  h += '</div>';
+  h += '<div class="saverow"><input id="saveName" value="Uge '+isoWeek(new Date())+'" aria-label="Navn på ugen" maxlength="40"><button class="sbtn pri" data-act="save">Gem ugen</button></div>';
+  h += '<p class="note">Madplanen gemmes automatisk i denne browser. Med "Gem ugen" kan du gemme den under et navn og hente den frem igen senere.</p>';
+  return h;
+}
+function chooserResults(i){
+  var q = chooseQ.trim().toLowerCase(), list;
+  if(q) list = D.filter(function(x){ var hh=hay(x); return q.split(/\s+/).every(function(w){return hh.indexOf(w)>=0;}); });
+  else { list = D.filter(function(x){return FAV[x.id];}); if(list.length<8) list = list.concat(D.filter(function(x){return !FAV[x.id] && x.c==='aftensmad';})); }
+  list = list.slice(0,12);
+  return list.length ? list.map(function(x){return '<button data-set="'+i+'" data-id="'+x.id+'">'+mini(x)+'<span>'+esc(x.n)+'</span></button>';}).join('') : '<p class="note">Ingen retter fundet.</p>';
+}
+function shopItems(){
+  var map = {}, order = [];
+  PLAN.days.forEach(function(id){
+    var d = id && byId(id); if(!d) return;
+    var mult = d.pu ? 1 : PLAN.persons/d.p;
+    d.i.forEach(function(x){
+      var name = String(x[2]).replace(/\s*\((til|valgfri)[^)]*\)/gi,'').split(',')[0].trim();
+      if(!name) return;
+      var key = name.toLowerCase()+'|'+(x[0]==null?'-':x[1]);
+      if(!map[key]){ map[key] = {key:key, name:name, unit:x[1], q:x[0]==null?null:0, from:[]}; order.push(key); }
+      if(x[0]!=null) map[key].q += x[0]*mult;
+      if(map[key].from.indexOf(d.n)<0) map[key].from.push(d.n);
+    });
+  });
+  var WHOLE = ['stk','fed','blad','dåse','bundt','pose','skive','portion'];
+  order.forEach(function(k){ var x=map[k]; if(x.q!=null && WHOLE.indexOf(x.unit)>=0) x.q = Math.ceil(x.q-0.01); });
+  return order.map(function(k){return map[k];}).sort(function(a,b){return a.name.localeCompare(b.name,'da');});
+}
+function drawShop(){
+  var items = shopItems();
+  if(!items.length) return '<div class="empty-s"><h3>Indkøbslisten er tom</h3><p>Læg nogle retter på ugeplanen, så samler listen selv ingredienserne.</p></div>';
+  var left = items.filter(function(x){return !SHOPDONE[x.key];}).length;
+  var h = '<div class="ptools"><span class="note">'+left+' af '+items.length+' varer mangler · beregnet til '+PLAN.persons+' '+(PLAN.persons===1?'person':'personer')+'</span><div class="grp"><button class="sbtn" data-act="copy">Kopiér liste</button><button class="sbtn" data-act="unshop">Nulstil flueben</button></div></div>';
+  h += '<ul class="shop">'+items.map(function(x){ var a = x.q==null ? '' : amt(x.q,x.unit,1); return '<li data-k="'+esc(x.key)+'" class="'+(SHOPDONE[x.key]?'done':'')+'" title="Til: '+esc(x.from.join(', '))+'"><span class="box">'+(SHOPDONE[x.key]?'✓':'')+'</span><span>'+esc(x.name)+'</span><span class="q">'+a+'</span></li>'; }).join('')+'</ul>';
+  h += '<p class="note">Tryk på en vare for at krydse den af. Ting som salt og peber står uden mængde, så du kan tjekke, om du har dem.</p>';
+  return h;
+}
+function drawSaved(){
+  if(!SAVED.length) return '<div class="empty-s"><h3>Ingen gemte uger endnu</h3><p>Lav en ugeplan, og tryk på "Gem ugen".</p></div>';
+  return '<div class="saved">'+SAVED.map(function(s,i){
+    var names = s.days.map(function(id,di){ var d=id&&byId(id); return d ? DAYS[di].slice(0,3)+': '+d.n : null; }).filter(Boolean);
+    return '<div class="sv"><h3>'+esc(s.name)+'</h3><p>'+esc(names.join(' · ')||'Ingen retter')+'</p><p>'+s.persons+' personer · gemt '+new Date(s.date).toLocaleDateString('da-DK')+'</p><div class="grp">'+
+      '<button class="sbtn pri" data-act="load" data-i="'+i+'">'+(confirmKey==='load'+i?'Tryk igen: erstat nuværende uge':'Brug denne uge')+'</button>'+
+      '<button class="sbtn'+(confirmKey==='delsv'+i?' warn':'')+'" data-act="delsv" data-i="'+i+'">'+(confirmKey==='delsv'+i?'Tryk igen for at slette':'Slet')+'</button></div></div>';
+  }).join('')+'</div>';
+}
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){toast('Listen er kopieret');},function(){fallbackCopy(txt);}); }
+  else fallbackCopy(txt);
+}
+function fallbackCopy(txt){ var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); toast('Listen er kopieret'); }catch(e){ toast('Kunne ikke kopiere'); } document.body.removeChild(ta); }
+
+planBody.addEventListener('click', function(e){
+  var t = e.target.closest('[data-tab]'); if(t){ planTab=t.dataset.tab; choosing=-1; confirmKey=''; drawPlan(); return; }
+  var o = e.target.closest('[data-open]'); if(o){ closePlan(false); openRecipe(o.dataset.open); return; }
+  var s = e.target.closest('[data-set]'); if(s){ var di=+s.dataset.set; PLAN.days[di]=s.dataset.id; choosing=-1; chooseQ=''; savePlan(); toast(byId(s.dataset.id).n+' er lagt på '+DAYS[di].toLowerCase()); return; }
+  var li = e.target.closest('.shop li'); if(li){ var k=li.dataset.k; if(SHOPDONE[k]) delete SHOPDONE[k]; else SHOPDONE[k]=1; store('opskrifter-indkob',SHOPDONE); drawPlan(); return; }
+  var b = e.target.closest('[data-act]'); if(!b) return;
+  var act = b.dataset.act, i = +b.dataset.i, prevConfirm = confirmKey; confirmKey = '';
+  if(act==='pminus'||act==='pplus'){ PLAN.persons = Math.min(20,Math.max(1,PLAN.persons+(act==='pplus'?1:-1))); savePlan(); }
+  else if(act==='fill'){ var used = PLAN.days.filter(Boolean), n=0; PLAN.days = PLAN.days.map(function(id){ if(id && byId(id)) return id; var r=pickRandom(used); if(!r) return null; used.push(r.id); n++; return r.id; }); savePlan(); toast(n ? n+' dage er fyldt ud' : 'Alle dage har allerede en ret'); }
+  else if(act==='clear'){ if(prevConfirm==='clear'){ PLAN.days=[null,null,null,null,null,null,null]; SHOPDONE={}; store('opskrifter-indkob',SHOPDONE); savePlan(); toast('Ugen er ryddet'); } else { confirmKey='clear'; drawPlan(); } }
+  else if(act==='swap'){ choosing = choosing===i ? -1 : i; chooseQ=''; drawPlan(); }
+  else if(act==='rand'){ var r = pickRandom(PLAN.days.filter(Boolean)); if(r){ PLAN.days[i]=r.id; savePlan(); } }
+  else if(act==='del'){ PLAN.days[i]=null; savePlan(); }
+  else if(act==='save'){
+    var nm = (document.getElementById('saveName').value||'').trim() || ('Uge '+isoWeek(new Date()));
+    if(!PLAN.days.some(Boolean)){ toast('Læg mindst én ret på planen først'); return; }
+    var ex = SAVED.filter(function(x){return x.name.toLowerCase()===nm.toLowerCase();})[0];
+    var rec = {name:nm, date:Date.now(), days:PLAN.days.slice(), persons:PLAN.persons};
+    if(ex) SAVED[SAVED.indexOf(ex)] = rec; else SAVED.unshift(rec);
+    store('opskrifter-planer', SAVED); toast(ex ? '"'+nm+'" er opdateret' : '"'+nm+'" er gemt'); drawPlan();
+  }
+  else if(act==='load'){
+    var sv = SAVED[i]; if(!sv) return;
+    if(PLAN.days.some(Boolean) && prevConfirm!=='load'+i){ confirmKey='load'+i; drawPlan(); return; }
+    PLAN = {days:sv.days.slice(), persons:sv.persons||4}; SHOPDONE={}; store('opskrifter-indkob',SHOPDONE); planTab='uge'; savePlan(); toast('"'+sv.name+'" er hentet');
+  }
+  else if(act==='delsv'){ if(prevConfirm==='delsv'+i){ var gone=SAVED.splice(i,1)[0]; store('opskrifter-planer',SAVED); toast('"'+gone.name+'" er slettet'); drawPlan(); } else { confirmKey='delsv'+i; drawPlan(); } }
+  else if(act==='copy'){
+    var items = shopItems().filter(function(x){return !SHOPDONE[x.key];});
+    copyText('Indkøbsliste ('+PLAN.persons+' pers.)\n'+items.map(function(x){ var a = x.q==null?'':amt(x.q,x.unit,1); return '- '+x.name+(a?': '+a:''); }).join('\n'));
+  }
+  else if(act==='unshop'){ SHOPDONE={}; store('opskrifter-indkob',SHOPDONE); drawPlan(); }
+});
+planBody.addEventListener('input', function(e){ if(e.target.id==='pq'){ chooseQ = e.target.value; var p=document.getElementById('pres'); if(p) p.innerHTML = chooserResults(choosing); } });
+
+function openPlan(push){
+  if(current) closeRecipe(false);
+  if(!planOpen) lastFocus = document.activeElement;
+  planOpen = true; choosing = -1; confirmKey = ''; drawPlan();
+  planModal.classList.add('open'); document.body.classList.add('locked'); planSheet.scrollTop = 0;
+  document.getElementById('planClose').focus({preventScroll:true});
+  if(push!==false) history.pushState({p:1}, '', '#madplan');
+  document.title = 'Madplan · Opskriftsbogen';
+}
+function closePlan(push){
+  planOpen = false; planModal.classList.remove('open'); document.body.classList.remove('locked');
+  document.title = 'Opskriftsbogen';
+  if(push!==false && location.hash) history.pushState({}, '', location.pathname+location.search);
+  if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+}
+document.getElementById('planBtn').addEventListener('click', function(){ openPlan(); });
+document.getElementById('planClose').addEventListener('click', function(){ closePlan(); });
+planModal.addEventListener('click', function(e){ if(e.target===planModal) closePlan(); });
 
 /* ================= Hændelser ================= */
 document.getElementById('cats').addEventListener('click', function(e){ var b=e.target.closest('.chip'); if(!b) return; state.cat=b.dataset.c; renderFilters(); render(); });
@@ -540,11 +782,17 @@ document.getElementById('rand').addEventListener('click', function(){ var pool=D
 document.getElementById('close').addEventListener('click', function(){ closeRecipe(); });
 modal.addEventListener('click', function(e){ if(e.target===modal) closeRecipe(); var g=e.target.closest('[data-go]'); if(g){ openRecipe(g.dataset.go, false); history.replaceState({d:g.dataset.go},'','#'+g.dataset.go); } });
 document.addEventListener('keydown', function(e){
+  if(planOpen && e.key==='Escape'){ if(choosing>=0){ choosing=-1; drawPlan(); } else closePlan(); return; }
   if(!current) return;
   if(e.key==='Escape') closeRecipe();
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ var b=modal.querySelectorAll('[data-go]')[e.key==='ArrowRight'?1:0]; if(b) b.click(); }
 });
-window.addEventListener('popstate', function(){ var id=location.hash.slice(1); if(id) openRecipe(id,false); else if(current) closeRecipe(false); });
+window.addEventListener('popstate', function(){
+  var id=location.hash.slice(1);
+  if(id==='madplan'){ openPlan(false); return; }
+  if(planOpen) closePlan(false);
+  if(id) openRecipe(id,false); else if(current) closeRecipe(false);
+});
 var controls = document.getElementById('controls');
 window.addEventListener('scroll', function(){ controls.classList.toggle('stuck', controls.getBoundingClientRect().top<=0); }, {passive:true});
 
@@ -552,8 +800,9 @@ window.addEventListener('scroll', function(){ controls.classList.toggle('stuck',
 document.getElementById('heroText').textContent = D.length+' opskrifter med præcise mål og trin-for-trin guide. Tryk på en ret for at se, hvordan du laver den.';
 var heroPick = ['hjemmelavet-pizza','spaghetti-bolognese','amerikanske-pandekager','tomatsuppe'].map(function(id){return D.filter(function(d){return d.id===id;})[0];}).filter(Boolean);
 document.getElementById('heroDishes').innerHTML = heroPick.map(function(d){return dishSVG(d,'h');}).join('');
-renderFilters(); renderTypes(); render();
-if(location.hash.length>1) openRecipe(location.hash.slice(1), false);
+renderFilters(); renderTypes(); render(); updateBadge();
+if(location.hash==='#madplan') openPlan(false);
+else if(location.hash.length>1) openRecipe(location.hash.slice(1), false);
 })();
 </script>
 </body>
