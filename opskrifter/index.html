@@ -86,8 +86,8 @@ button{font:inherit;color:inherit}
 .card{position:relative;display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;cursor:pointer;padding:0;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.2,.8,.3,1.2),box-shadow .2s ease}
 .card:hover{transform:translateY(-6px);box-shadow:var(--lift)}
 .card .pic{aspect-ratio:5/5;display:block;width:100%;overflow:hidden}
-.card .pic svg{display:block;width:100%;height:100%;transition:transform .45s ease}
-.card:hover .pic svg{transform:scale(1.06)}
+.card .pic svg,.card .pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .45s ease;background:var(--soft)}
+.card:hover .pic svg,.card:hover .pic img{transform:scale(1.06)}
 .card .meta{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
 .card h3{margin:0;font-size:18px;line-height:1.15}
 .card .sub{font-size:13px;color:var(--muted);font-weight:700;display:flex;gap:6px;flex-wrap:wrap}
@@ -105,8 +105,10 @@ button{font:inherit;color:inherit}
 .d-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
 @media (max-width:760px){.d-grid{grid-template-columns:1fr}}
 .d-pic{position:relative;align-self:start;position:sticky;top:0}
-.d-pic svg{display:block;width:100%;height:auto;aspect-ratio:200/220}
-@media (max-width:760px){.d-pic{position:relative}.d-pic svg{height:300px;aspect-ratio:auto}}
+.d-pic svg,.d-pic img{display:block;width:100%;height:auto;aspect-ratio:200/220;object-fit:cover;background:var(--soft)}
+.credit{position:absolute;left:10px;bottom:10px;right:10px;font-size:11px;line-height:1.3;color:#fff;background:#0008;padding:4px 9px;border-radius:9px;width:max-content;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.credit a{color:#fff}
+@media (max-width:760px){.d-pic{position:relative}.d-pic svg,.d-pic img{height:300px;aspect-ratio:auto}}
 .d-body{padding:28px 28px 32px;display:flex;flex-direction:column;gap:20px}
 @media (max-width:520px){.d-body{padding:22px 18px 30px}}
 .d-cat{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -171,7 +173,7 @@ button{font:inherit;color:inherit}
 .dname small{display:block;font-weight:700;color:var(--muted);font-size:12px}
 .dpick{display:flex;align-items:center;gap:12px;border:0;background:transparent;padding:0;cursor:pointer;text-align:left;min-width:0}
 .dpick .mini{flex:none;width:52px;height:52px;border-radius:14px;overflow:hidden;display:block}
-.dpick .mini svg{width:100%;height:100%;display:block}
+.dpick .mini svg,.dpick .mini img{width:100%;height:100%;display:block;object-fit:cover}
 .dpick b{display:block;font-size:16px;line-height:1.2}
 .dpick small{color:var(--muted);font-weight:700;font-size:13px}
 .dact{display:flex;gap:6px}
@@ -186,7 +188,7 @@ button{font:inherit;color:inherit}
 .pres button{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:6px 10px 6px 6px;cursor:pointer;text-align:left;font-weight:700;font-size:14px;line-height:1.2}
 .pres button:hover{border-color:var(--accent2)}
 .pres .mini{flex:none;width:36px;height:36px;border-radius:10px;overflow:hidden}
-.pres .mini svg{width:100%;height:100%;display:block}
+.pres .mini svg,.pres .mini img{width:100%;height:100%;display:block;object-fit:cover}
 .saverow{display:flex;gap:8px;flex-wrap:wrap}
 .saverow input{flex:1;min-width:160px;height:42px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:700 15px Nunito,sans-serif;padding:0 16px}
 .saverow input:focus{outline:none;border-color:var(--accent2)}
@@ -278,6 +280,7 @@ footer a{color:var(--accent);font-weight:800;text-decoration:none}
 <script src="data-2.js"></script>
 <script src="data-3.js"></script>
 <script src="data-4.js"></script>
+<script src="fotos/fotos.js"></script>
 <script>
 (function(){
 'use strict';
@@ -468,6 +471,15 @@ var TOP = {
 };
 function citrus(x,y,a,b){ var s='<circle cx="'+x+'" cy="'+y+'" r="9" fill="'+a+'"/><circle cx="'+x+'" cy="'+y+'" r="7" fill="'+b+'"/>'; for(var i=0;i<6;i++){ var an=i*Math.PI/3; s+='<path d="M'+x+' '+y+' l'+f1(Math.cos(an)*6.5)+' '+f1(Math.sin(an)*6.5)+'" stroke="'+a+'" stroke-width="1"/>'; } return s; }
 
+var FOTOS = window.FOTOS || {};
+function pic(d, tag){
+  if(FOTOS[d.id]) return '<img src="fotos/'+d.id+'.jpg" alt="'+esc(d.n)+'" loading="'+(tag==='b'?'eager':'lazy')+'" decoding="async">';
+  return dishSVG(d, tag);
+}
+function credit(d){
+  var f = FOTOS[d.id]; if(!f) return '';
+  return '<div class="credit">Foto: <a href="'+esc(f.u)+'" target="_blank" rel="noopener">'+esc(f.a)+'</a> · '+esc(f.l)+' · Wikimedia Commons</div>';
+}
 function dishSVG(d, tag){
   var uid = 'p'+d.idx+(tag||''), R = rng(hash(d.n)), main = d.col[0];
   var bgA = mix(main,'#FFFFFF',.8), bgB = mix(main,'#FFFFFF',.6), o=[];
@@ -550,7 +562,7 @@ function render(){
   document.getElementById('count').textContent = list.length===1 ? '1 opskrift' : list.length+' opskrifter';
   if(!list.length){ grid.innerHTML='<div class="empty"><h3>'+(state.cat==='fav'?'Ingen favoritter endnu':'Ingen opskrifter fundet')+'</h3><p>'+(state.cat==='fav'?'Tryk på hjertet i en opskrift for at gemme den her.':'Prøv et andet søgeord, eller vælg "Alle".')+'</p></div>'; return; }
   grid.innerHTML = list.map(function(d){
-    return '<button class="card" data-id="'+d.id+'" aria-label="Se opskrift på '+esc(d.n)+'"><span class="pic">'+dishSVG(d)+'</span>'+(FAV[d.id]?'<span class="heart">'+HEART.replace(/20/g,'16')+'</span>':'')+'<span class="meta"><h3>'+esc(d.n)+'</h3><span class="sub"><span>'+CATS[d.c]+'</span><span class="dot">·</span><span>'+tidTxt(d.tid)+'</span></span></span></button>';
+    return '<button class="card" data-id="'+d.id+'" aria-label="Se opskrift på '+esc(d.n)+'"><span class="pic">'+pic(d)+'</span>'+(FAV[d.id]?'<span class="heart">'+HEART.replace(/20/g,'16')+'</span>':'')+'<span class="meta"><h3>'+esc(d.n)+'</h3><span class="sub"><span>'+CATS[d.c]+'</span><span class="dot">·</span><span>'+tidTxt(d.tid)+'</span></span></span></button>';
   }).join('');
 }
 
@@ -575,7 +587,7 @@ function drawDetail(){
   var steps = d.s.map(function(s,i){return '<li data-s="'+i+'" class="'+(doneS[i]?'done':'')+'"><p>'+esc(s)+'</p></li>';}).join('');
   var fav = !!FAV[d.id];
   detail.innerHTML =
-    '<div class="d-grid"><div class="d-pic">'+dishSVG(d,'b')+'</div><div class="d-body">'+
+    '<div class="d-grid"><div class="d-pic">'+pic(d,'b')+credit(d)+'</div><div class="d-body">'+
       '<div class="d-head"><div><div class="d-cat">'+CATS[d.c]+' · '+TYPES[d.k]+'</div><h2 id="dName">'+esc(d.n)+'</h2><p class="d-desc">'+esc(d.d||'')+'</p></div>'+
       '<button class="favbtn" id="fav" aria-pressed="'+fav+'" aria-label="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'" title="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'">'+(fav?HEART:HEART_O)+'</button></div>'+
       '<div class="facts">'+
@@ -631,7 +643,7 @@ function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(),
 function todayIdx(){ return (new Date().getDay()+6)%7; }
 var toastT;
 function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},2200); }
-function mini(d){ return '<span class="mini">'+dishSVG(d,'m'+Math.random().toString(36).slice(2,6))+'</span>'; }
+function mini(d){ return '<span class="mini">'+pic(d,'m'+Math.random().toString(36).slice(2,6))+'</span>'; }
 function pickRandom(exclude){
   var pool = D.filter(function(d){ return (d.c==='aftensmad'||d.c==='pasta') && exclude.indexOf(d.id)<0; });
   return pool[Math.floor(Math.random()*pool.length)];
