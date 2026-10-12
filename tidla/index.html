@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidla – booking til saloner</title>
+<meta name="description" content="Tidla giver frisører, barberer og andre saloner deres egen bookingside med online betaling, kalender, kundekartotek og regnskab. Under udvikling.">
+<meta property="og:title" content="Tidla – booking til saloner">
+<meta property="og:description" content="Egen bookingside, online betaling, kalender og regnskab – samlet ét sted.">
+<meta property="og:image" content="img/forside.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237C3AED'/%3E%3Cstop offset='1' stop-color='%23DB2777'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' fill='white' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5FC; --panel:#FFFFFF; --card:#F1ECFB; --line:#E6E0F2;
+  --ink:#16121F; --muted:#665F78; --soft:#433C55;
+  --accent:#7C3AED; --pink:#DB2777; --green:#16A34A;
+  --grad:linear-gradient(120deg,#7C3AED 0%,#B23ADB 50%,#DB2777 100%);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.1;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+
+.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,#FFFFFF 85%,transparent);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px "Space Grotesk",sans-serif}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#fff;font-style:normal;font-size:17px;box-shadow:0 6px 20px #7C3AED55}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:15px;font-weight:600;color:var(--soft)}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+@media (max-width:700px){.top nav a:not(.hjem){display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border-radius:12px;font:600 16px Inter,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+.btn-main{background:var(--grad);color:#fff;box-shadow:0 10px 30px #7C3AED55}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 40px #7C3AED77}
+.btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent)}
+
+.hero{position:relative;padding:72px 0 40px;overflow:hidden;background:linear-gradient(180deg,#EEE6FF 0%,var(--bg) 100%)}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
+  radial-gradient(closest-side,#7C3AED30,transparent 70%) 15% 30%/600px 600px no-repeat,
+  radial-gradient(closest-side,#DB277728,transparent 70%) 85% 10%/700px 700px no-repeat;pointer-events:none}
+.hero-inner{position:relative;text-align:center;display:grid;justify-items:center;gap:22px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
+.pill b{background:#F59E0B;color:#fff;border-radius:999px;padding:2px 9px;font-size:12px}
+.hero h1{font-size:clamp(38px,7vw,74px);font-weight:700;max-width:16ch;text-wrap:balance}
+.hero p.lead{font-size:clamp(17px,2.2vw,21px);color:var(--soft);max-width:60ch;margin:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.under{font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.under span::before{content:"✓ ";color:var(--green);font-weight:700}
+.shot{position:relative;margin:48px auto 0;max-width:1100px}
+.frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px #2A1A5A33;background:#fff}
+.shot::after{content:"";position:absolute;inset:auto 10% -30px;height:120px;background:var(--grad);filter:blur(80px);opacity:.35;z-index:-1}
+
+section{padding:88px 0}
+.kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.sec-head{max-width:720px;margin-bottom:44px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-size:clamp(30px,4.6vw,46px)}
+.sec-head p{color:var(--soft);margin:16px 0 0;font-size:18px}
+
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.who .box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px}
+.who .em{font-size:30px;margin-bottom:12px}
+.who h3{font-size:22px;margin-bottom:8px}
+.who p{margin:0;color:var(--soft)}
+@media (max-width:820px){.who{grid-template-columns:1fr}}
+
+.split{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;margin-bottom:88px}
+.split:last-child{margin-bottom:0}
+.split.rev{grid-template-columns:1.3fr 1fr}
+.split.rev .txt{order:2}
+.split h3{font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
+.split p{color:var(--soft);margin:0 0 16px}
+.split ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.split li{display:flex;gap:10px;color:var(--soft)}
+.split li::before{content:"✓";color:var(--accent);font-weight:700}
+.split .pic{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 60px #2A1A5A26;background:#fff}
+.duo{display:grid;grid-template-columns:1.6fr .7fr;gap:16px;align-items:start}
+@media (max-width:860px){.split,.split.rev{grid-template-columns:1fr;gap:28px}.split.rev .txt{order:0}}
+
+.alt{background:var(--panel);border-block:1px solid var(--line)}
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.price{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:28px}
+.price.hot{border:2px solid var(--accent);background:var(--panel);box-shadow:0 20px 50px #7C3AED22}
+.price h3{font-size:22px}
+.price .amt{font:700 40px "Space Grotesk",sans-serif;margin:10px 0 2px}
+.price .amt small{font:500 15px Inter,sans-serif;color:var(--muted)}
+.price ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;color:var(--soft);font-size:15px}
+.price li::before{content:"✓ ";color:var(--accent);font-weight:700}
+.note{color:var(--muted);font-size:14px;text-align:center;margin-top:20px}
+@media (max-width:860px){.prices{grid-template-columns:1fr}}
+
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.st{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.st b{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;margin-bottom:12px}
+.st.done b{background:#16A34A1F;color:var(--green)} .st.next b{background:#F59E0B22;color:#B45309}
+.st h3{font-size:18px;margin-bottom:6px}
+.st p{margin:0;color:var(--soft);font-size:15px}
+@media (max-width:900px){.status{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.status{grid-template-columns:1fr}}
+
+footer{padding:40px 0 56px;text-align:center;color:var(--muted);font-size:15px}
+footer a{font-weight:600;color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><i>✦</i>Tidla</a>
+    <nav>
+      <a href="#hvem">Hvem er den til</a>
+      <a href="#funktioner">Funktioner</a>
+      <a href="#priser">Priser</a>
+      <a class="hjem" href="../">← Alle mine apps</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <span class="pill"><b>Snart</b> Under udvikling – åbner for saloner snart</span>
+    <h1>Din salon. <span class="grad-text">Fuldt booket</span> – helt af sig selv.</h1>
+    <p class="lead">Tidla giver frisører, barberer, neglesaloner og andre saloner deres egen bookingside. Kunderne finder selv en ledig tid og kan betale med det samme. Kalender, kunder og regnskab er samlet ét sted.</p>
+    <div class="cta-row">
+      <a class="btn btn-main" href="#funktioner">Se hvad den kan</a>
+      <a class="btn btn-ghost" href="#priser">Se priserne</a>
+    </div>
+    <div class="under"><span>Egen side på fem minutter</span><span>Online betaling</span><span>Regnskab med moms</span></div>
+  </div>
+  <div class="wrap">
+    <div class="shot"><div class="frame"><img src="img/forside.webp" width="1280" height="800" alt="Tidlas forside til saloner" loading="eager"></div></div>
+  </div>
+</div>
+
+<section id="hvem">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Tre sider af samme sag</span>
+      <h2>Én platform – tre slags brugere</h2>
+    </div>
+    <div class="who">
+      <div class="box"><div class="em">💇</div><h3>Salonen</h3><p>Betaler et fast månedligt abonnement og får sin egen bookingside med logo, farver, behandlinger og medarbejdere – plus et kontrolpanel til hele hverdagen.</p></div>
+      <div class="box"><div class="em">📱</div><h3>Salonens kunder</h3><p>Booker døgnet rundt fra mobilen, vælger frisør eller "første ledige", betaler online eller i salonen og kan selv aflyse via et link i mailen.</p></div>
+      <div class="box"><div class="em">📊</div><h3>Ejeren af platformen</h3><p>Overblik over alle saloner, abonnementer og månedlig indtægt. Prøveperioder, pakker og lukning af saloner styres ét sted.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="funktioner" class="alt">
+  <div class="wrap">
+    <div class="split">
+      <div class="txt">
+        <span class="kicker">Bookingsiden</span>
+        <h3>Kunderne booker selv – også kl. 23</h3>
+        <p>Hver salon får sin egen adresse og en side i sine egne farver.</p>
+        <ul>
+          <li>Behandlinger med pris og varighed</li>
+          <li>Kun rigtigt ledige tider – pauser, fridage og ferie er trukket fra</li>
+          <li>To kunder kan aldrig få den samme tid</li>
+          <li>Betal online eller i salonen</li>
+        </ul>
+      </div>
+      <div class="duo">
+        <div class="pic"><img src="img/salon.webp" width="1280" height="800" alt="Salonens bookingside på computer" loading="lazy"></div>
+        <div class="pic"><img src="img/salon-mobil.webp" width="780" height="1600" alt="Salonens bookingside på mobil" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="split rev">
+      <div class="pic"><img src="img/kalender.webp" width="1280" height="800" alt="Kalender med en kolonne pr. medarbejder" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Kalender</span>
+        <h3>Hele dagen på én skærm</h3>
+        <p>En kolonne pr. medarbejder, dag- eller ugevisning.</p>
+        <ul>
+          <li>Klik på en ledig tid for at booke en kunde, der ringer</li>
+          <li>Flyt, aflys eller marker som udeblevet</li>
+          <li>Registrér betaling med kontant, kort eller MobilePay</li>
+          <li>Kundekartotek med besøg og noter</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="txt">
+        <span class="kicker">Regnskab</span>
+        <h3>Regnskabet laver sig selv</h3>
+        <p>Hver betaling bogføres automatisk med moms. Udgifter skrives ind på et øjeblik.</p>
+        <ul>
+          <li>Indtægter, udgifter og resultat</li>
+          <li>Moms at betale – klar til indberetning</li>
+          <li>Eksport til regneark til revisoren</li>
+        </ul>
+      </div>
+      <div class="pic"><img src="img/regnskab.webp" width="1280" height="800" alt="Regnskab med moms og resultat" loading="lazy"></div>
+    </div>
+
+    <div class="split rev">
+      <div class="pic"><img src="img/ejer.webp" width="1280" height="800" alt="Ejer-siden med alle saloner" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Ejer-siden</span>
+        <h3>Styr på alle saloner</h3>
+        <p>Platformens egen kontrolside.</p>
+        <ul>
+          <li>Antal saloner, prøveperioder og betalende</li>
+          <li>Månedlig indtægt fra abonnementer</li>
+          <li>Skift pakke, forlæng prøveperiode eller luk en salon</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="priser">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Abonnement</span>
+      <h2>Tre pakker – 14 dage gratis</h2>
+      <p>Ingen binding. Priserne er foreløbige.</p>
+    </div>
+    <div class="prices">
+      <div class="price"><h3>Basis</h3><div class="amt">199 kr <small>/ md.</small></div><ul><li>1 medarbejder</li><li>Egen bookingside</li><li>Kalender og kunder</li><li>Regnskab</li></ul></div>
+      <div class="price hot"><h3>Pro</h3><div class="amt">399 kr <small>/ md.</small></div><ul><li>Op til 5 medarbejdere</li><li>Online betaling</li><li>Alt fra Basis</li></ul></div>
+      <div class="price"><h3>Salon+</h3><div class="amt">699 kr <small>/ md.</small></div><ul><li>Op til 20 medarbejdere</li><li>Online betaling</li><li>Alt fra Pro</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Status</span>
+      <h2>Hvor langt er vi?</h2>
+    </div>
+    <div class="status">
+      <div class="st done"><b>Færdig</b><h3>Booking og kalender</h3><p>Bookingside, ledige tider, kalender og kunder virker.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Regnskab</h3><p>Automatisk bogføring, moms og eksport.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Rigtig betaling</h3><p>Abonnementer og kortbetaling gennem Stripe.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Online for alle</h3><p>Server, eget domæne og mails med påmindelser.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Tidla er et af mine projekter. <a href="../">Se alle mine apps og spil →</a></div>
+</footer>
+
+</body>
+</html>

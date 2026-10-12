@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mine apps og spil</title>
-<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab – plus ServerMester og Træf-butik til Windows.">
+<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab – plus ServerMester og Træf-butik til Windows og Tidla til saloner.">
 <meta name="theme-color" content="#FF7A45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD66B'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
@@ -129,6 +129,7 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .card.server{--c:#7C5CFF}
 .card.traef{--c:#0891B2}
 .card.regnskab{--c:#2B5C8A}
+.card.tidla{--c:#7C3AED}
 
 /* Mobil: lave rækker, så man kan se mange apps på én skærm */
 @media (max-width:640px){
@@ -193,7 +194,7 @@ footer a:hover{text-decoration:underline}
       <h1>Små apps og spil, <span>lavet med glæde</span></h1>
       <p>Opskrifter, spil og smarte små værktøjer. Det hele kører direkte i browseren, på computeren og på mobilen.</p>
       <div class="cta-row">
-        <a class="btn btn-main" href="#mad">Se alle 9
+        <a class="btn btn-main" href="#mad">Se alle 10
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
         <div class="facts"><span>✓ Helt gratis</span><span>✓ Intet at installere</span><span>✓ Virker på mobilen</span></div>
       </div>
@@ -228,6 +229,7 @@ footer a:hover{text-decoration:underline}
     <li><a href="#spil" data-sec="spil">🎮 Spil <small>3</small></a></li>
     <li><a href="#vaerktoej" data-sec="vaerktoej">🧰 Nyttige apps <small>2</small></a></li>
     <li><a href="#programmer" data-sec="programmer">💻 Programmer <small>2</small></a></li>
+    <li><a href="#virksomhed" data-sec="virksomhed">💼 Til virksomheder <small>1</small></a></li>
   </ul>
 </nav>
 
@@ -576,6 +578,53 @@ footer a:hover{text-decoration:underline}
           <h3>Træf-butik</h3>
           <p>Kiosken til jeres LAN-party. Deltagerne bestiller fra deres PC, og butikken ser ordrerne live. Virker uden internet – gratis.</p>
           <span class="play">Hent programmet <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+        <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="cat" id="virksomhed" aria-labelledby="h-virksomhed">
+    <div class="cat-head"><span class="cat-ico" aria-hidden="true">💼</span><div><h2 id="h-virksomhed">Til virksomheder</h2><p>Platforme jeg er ved at bygge</p></div></div>
+    <div class="grid">
+      <a class="card tidla" href="tidla/">
+        <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="ti-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C3AED"/><stop offset=".6" stop-color="#B23ADB"/><stop offset="1" stop-color="#DB2777"/></linearGradient>
+          </defs>
+          <rect width="320" height="220" fill="url(#ti-bg)"/>
+          <g fill="#fff"><circle cx="26" cy="24" r="1.6"/><circle cx="296" cy="200" r="1.5" opacity=".8"/><circle cx="40" cy="190" r="1.2" opacity=".7"/></g>
+          <g transform="translate(112 26)">
+            <rect x="0" y="0" width="96" height="176" rx="16" fill="#1B1430"/>
+            <rect x="6" y="8" width="84" height="160" rx="11" fill="#fff"/>
+            <rect x="6" y="8" width="84" height="34" rx="11" fill="#9B5CF0"/><rect x="6" y="30" width="84" height="12" fill="#9B5CF0"/>
+            <rect x="14" y="34" width="18" height="18" rx="5" fill="#fff" stroke="#E6E0F2"/>
+            <rect x="14" y="58" width="50" height="6" rx="3" fill="#2A2140"/>
+            <rect x="14" y="70" width="68" height="14" rx="4" fill="#F1ECFB"/>
+            <g><rect x="14" y="90" width="14" height="18" rx="4" fill="#F1ECFB"/><rect x="31" y="90" width="14" height="18" rx="4" fill="#7C3AED"/><rect x="48" y="90" width="14" height="18" rx="4" fill="#F1ECFB"/><rect x="65" y="90" width="17" height="18" rx="4" fill="#F1ECFB"/></g>
+            <g><rect x="14" y="114" width="20" height="10" rx="5" fill="#F1ECFB"/><rect x="38" y="114" width="20" height="10" rx="5" fill="#F1ECFB"/><rect x="62" y="114" width="20" height="10" rx="5" fill="#7C3AED"/></g>
+            <rect x="14" y="146" width="68" height="14" rx="5" fill="#7C3AED"/>
+          </g>
+          <g transform="translate(58 92)">
+            <circle r="30" fill="#fff" opacity=".95"/>
+            <g stroke="#7C3AED" stroke-width="4" stroke-linecap="round" fill="none"><circle cx="-8" cy="8" r="6"/><circle cx="8" cy="8" r="6"/><path d="M-4 3 L10 -16 M4 3 L-10 -16"/></g>
+          </g>
+          <g transform="translate(258 70)">
+            <rect x="-40" y="-18" width="80" height="36" rx="10" fill="#fff"/>
+            <text x="0" y="6" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-size="14" font-weight="700" fill="#16A34A">✓ Booket</text>
+          </g>
+          <g transform="translate(256 150)">
+            <rect x="-38" y="-18" width="76" height="36" rx="10" fill="#fff"/>
+            <text x="0" y="6" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-size="14" font-weight="700" fill="#7C3AED">495 kr</text>
+          </g>
+        </svg>
+          <span class="badge">Kommer snart</span>
+        </div>
+        <div class="body">
+          <h3>Tidla</h3>
+          <p>Bookingsystem til frisører og saloner. Egen bookingside, online betaling, kalender og regnskab – som abonnement.</p>
+          <span class="play">Se projektet <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
         <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
       </a>
