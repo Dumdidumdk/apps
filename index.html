@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mine apps og spil</title>
-<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab – plus ServerMester og Træf-butik til Windows og Tidla til saloner.">
+<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab – plus ServerMester og Træf-butik til Windows Tidla til saloner og Pakkescanner til lagre.">
 <meta name="theme-color" content="#FF7A45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD66B'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
@@ -130,6 +130,7 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .card.traef{--c:#0891B2}
 .card.regnskab{--c:#2B5C8A}
 .card.tidla{--c:#7C3AED}
+.card.pakke{--c:#2563EB}
 
 /* Mobil: lave rækker, så man kan se mange apps på én skærm */
 @media (max-width:640px){
@@ -194,7 +195,7 @@ footer a:hover{text-decoration:underline}
       <h1>Små apps og spil, <span>lavet med glæde</span></h1>
       <p>Opskrifter, spil og smarte små værktøjer. Det hele kører direkte i browseren, på computeren og på mobilen.</p>
       <div class="cta-row">
-        <a class="btn btn-main" href="#mad">Se alle 10
+        <a class="btn btn-main" href="#mad">Se alle 11
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
         <div class="facts"><span>✓ Helt gratis</span><span>✓ Intet at installere</span><span>✓ Virker på mobilen</span></div>
       </div>
@@ -229,7 +230,7 @@ footer a:hover{text-decoration:underline}
     <li><a href="#spil" data-sec="spil">🎮 Spil <small>3</small></a></li>
     <li><a href="#vaerktoej" data-sec="vaerktoej">🧰 Nyttige apps <small>2</small></a></li>
     <li><a href="#programmer" data-sec="programmer">💻 Programmer <small>2</small></a></li>
-    <li><a href="#virksomhed" data-sec="virksomhed">💼 Til virksomheder <small>1</small></a></li>
+    <li><a href="#virksomhed" data-sec="virksomhed">💼 Til virksomheder <small>2</small></a></li>
   </ul>
 </nav>
 
@@ -585,7 +586,7 @@ footer a:hover{text-decoration:underline}
   </section>
 
   <section class="cat" id="virksomhed" aria-labelledby="h-virksomhed">
-    <div class="cat-head"><span class="cat-ico" aria-hidden="true">💼</span><div><h2 id="h-virksomhed">Til virksomheder</h2><p>Platforme jeg er ved at bygge</p></div></div>
+    <div class="cat-head"><span class="cat-ico" aria-hidden="true">💼</span><div><h2 id="h-virksomhed">Til virksomheder</h2><p>Systemer til firmaer, som jeg er ved at bygge</p></div></div>
     <div class="grid">
       <a class="card tidla" href="tidla/">
         <div class="thumb" aria-hidden="true">
@@ -624,6 +625,50 @@ footer a:hover{text-decoration:underline}
         <div class="body">
           <h3>Tidla</h3>
           <p>Bookingsystem til frisører og saloner. Egen bookingside, online betaling, kalender og regnskab – som abonnement.</p>
+          <span class="play">Se projektet <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+        <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card pakke" href="pakkescanner/">
+        <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="pk-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D4ED8"/><stop offset=".6" stop-color="#2563EB"/><stop offset="1" stop-color="#06B6D4"/></linearGradient>
+            <linearGradient id="pk-box" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9955B"/><stop offset="1" stop-color="#A8743F"/></linearGradient>
+          </defs>
+          <rect width="320" height="220" fill="url(#pk-bg)"/>
+          <g fill="#fff"><circle cx="28" cy="26" r="1.6"/><circle cx="300" cy="196" r="1.5" opacity=".8"/><circle cx="292" cy="30" r="1.2" opacity=".7"/></g>
+          <g transform="translate(34 74)">
+            <path d="M0 28 L70 0 L140 28 L70 56Z" fill="#E0B07A"/>
+            <path d="M0 28 L70 56 L70 136 L0 108Z" fill="url(#pk-box)"/>
+            <path d="M140 28 L70 56 L70 136 L140 108Z" fill="#8F5F31"/>
+            <path d="M35 14 L105 42 L105 60 L35 32Z" fill="#F3D9B5" opacity=".7"/>
+            <g transform="translate(10 62) skewY(22)">
+              <rect width="50" height="30" rx="3" fill="#fff"/>
+              <g fill="#111"><rect x="5" y="5" width="2" height="16"/><rect x="9" y="5" width="1" height="16"/><rect x="12" y="5" width="3" height="16"/><rect x="17" y="5" width="1" height="16"/><rect x="20" y="5" width="2" height="16"/><rect x="24" y="5" width="3" height="16"/><rect x="29" y="5" width="1" height="16"/><rect x="32" y="5" width="2" height="16"/><rect x="36" y="5" width="1" height="16"/><rect x="39" y="5" width="3" height="16"/><rect x="44" y="5" width="1" height="16"/></g>
+            </g>
+          </g>
+          <g transform="translate(196 30)">
+            <rect x="0" y="0" width="86" height="160" rx="15" fill="#0F172A"/>
+            <rect x="6" y="8" width="74" height="144" rx="10" fill="#F4F6FA"/>
+            <rect x="12" y="16" width="30" height="13" rx="4" fill="#16A34A"/><rect x="45" y="16" width="29" height="13" rx="4" fill="#fff" stroke="#D5DBE5"/>
+            <rect x="12" y="35" width="62" height="50" rx="6" fill="#2B2A28"/>
+            <rect x="20" y="44" width="46" height="32" rx="3" fill="#FBFAF6"/>
+            <g fill="#111"><rect x="24" y="49" width="2" height="18"/><rect x="28" y="49" width="1" height="18"/><rect x="31" y="49" width="3" height="18"/><rect x="36" y="49" width="1" height="18"/><rect x="39" y="49" width="2" height="18"/><rect x="43" y="49" width="3" height="18"/><rect x="48" y="49" width="1" height="18"/><rect x="51" y="49" width="2" height="18"/><rect x="55" y="49" width="1" height="18"/><rect x="58" y="49" width="3" height="18"/></g>
+            <rect x="16" y="58" width="54" height="2" fill="#EF4444"/>
+            <rect x="12" y="92" width="62" height="16" rx="4" fill="#fff"/><rect x="12" y="92" width="3" height="16" fill="#EA580C"/><rect x="19" y="97" width="12" height="6" rx="2" fill="#EA580C"/><rect x="35" y="97" width="30" height="6" rx="2" fill="#CBD2DD"/>
+            <rect x="12" y="112" width="62" height="16" rx="4" fill="#fff"/><rect x="12" y="112" width="3" height="16" fill="#16A34A"/><rect x="19" y="117" width="12" height="6" rx="2" fill="#16A34A"/><rect x="35" y="117" width="30" height="6" rx="2" fill="#CBD2DD"/>
+          </g>
+          <g transform="translate(176 172)">
+            <rect x="-44" y="-17" width="88" height="34" rx="10" fill="#fff"/>
+            <text x="0" y="6" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-size="14" font-weight="700" fill="#16A34A">✓ Scannet ind</text>
+          </g>
+        </svg>
+          <span class="badge">Til lagre</span>
+        </div>
+        <div class="body">
+          <h3>Pakkescanner</h3>
+          <p>Scan pakker ind og ud med mobilens kamera. Hvem, hvornår og hvor – også uden internet. Overblik på computeren.</p>
           <span class="play">Se projektet <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
         <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>

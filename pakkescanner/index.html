@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pakkescanner – scan pakker med mobilen</title>
+<meta name="description" content="Pakkescanner: scan pakker ind og ud med telefonens kamera. Hvem, hvornår og hvor afleveret – også uden internet. Alt kan ses på computeren.">
+<meta property="og:title" content="Pakkescanner – scan pakker med mobilen">
+<meta property="og:description" content="Scan pakker ind og ud med telefonens kamera – virker også offline.">
+<meta property="og:image" content="img/oversigt.webp">
+<meta name="theme-color" content="#2563EB">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Cg fill='white'%3E%3Crect x='14' y='18' width='4' height='28'/%3E%3Crect x='21' y='18' width='2' height='28'/%3E%3Crect x='26' y='18' width='5' height='28'/%3E%3Crect x='34' y='18' width='2' height='28'/%3E%3Crect x='39' y='18' width='4' height='28'/%3E%3Crect x='46' y='18' width='4' height='28'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6FA; --panel:#FFFFFF; --line:#E1E6EF;
+  --ink:#111827; --muted:#5B6474; --soft:#384152;
+  --accent:#2563EB; --in:#16A34A; --out:#EA580C; --warn:#B45309;
+  --grad:linear-gradient(120deg,#2563EB 0%,#3B82F6 55%,#06B6D4 100%);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.1;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+
+.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,#FFFFFF 85%,transparent);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px "Space Grotesk",sans-serif}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--accent);display:grid;place-items:center;box-shadow:0 6px 20px #2563EB55}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:15px;font-weight:600;color:var(--soft)}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+@media (max-width:700px){.top nav a:not(.hjem){display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border-radius:12px;font:600 16px Inter,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+.btn-main{background:var(--accent);color:#fff;box-shadow:0 10px 30px #2563EB55}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 40px #2563EB77}
+.btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent)}
+
+.hero{position:relative;padding:64px 0 72px;overflow:hidden;background:linear-gradient(180deg,#E3ECFF 0%,var(--bg) 100%)}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
+  radial-gradient(closest-side,#2563EB26,transparent 70%) 10% 30%/600px 600px no-repeat,
+  radial-gradient(closest-side,#06B6D424,transparent 70%) 90% 10%/700px 700px no-repeat;pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero-txt{display:grid;gap:22px;justify-items:start}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
+.pill b{background:var(--in);color:#fff;border-radius:999px;padding:2px 9px;font-size:12px}
+.hero h1{font-size:clamp(38px,6.4vw,68px);font-weight:700;text-wrap:balance}
+.hero p.lead{font-size:clamp(17px,2.2vw,20px);color:var(--soft);max-width:54ch;margin:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.under{font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
+.under span::before{content:"✓ ";color:var(--in);font-weight:700}
+.phones{position:relative;display:flex;justify-content:center;gap:18px}
+.phone{width:min(46%,250px);border-radius:28px;padding:8px;background:#0F172A;box-shadow:0 30px 70px #0F172A40}
+.phone img{border-radius:21px}
+.phone:nth-child(2){margin-top:48px}
+@media (max-width:860px){
+  .hero{padding:44px 0 56px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-txt{justify-items:center;text-align:center}
+  .cta-row,.under{justify-content:center}
+}
+
+section{padding:88px 0}
+@media (max-width:640px){section{padding:64px 0}}
+.kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.sec-head{max-width:720px;margin-bottom:44px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-size:clamp(30px,4.6vw,46px)}
+.sec-head p{color:var(--soft);margin:16px 0 0;font-size:18px}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;position:relative}
+.step .tag{display:inline-block;font:700 13px Inter,sans-serif;border-radius:8px;padding:3px 10px;color:#fff;margin-bottom:14px}
+.tag.in{background:var(--in)} .tag.out{background:var(--out)} .tag.pc{background:var(--accent)}
+.step h3{font-size:22px;margin-bottom:8px}
+.step p{margin:0;color:var(--soft)}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:88px}
+.split:last-child{margin-bottom:0}
+.split.rev .txt{order:2}
+.split h3{font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
+.split p{color:var(--soft);margin:0 0 16px}
+.split ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.split li{display:flex;gap:10px;color:var(--soft)}
+.split li::before{content:"✓";color:var(--accent);font-weight:700}
+.split .pic{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 60px #0F172A22;background:#fff}
+.split .phone{margin:0 auto;width:min(100%,290px)}
+.wide{grid-template-columns:.8fr 1.4fr}
+@media (max-width:860px){.split,.wide{grid-template-columns:1fr;gap:28px}.split.rev .txt{order:0}}
+
+.alt{background:var(--panel);border-block:1px solid var(--line)}
+
+.offline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.off{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:22px}
+.off .n{width:34px;height:34px;border-radius:10px;background:#2563EB1A;color:var(--accent);display:grid;place-items:center;font:700 16px "Space Grotesk",sans-serif;margin-bottom:12px}
+.off h3{font-size:18px;margin-bottom:6px}
+.off p{margin:0;color:var(--soft);font-size:15px}
+@media (max-width:900px){.offline{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.offline{grid-template-columns:1fr}}
+
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.st{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.st b{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;margin-bottom:12px}
+.st.done b{background:#16A34A1F;color:var(--in)} .st.next b{background:#F59E0B22;color:var(--warn)}
+.st h3{font-size:18px;margin-bottom:6px}
+.st p{margin:0;color:var(--soft);font-size:15px}
+@media (max-width:900px){.status{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.status{grid-template-columns:1fr}}
+
+.code{background:#0F172A;color:#E2E8F0;border-radius:14px;padding:20px 22px;font:14px/1.7 ui-monospace,Consolas,monospace;overflow-x:auto;margin:0}
+.code .c{color:#7DD3FC}
+.tech{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.tech ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;color:var(--soft)}
+.tech li b{color:var(--ink)}
+@media (max-width:860px){.tech{grid-template-columns:1fr}}
+
+footer{padding:40px 0 56px;text-align:center;color:var(--muted);font-size:15px}
+footer a{font-weight:600;color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><rect x="3" y="4" width="2.4" height="16"/><rect x="7" y="4" width="1.2" height="16"/><rect x="10" y="4" width="3" height="16"/><rect x="15" y="4" width="1.2" height="16"/><rect x="18.4" y="4" width="2.6" height="16"/></svg></i>Pakkescanner</a>
+    <nav>
+      <a href="#saadan">Sådan virker den</a>
+      <a href="#offline">Offline</a>
+      <a href="#status">Status</a>
+      <a class="hjem" href="../">← Alle mine apps</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-txt">
+      <span class="pill"><b>Virker</b> Klar til test – kører på egen server</span>
+      <h1>Scan pakker <span class="grad-text">ind og ud</span> med mobilen</h1>
+      <p class="lead">Medarbejderne scanner pakkens stregkode med telefonens kamera. Der gemmes hvem, hvornår og hvor den blev afleveret – også selvom nettet er væk. På computeren kan man se det hele.</p>
+      <div class="cta-row">
+        <a class="btn btn-main" href="#saadan">Se hvordan den virker</a>
+        <a class="btn btn-ghost" href="https://github.com/Dumdidumdk/pakkescanner">Koden på GitHub</a>
+      </div>
+      <div class="under"><span>Ingen app store</span><span>Virker offline</span><span>Billede ved aflevering</span></div>
+    </div>
+    <div class="phones">
+      <div class="phone"><img src="img/scan.webp" width="780" height="1688" alt="Scanneren på mobilen med en pakke i kameraet" loading="eager"></div>
+      <div class="phone"><img src="img/scan-ud.webp" width="780" height="1688" alt="Udscanning med afleveringssted og billede" loading="eager"></div>
+    </div>
+  </div>
+</div>
+
+<section id="saadan">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Sådan virker den</span>
+      <h2>Tre ting – og det er det</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="tag in">IND</span><h3>Pakken kommer</h3><p>Tryk "Scan ind" og hold kameraet mod stregkoden. Den læses automatisk med et bip, og så er man klar til den næste.</p></div>
+      <div class="step"><span class="tag out">UD</span><h3>Pakken afleveres</h3><p>Tryk "Scan ud", scan koden og vælg hvor den blev afleveret. Tag evt. et billede som bevis og skriv en note.</p></div>
+      <div class="step"><span class="tag pc">PC</span><h3>Overblik på computeren</h3><p>Se alle scanninger, søg på en stregkode, se en pakkes historik og hvilke pakker der er inde lige nu.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="split">
+      <div class="txt">
+        <span class="kicker">Mobilen</span>
+        <h3>Hurtig scanning i serie</h3>
+        <p>Det er en webside, som kan gemmes på hjemmeskærmen. Folk åbner bare et link og logger ind.</p>
+        <ul>
+          <li>Læser almindelige stregkoder (EAN-13, Code 128 m.fl.)</li>
+          <li>Koden skal læses to gange ens, så fejllæsninger undgås</li>
+          <li>Kan ikke koden læses, tastes nummeret ind</li>
+          <li>Advarsel hvis pakken aldrig er scannet ind eller allerede er ude</li>
+        </ul>
+      </div>
+      <div class="phone"><img src="img/scan.webp" width="780" height="1688" alt="Scan ind på mobilen" loading="lazy"></div>
+    </div>
+
+    <div class="split wide rev">
+      <div class="pic"><img src="img/oversigt.webp" width="1280" height="800" alt="Oversigten med alle scanninger på computeren" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Computeren</span>
+        <h3>Alt samlet ét sted</h3>
+        <p>Kun administratorer kan se oversigten.</p>
+        <ul>
+          <li>Filtrér på dato, medarbejder, ind/ud og advarsler</li>
+          <li>Søg på stregkode, sted eller note</li>
+          <li>Klik på en pakke og se hele dens historik</li>
+          <li>Fane med pakker, der er inde lige nu</li>
+          <li>Se billederne fra afleveringen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="offline">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Uden internet</span>
+      <h2>Intet går tabt, når nettet ryger</h2>
+      <p>På lageret, i kælderen eller ude på ruten – man kan bare blive ved med at scanne.</p>
+    </div>
+    <div class="offline">
+      <div class="off"><div class="n">1</div><h3>Gemmes først på telefonen</h3><p>Hver scanning (også billedet) lægges i telefonens kø, før den sendes.</p></div>
+      <div class="off"><div class="n">2</div><h3>Sendes af sig selv</h3><p>Så snart der er net igen, sendes køen. Man skal ikke gøre noget.</p></div>
+      <div class="off"><div class="n">3</div><h3>Aldrig to gange</h3><p>Hver scanning har sit eget id, så serveren gemmer den kun én gang.</p></div>
+      <div class="off"><div class="n">4</div><h3>Rigtigt tidspunkt</h3><p>Tiden er den, hvor der blev scannet – ikke hvornår den nåede frem.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="status" class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Status</span>
+      <h2>Hvor langt er den?</h2>
+    </div>
+    <div class="status">
+      <div class="st done"><b>Færdig</b><h3>Login</h3><p>Brugere med kode, administratorer og almindelige scannere.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Scanning</h3><p>Kamera, ind/ud, billede, manuel indtastning og offline-kø.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Oversigt</h3><p>Tabel, filtre, pakkehistorik og pakker inde nu.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Excel-eksport</h3><p>Download det, der er filtreret frem, som en .xlsx-fil.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Brugere og steder</h3><p>Opret brugere og afleveringssteder direkte i oversigten.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Drift</h3><p>Fast server med HTTPS og daglig backup.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap tech">
+    <div>
+      <span class="kicker">Selv køre den</span>
+      <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:16px">Kører på din egen computer</h2>
+      <p style="color:var(--soft);margin:0 0 18px">Pakkescanneren har en lille server med database, så den kan ikke køre direkte her på siden. Den kan køre på en almindelig pc, en Raspberry Pi eller en lille server.</p>
+      <ul>
+        <li><b>Node.js 24</b> med indbygget SQLite – én databasefil</li>
+        <li><b>Koder</b> gemmes krypteret (bcrypt)</li>
+        <li><b>Kameraet</b> kræver HTTPS, fx via Cloudflare Tunnel</li>
+      </ul>
+    </div>
+<pre class="code"><span class="c"># Hent og start</span>
+git clone https://github.com/Dumdidumdk/pakkescanner.git
+cd pakkescanner
+npm install
+
+<span class="c"># Første administrator</span>
+npm run create-user -- admin &lt;kode&gt; "Dit Navn" admin
+
+npm start   <span class="c"># http://localhost:3000</span></pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Pakkescanner er et af mine projekter. <a href="../">Se alle mine apps og spil →</a></div>
+</footer>
+
+</body>
+</html>
