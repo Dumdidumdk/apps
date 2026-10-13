@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pakkescanner – scan pakker med mobilen</title>
-<meta name="description" content="Pakkescanner: scan pakker ind og ud med telefonens kamera. Hvem, hvornår og hvor afleveret – også uden internet. Alt kan ses på computeren.">
+<meta name="description" content="Pakkescanner: scan pakker ind og ud med telefonens kamera. Hvem, hvornår og hvor afleveret – også uden internet. Gratis program til din egen Windows-server.">
 <meta property="og:title" content="Pakkescanner – scan pakker med mobilen">
 <meta property="og:description" content="Scan pakker ind og ud med telefonens kamera – virker også offline.">
 <meta property="og:image" content="img/oversigt.webp">
@@ -124,6 +124,10 @@ section{padding:88px 0}
 .tech li b{color:var(--ink)}
 @media (max-width:860px){.tech{grid-template-columns:1fr}}
 
+.steps-list{list-style:none;counter-reset:n;margin:0;padding:0;display:grid;gap:14px}
+.steps-list li{counter-increment:n;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px 18px 64px;color:var(--soft)}
+.steps-list li::before{content:counter(n);position:absolute;left:18px;top:16px;width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;display:grid;place-items:center;font:700 16px "Space Grotesk",sans-serif}
+.steps-list b{color:var(--ink)}
 footer{padding:40px 0 56px;text-align:center;color:var(--muted);font-size:15px}
 footer a{font-weight:600;color:var(--accent)}
 </style>
@@ -136,7 +140,7 @@ footer a{font-weight:600;color:var(--accent)}
     <nav>
       <a href="#saadan">Sådan virker den</a>
       <a href="#offline">Offline</a>
-      <a href="#status">Status</a>
+      <a href="#installer">Installér</a>
       <a class="hjem" href="../">← Alle mine apps</a>
     </nav>
   </div>
@@ -145,14 +149,14 @@ footer a{font-weight:600;color:var(--accent)}
 <div class="hero">
   <div class="wrap hero-grid">
     <div class="hero-txt">
-      <span class="pill"><b>Virker</b> Klar til test – kører på egen server</span>
+      <span class="pill"><b>Ny</b> Version <span class="dl-ver">1.1</span> – klar til din egen server</span>
       <h1>Scan pakker <span class="grad-text">ind og ud</span> med mobilen</h1>
       <p class="lead">Medarbejderne scanner pakkens stregkode med telefonens kamera. Der gemmes hvem, hvornår og hvor den blev afleveret – også selvom nettet er væk. På computeren kan man se det hele.</p>
       <div class="cta-row">
-        <a class="btn btn-main" href="#saadan">Se hvordan den virker</a>
-        <a class="btn btn-ghost" href="https://github.com/Dumdidumdk/pakkescanner">Koden på GitHub</a>
+        <a class="btn btn-main dl" href="https://github.com/Dumdidumdk/pakkescanner/releases/latest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Hent til Windows</a>
+        <a class="btn btn-ghost" href="#saadan">Se hvordan den virker</a>
       </div>
-      <div class="under"><span>Ingen app store</span><span>Virker offline</span><span>Billede ved aflevering</span></div>
+      <div class="under"><span>Gratis</span><span>Virker offline</span><span>Data på din egen server</span></div>
     </div>
     <div class="phones">
       <div class="phone"><img src="img/scan.webp" width="780" height="1688" alt="Scanneren på mobilen med en pakke i kameraet" loading="eager"></div>
@@ -204,6 +208,35 @@ footer a{font-weight:600;color:var(--accent)}
           <li>Klik på en pakke og se hele dens historik</li>
           <li>Fane med pakker, der er inde lige nu</li>
           <li>Se billederne fra afleveringen</li>
+          <li>Download som Excel – alle scanninger og status pr. pakke</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="split wide">
+      <div class="txt">
+        <span class="kicker">Indstillinger</span>
+        <h3>Telefonerne på med én QR-kode</h3>
+        <p>Kameraet kræver en sikker https-forbindelse. Pakkescanner laver den selv gennem Cloudflare – gratis og uden at røre routeren.</p>
+        <ul>
+          <li>Hurtig adresse med det samme, uden konto</li>
+          <li>Eller din egen faste adresse, fx pakker.ditfirma.dk</li>
+          <li>Scan QR-koden, log ind og læg den på startskærmen</li>
+        </ul>
+      </div>
+      <div class="pic"><img src="img/indstillinger.webp" width="900" height="650" alt="Indstillinger med QR-kode til telefonerne" loading="lazy"></div>
+    </div>
+
+    <div class="split wide rev">
+      <div class="pic"><img src="img/brugere.webp" width="1280" height="460" alt="Brugere i oversigten" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Brugere og steder</span>
+        <h3>Styr det hele fra oversigten</h3>
+        <ul>
+          <li>Opret medarbejdere med eget login</li>
+          <li>Scannere kan kun scanne – administratorer ser det hele</li>
+          <li>Ny kode eller deaktivér med ét klik</li>
+          <li>Faste afleveringssteder vises som forslag på telefonen</li>
         </ul>
       </div>
     </div>
@@ -230,46 +263,61 @@ footer a{font-weight:600;color:var(--accent)}
   <div class="wrap">
     <div class="sec-head center">
       <span class="kicker">Status</span>
-      <h2>Hvor langt er den?</h2>
+      <h2>Alle seks faser er færdige</h2>
     </div>
     <div class="status">
       <div class="st done"><b>Færdig</b><h3>Login</h3><p>Brugere med kode, administratorer og almindelige scannere.</p></div>
       <div class="st done"><b>Færdig</b><h3>Scanning</h3><p>Kamera, ind/ud, billede, manuel indtastning og offline-kø.</p></div>
       <div class="st done"><b>Færdig</b><h3>Oversigt</h3><p>Tabel, filtre, pakkehistorik og pakker inde nu.</p></div>
-      <div class="st next"><b>Næste skridt</b><h3>Excel-eksport</h3><p>Download det, der er filtreret frem, som en .xlsx-fil.</p></div>
-      <div class="st next"><b>Næste skridt</b><h3>Brugere og steder</h3><p>Opret brugere og afleveringssteder direkte i oversigten.</p></div>
-      <div class="st next"><b>Næste skridt</b><h3>Drift</h3><p>Fast server med HTTPS og daglig backup.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Excel</h3><p>Download det, der er filtreret frem, som et regneark.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Brugere og steder</h3><p>Opret brugere og afleveringssteder direkte i oversigten.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Installation</h3><p>Opsætningsprogram til Windows, HTTPS og daglig backup.</p></div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="installer">
   <div class="wrap tech">
     <div>
-      <span class="kicker">Selv køre den</span>
-      <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:16px">Kører på din egen computer</h2>
-      <p style="color:var(--soft);margin:0 0 18px">Pakkescanneren har en lille server med database, så den kan ikke køre direkte her på siden. Den kan køre på en almindelig pc, en Raspberry Pi eller en lille server.</p>
+      <span class="kicker">Installér</span>
+      <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:16px">Kører på din egen server</h2>
+      <p style="color:var(--soft);margin:0 0 18px">Pakkescanner installeres på en Windows-pc eller -server i firmaet. Den kører i baggrunden og starter selv, når computeren tænder. Alle data bliver hos dig.</p>
+      <div class="cta-row" style="margin-bottom:22px">
+        <a class="btn btn-main dl" href="https://github.com/Dumdidumdk/pakkescanner/releases/latest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Hent Pakkescanner <span class="dl-ver">1.1</span></a>
+      </div>
       <ul>
-        <li><b>Node.js 24</b> med indbygget SQLite – én databasefil</li>
-        <li><b>Koder</b> gemmes krypteret (bcrypt)</li>
-        <li><b>Kameraet</b> kræver HTTPS, fx via Cloudflare Tunnel</li>
+        <li><b>Windows 10, 11 eller Server</b> – alt andet er med i programmet</li>
+        <li><b>Daglig backup</b> af databasen, de seneste 30 dage</li>
+        <li><b>Opdatering:</b> kør den nye version – data bevares</li>
+        <li><b>Linux eller Mac:</b> kør den med Node.js 24 – se <a href="https://github.com/Dumdidumdk/pakkescanner#readme">vejledningen</a></li>
       </ul>
     </div>
-<pre class="code"><span class="c"># Hent og start</span>
-git clone https://github.com/Dumdidumdk/pakkescanner.git
-cd pakkescanner
-npm install
-
-<span class="c"># Første administrator</span>
-npm run create-user -- admin &lt;kode&gt; "Dit Navn" admin
-
-npm start   <span class="c"># http://localhost:3000</span></pre>
+    <ol class="steps-list">
+      <li><b>Hent og kør</b> opsætningsprogrammet på serveren, og tryk Installér. Siger Windows "beskyttede din pc", så tryk <em>Flere oplysninger → Kør alligevel</em>.</li>
+      <li><b>Opret dig selv</b> som administrator i browseren, der åbner.</li>
+      <li><b>Vælg under Indstillinger</b>, hvordan telefonerne skal forbinde, og scan QR-koden.</li>
+      <li><b>Opret medarbejdere</b> og afleveringssteder – så er I i gang.</li>
+    </ol>
   </div>
 </section>
 
 <footer>
   <div class="wrap">Pakkescanner er et af mine projekter. <a href="../">Se alle mine apps og spil →</a></div>
 </footer>
+
+<script>
+// Peg download-knapperne direkte på den nyeste Pakkescanner-Setup.exe
+fetch('https://api.github.com/repos/Dumdidumdk/pakkescanner/releases/latest')
+  .then(r => r.ok ? r.json() : null)
+  .then(rel => {
+    const exe = rel && (rel.assets || []).find(a => /setup.*.exe$/i.test(a.name));
+    if (!exe) return;
+    for (const a of document.querySelectorAll('a.dl')) a.href = exe.browser_download_url;
+    const v = (rel.tag_name || '').replace(/^v/, '').replace(/.0$/, '');
+    if (v) for (const s of document.querySelectorAll('.dl-ver')) s.textContent = v;
+  })
+  .catch(() => {});
+</script>
 
 </body>
 </html>
