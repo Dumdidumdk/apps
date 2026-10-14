@@ -293,7 +293,7 @@ footer a{font-weight:600;color:var(--accent)}
   var t = setTimeout(function () { ctrl.abort(); }, 6000);
   fetch('https://server.tail6dd435.ts.net/api/setup/status', { signal: ctrl.signal, cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw 0; dot.className = 'dot on'; txt.textContent = 'Testserveren er online'; })
-    .catch(function () { dot.className = 'dot off'; txt.textContent = 'Testserveren er slukket lige nu'; })
+    .catch(function () { dot.className = 'dot off'; txt.textContent = 'Kunne ikke se om testserveren er tændt – prøv knapperne'; })
     .finally(function () { clearTimeout(t); });
 })();
 </script>
