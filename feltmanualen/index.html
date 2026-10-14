@@ -1,0 +1,450 @@
+<title>Feltmanualen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: hero + STOP plan + packing list, then sticky filters over a grid of illustrated plates (picture on top, numbered steps below; numbers on the picture match the steps) */
+:root{
+  --bg:#e9ebe3; --panel:#f6f7f1; --ink:#1f2a22; --muted:#55615a; --line:#c5cabd;
+  --accent:#d9480f; --accent-ink:#ffffff; --warn:#a4262c; --warnbg:#f6e3df; --ok:#2f6b3a;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a16; --panel:#1c241f; --ink:#e6eadf; --muted:#9aa69c; --line:#323d35;
+  --accent:#ff8a4c; --accent-ink:#141a16; --warn:#ff9a93; --warnbg:#3a1f1f; --ok:#8fd19a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a16; --panel:#1c241f; --ink:#e6eadf; --muted:#9aa69c; --line:#323d35;
+  --accent:#ff8a4c; --accent-ink:#141a16; --warn:#ff9a93; --warnbg:#3a1f1f; --ok:#8fd19a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);padding-inline:16px;padding-block:24px 56px;margin:0}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:grid;gap:18px;margin-bottom:26px}
+h1{font:700 clamp(2.6rem,9vw,5.2rem)/.9 var(--f-display);text-transform:uppercase;margin:0}
+h1 span{color:var(--accent)}
+.sub{color:var(--muted);max-width:62ch;margin:0}
+.rule3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.rule3 div{background:var(--panel);padding:12px 14px;min-width:0}
+.rule3 b{font:700 2.2rem/1 var(--f-display);color:var(--accent);display:block}
+.rule3 small{color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;margin-bottom:28px}
+.box{background:var(--panel);border:1px solid var(--line);padding:16px;min-width:0}
+.box h3{font:700 1.5rem/1 var(--f-display);text-transform:uppercase;margin:0 0 10px}
+.stop{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.stop li{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}
+.stop b{font:700 1.8rem/1 var(--f-display);color:var(--accent-ink);background:var(--accent);text-align:center;padding:6px 0}
+.pack{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 14px}
+.pack label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:.95rem}
+.pack input{margin-top:5px;accent-color:var(--accent)}
+.pack input:checked+span{color:var(--muted);text-decoration:line-through}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:grid;gap:10px;margin-bottom:20px}
+.bar input[type=search]{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:10px 12px;width:100%}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:600 .78rem var(--f-mono);text-transform:uppercase;letter-spacing:.06em;padding:7px 11px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:focus-visible,.bar input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.count{font:500 .8rem var(--f-mono);color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:22px}
+.plate{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.fig{border-bottom:1px solid var(--line);position:relative;background:#cfe3e8}
+.fig svg{display:block;width:100%;height:auto}
+.tag{position:absolute;right:10px;top:10px;font:600 .72rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;background:var(--accent);color:var(--accent-ink);padding:3px 8px}
+.body{padding:16px;display:grid;gap:12px}
+h2{font:700 1.8rem/1.05 var(--f-display);text-transform:uppercase;margin:0}
+.body p{margin:0;color:var(--muted)}
+ol{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:9px}
+ol li{counter-increment:s;display:grid;grid-template-columns:26px 1fr;gap:10px}
+ol li::before{content:counter(s);font:600 .8rem var(--f-mono);background:var(--accent);color:var(--accent-ink);border-radius:50%;width:24px;height:24px;display:grid;place-items:center}
+.warn{background:var(--warnbg);color:var(--warn);padding:10px 12px;font-size:.92rem;font-weight:500}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+footer{margin-top:32px;color:var(--muted);font-size:.9rem;max-width:70ch}
+svg .tx{font:600 11px var(--f-mono);fill:#26302a}
+svg .nm{font:700 12px var(--f-body);fill:#fff}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fc2e6"/><stop offset="1" stop-color="#e6f4ef"/></linearGradient>
+<linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070d24"/><stop offset="1" stop-color="#2c3f6e"/></linearGradient>
+<linearGradient id="skyS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9c4d9"/><stop offset="1" stop-color="#eaf2f7"/></linearGradient>
+<linearGradient id="skyE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6a45c"/><stop offset="1" stop-color="#fbe3b2"/></linearGradient>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#26302a"/></marker>
+</defs></svg>
+
+<div class="wrap">
+<header>
+  <h1>Feltmanualen<br><span>Overlevelse</span> trin for trin</h1>
+  <p class="sub">34 tegnede vejledninger: ild, vand, husly, mad, retning, signal, knob og førstehjælp. Tallene i billedet passer til trinene under det.</p>
+  <div class="rule3">
+    <div><b>3 min</b><small>uden luft</small></div>
+    <div><b>3 timer</b><small>uden husly i hård kulde</small></div>
+    <div><b>3 dage</b><small>uden vand</small></div>
+    <div><b>3 uger</b><small>uden mad</small></div>
+  </div>
+</header>
+
+<div class="two">
+  <section class="box">
+    <h3>STOP-reglen når du er faret vild</h3>
+    <ul class="stop">
+      <li><b>S</b><span><strong>Stands.</strong> Sæt dig ned, drik, træk vejret. Gå ikke videre i panik.</span></li>
+      <li><b>T</b><span><strong>Tænk.</strong> Hvor var du sidst sikker? Hvad har du med? Hvor lang tid er der til mørkets frembrud?</span></li>
+      <li><b>O</b><span><strong>Observér.</strong> Vejr, terræn, vand, læ, lyde fra veje og vand.</span></li>
+      <li><b>P</b><span><strong>Planlæg.</strong> Husly først, så vand, signal, og til sidst mad.</span></li>
+    </ul>
+  </section>
+  <section class="box">
+    <h3>Ti ting i rygsækken <span class="count" id="packcount"></span></h3>
+    <div class="pack" id="pack"></div>
+  </section>
+</div>
+
+<div class="bar">
+  <input id="q" type="search" placeholder="Søg: bål, vand, sne, SOS, knob ..." aria-label="Søg metoder">
+  <div class="chips" id="chips"></div>
+  <div class="count" id="n"></div>
+</div>
+<div class="grid" id="grid"></div>
+<p class="empty" id="empty" hidden>Ingen metoder matcher. Prøv et andet ord.</p>
+<footer>Ring 112 hvis du kan. Træn metoderne hjemme, før du får brug for dem. Spis aldrig planter eller svampe, du ikke kan artsbestemme med sikkerhed. Tegningerne viser princippet og er ikke målfaste.</footer>
+</div>
+
+<script>
+/* ---------- tegne-hjælpere ---------- */
+const O='stroke="#26302a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"';
+const day='<rect width="320" height="200" fill="url(#skyD)"/><ellipse cx="60" cy="40" rx="30" ry="9" fill="#fff" opacity=".75"/><ellipse cx="85" cy="34" rx="22" ry="8" fill="#fff" opacity=".75"/><path d="M0 124Q70 96 140 120T260 112 320 122V200H0z" fill="#a9c58a"/><rect y="134" width="320" height="66" fill="#86a35e"/>';
+const eve='<rect width="320" height="200" fill="url(#skyE)"/><path d="M0 124Q70 100 140 122T260 114 320 124V200H0z" fill="#8aa05c"/><rect y="134" width="320" height="66" fill="#6f8a4c"/>';
+const stars=[[20,20],[60,50],[100,18],[150,40],[200,16],[250,44],[290,22],[40,90],[120,80],[230,84],[300,70],[180,70]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.6" fill="#fff"/>`).join('');
+const night='<rect width="320" height="200" fill="url(#skyN)"/>'+stars+'<rect y="140" width="320" height="60" fill="#1f2f26"/>';
+const snow='<rect width="320" height="200" fill="url(#skyS)"/><path d="M0 130Q80 104 160 128T320 120V200H0z" fill="#e9f1f6"/><rect y="142" width="320" height="58" fill="#f9fcfe"/>';
+const water='<rect width="320" height="200" fill="url(#skyD)"/><path d="M0 84Q80 66 160 84T320 78V100H0z" fill="#6f9a5c"/><rect y="96" width="320" height="104" fill="#3b8fb5"/><path d="M10 112q15-6 30 0t30 0M180 118q15-6 30 0t30 0M100 170q15-6 30 0t30 0M240 150q15-6 30 0" stroke="#a9d9ec" stroke-width="2" fill="none"/>';
+const soil='<rect width="320" height="200" fill="#7a5a3a"/><path d="M20 160h8M80 170h10M180 180h9M260 162h8M120 190h9M300 185h9M220 150h7" stroke="#5c4228" stroke-width="3" stroke-linecap="round"/>';
+const ground=(y,c='#86a35e')=>`<rect y="${y}" width="320" height="${200-y}" fill="${c}"/>`;
+const sun=(x,y,r=16)=>`<circle cx="${x}" cy="${y}" r="${r+9}" fill="#ffd54a" opacity=".3"/><circle cx="${x}" cy="${y}" r="${r}" fill="#ffc933" ${O}/>`;
+const pine=(x,y,s=1,c='')=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-4" y="-14" width="8" height="16" fill="#7a4e2b" ${O}/><path d="M-26 -10 0 -48 26 -10z" fill="${c||'#2f6b3a'}" ${O}/><path d="M-21 -32 0 -66 21 -32z" fill="${c||'#3a7d44'}" ${O}/><path d="M-15 -52 0 -82 15 -52z" fill="${c||'#4a9552'}" ${O}/></g>`;
+const oak=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-6 0 -4-40 4-40 6 0z" fill="#7a4e2b" ${O}/><circle cx="-18" cy="-50" r="20" fill="#4e8f3f" ${O}/><circle cx="16" cy="-52" r="22" fill="#5a9a48" ${O}/><circle cx="0" cy="-70" r="20" fill="#68aa52" ${O}/></g>`;
+const fire=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-24" y="-4" width="48" height="9" rx="4" fill="#7a4e2b" ${O}/><path d="M0 0C-17-3-19-22-5-38 -4-27 1-25 4-32 15-19 17-5 0 0z" fill="#ff6a13" ${O}/><path d="M0 0C-9-3-9-14-2-22 -1-15 3-14 5-18 10-10 8-2 0 0z" fill="#ffc22e"/><path d="M0 0C-4-2-4-7 0-11 4-7 4-2 0 0z" fill="#fff2a8"/></g>`;
+const rock=(x,y,w=30,h=18)=>`<path d="M${x-w} ${y}Q${x-w} ${y-h} ${x} ${y-h}Q${x+w} ${y-h} ${x+w} ${y}z" fill="#9aa0a6" ${O}/><path d="M${x-w/2} ${y-h/2}q${w/3} -${h/3} ${w/1.5} 0" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none"/>`;
+const stick=(x1,y1,x2,y2,w=5,c='#a06a3b')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#26302a" stroke-width="${w+3}" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+const person=(x,y,s=1,rot=0,jacket='#c0392b')=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><rect x="-10" y="-30" width="8" height="30" rx="3" fill="#33406b" ${O}/><rect x="2" y="-30" width="8" height="30" rx="3" fill="#33406b" ${O}/><rect x="-13" y="-64" width="26" height="40" rx="9" fill="${jacket}" ${O}/><rect x="-19" y="-60" width="8" height="26" rx="4" fill="${jacket}" ${O}/><rect x="11" y="-60" width="8" height="26" rx="4" fill="${jacket}" ${O}/><circle cx="0" cy="-74" r="10" fill="#f1c9a0" ${O}/><path d="M-10 -76Q0 -92 10 -76z" fill="#5b3a1e" ${O}/></g>`;
+const label=(x,y,t)=>{const w=t.length*6.3+12;return `<rect x="${x}" y="${y-12}" width="${w}" height="18" rx="3" fill="#fffdf5" stroke="#26302a" stroke-width="1.5"/><text class="tx" x="${x+6}" y="${y+1}">${t}</text>`};
+const num=(x,y,n)=>`<circle cx="${x}" cy="${y}" r="11" fill="#d9480f" stroke="#fff" stroke-width="2"/><text class="nm" x="${x}" y="${y+4.5}" text-anchor="middle">${n}</text>`;
+const arrow=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#26302a" stroke-width="2.2" marker-end="url(#ah)"/>`;
+const smoke=(x,y,c='#fff')=>`<path d="M${x} ${y}q-14-14 0-28t0-28 12-24" stroke="${c}" stroke-width="14" stroke-linecap="round" fill="none" opacity=".8"/>`;
+const drop=(x,y)=>`<path d="M${x} ${y}c-5 7-5 11 0 11s5-4 0-11z" fill="#3b8fb5" ${O}/>`;
+const rope=(d,w=7)=>`<path d="${d}" stroke="#26302a" stroke-width="${w+3}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="#d9b36a" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+const plane=(x,y)=>`<g transform="translate(${x} ${y})"><path d="M-30 0Q-10-8 30-2L38 0 30 3Q-10 8-30 0z" fill="#e8ecef" ${O}/><path d="M-4 0-14-18 -6-18 8 0zM-4 0-14 18-6 18 8 0z" fill="#cfd6db" ${O}/><path d="M-30 0-36-10-30-10-24 0z" fill="#cfd6db" ${O}/></g>`;
+const bush=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><circle cx="-14" cy="-8" r="12" fill="#4e8f3f" ${O}/><circle cx="6" cy="-12" r="15" fill="#5a9a48" ${O}/><circle cx="22" cy="-6" r="10" fill="#4e8f3f" ${O}/></g>`;
+const flame=(x,y,s)=>fire(x,y,s);
+const tuft=(x,y)=>`<path d="M${x} ${y}l-4-12M${x} ${y}l1-14M${x} ${y}l5-11" stroke="#4a7a36" stroke-width="2.4" stroke-linecap="round"/>`;
+
+/* ---------- metoder ---------- */
+const M=[
+/* ILD */
+{c:'Ild',t:'Tipi-bål',p:'Det mest stabile bål. Giver varme og får vådt brænde til at tørre.',
+ svg:()=>day+pine(34,150,.9)+pine(296,146,.8)+sun(268,38,14)+`<ellipse cx="160" cy="160" rx="74" ry="15" fill="#b58f5e" ${O}/>`+
+  stick(160,44,108,158,5)+stick(160,44,212,158,5)+stick(160,44,134,166,5)+stick(160,44,188,166,5)+stick(160,44,160,170,5)+fire(160,164,1.15)+
+  stick(40,178,76,180,3)+stick(44,184,84,184,5)+stick(48,190,100,190,7)+
+  num(90,160,1)+num(30,170,2)+num(160,28,4)+num(212,150,5)+num(118,178,3)+label(196,100,'åbning mod vind')},
+{c:'Ild',t:'Buebor (friktionsild)',p:'Når du ikke har lighter eller tændstikker. Kræver øvelse.',
+ svg:()=>day+ground(116,'#8a9b63')+`<rect x="130" y="150" width="110" height="14" rx="3" fill="#b58a58" ${O}/><path d="M184 150l8 14h-16z" fill="#2c1a0e"/>`+
+  stick(192,152,192,96,7,'#d9b583')+`<rect x="176" y="84" width="32" height="14" rx="6" fill="#9aa0a6" ${O}/>`+
+  `<path d="M96 114Q192 82 292 116" stroke="#26302a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M96 114Q192 82 292 116" stroke="#a06a3b" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M98 116L290 118" stroke="#26302a" stroke-width="1.5"/>`+
+  `<ellipse cx="226" cy="168" rx="26" ry="8" fill="#e5d68a" ${O}/><circle cx="196" cy="166" r="4" fill="#ff6a13"/>`+smoke(190,160,'#e4e4e4')+
+  num(110,100,1)+num(260,140,2)+num(192,72,3)+num(226,186,5)+label(100,138,'bue')+label(210,64,'håndblok')+label(130,182,'spindel')},
+{c:'Ild',t:'Ildstål og tændmateriale',p:'Ildstål virker i regn og kulde, og holder i tusindvis af gnister.',
+ svg:()=>day+`<path d="M24 160 40 20 56 20 70 160z" fill="#efeee6" ${O}/><path d="M30 60h28M32 100h30M36 130h28" stroke="#26302a" stroke-width="5"/>`+ground(150,'#8a9b63')+
+  `<path d="M130 150q-10-16 14-20 18-4 20 14 20-10 36 4 10 8-4 16z" fill="#e6c78a" ${O}/><path d="M146 138q10-6 20 4M176 142q12-6 22 4" stroke="#b58a58" stroke-width="2" fill="none"/>`+
+  `<rect x="204" y="86" width="86" height="12" rx="6" transform="rotate(30 204 86)" fill="#9aa0a6" ${O}/><path d="M200 82l6 14-14-6zM214 100l-8 10 14-4z" fill="#ffd23f" ${O}/><path d="M168 120l-6-12 12 6zM150 124l-8-6 10-2z" fill="#ffd23f"/>`+
+  `<path d="M80 120l50 20-6 12-50-20z" fill="#cfd6db" ${O}/>`+
+  num(46,40,1)+num(150,116,3)+num(240,70,4)+label(70,176,'knivryg')+label(190,176,'tændmateriale')},
+{c:'Ild',t:'Dakota-hul (skjult bål)',p:'Et gravet bål der giver næsten ingen røg eller lys. Godt i blæst og ved fjender.',
+ svg:()=>`<rect width="320" height="200" fill="url(#skyD)"/>`+ground(70,'#86a35e')+`<rect y="78" width="320" height="122" fill="#7a5a3a"/>`+
+  `<path d="M70 78v62h46v-18h92v18h42V78h-30v50H116V78z" fill="#2b1b10"/>`+
+  fire(93,140,.9)+`<path d="M110 124h96" stroke="#ff9a3c" stroke-width="3" stroke-dasharray="4 5"/>`+
+  `<path d="M60 78h70M200 78h70" stroke="#26302a" stroke-width="2"/><rect x="62" y="62" width="64" height="14" rx="4" fill="#5d6770" ${O}/>`+
+  arrow(240,150,240,100)+arrow(150,60,110,60)+
+  num(93,52,1)+num(168,112,2)+num(246,88,3)+label(10,36,'bål')+label(190,40,'lufthul')+label(120,190,'tunnel')},
+
+/* VAND */
+{c:'Vand',t:'Kog vandet',p:'Den sikreste måde at få drikkevand fra bæk, sø eller sne.',
+ svg:()=>day+`<ellipse cx="270" cy="170" rx="40" ry="12" fill="#3b8fb5" ${O}/>`+pine(36,146,.9)+
+  stick(120,60,76,160,5)+stick(120,60,168,160,5)+stick(120,60,120,168,5)+`<path d="M120 62V90" stroke="#26302a" stroke-width="2"/>`+
+  `<path d="M96 90h48l-6 40H102z" fill="#7b868f" ${O}/><path d="M100 104h40l-3 24H103z" fill="#6bb5d6"/><rect x="92" y="87" width="56" height="7" rx="3" fill="#59636b" ${O}/>`+
+  smoke(112,84,'#f4f4f4')+fire(120,162,1)+
+  `<rect x="236" y="124" width="22" height="42" rx="6" fill="#bfe3ee" ${O}/><rect x="240" y="116" width="14" height="10" fill="#d9480f" ${O}/>`+
+  num(76,140,1)+num(120,36,2)+num(70,80,3)+num(200,120,4)+label(180,96,'1 minut i kog')},
+{c:'Vand',t:'Solfanger',p:'Henter vand ud af fugtig jord og planter i tørre områder.',
+ svg:()=>`<rect width="320" height="200" fill="url(#skyD)"/>`+sun(270,34,18)+ground(70,'#a58b5f')+`<rect y="82" width="320" height="118" fill="#7a5a3a"/>`+
+  `<path d="M80 82h160L210 160H110z" fill="#3a2514"/>`+
+  `<path d="M70 76 160 140 250 76" stroke="#26302a" stroke-width="5" fill="none"/><path d="M70 76 160 140 250 76" stroke="#d7edf4" stroke-width="3" fill="none"/>`+
+  `<path d="M146 150h28l-4 18h-20z" fill="#e8e8e8" ${O}/>`+drop(160,144)+
+  rock(160,126,10,6)+
+  arrow(130,120,120,90)+arrow(190,120,200,90)+
+  `<path d="M96 116q10-6 20 0" stroke="#4e8f3f" stroke-width="4" fill="none"/>`+
+  num(70,56,1)+num(160,186,2)+num(36,70,3)+num(160,108,4)+num(246,100,5)+label(14,104,'plast')+label(210,150,'dug')},
+{c:'Vand',t:'Dugopsamling',p:'Tidlig morgen kan en klud suge flere liter dug fra græsset.',
+ svg:()=>eve+sun(60,100,20)+Array.from({length:18},(_,i)=>tuft(20+i*17,150+(i%3)*8)).join('')+
+  `<path d="M130 150Q170 130 210 150L200 168Q170 150 140 168z" fill="#f4f4ee" ${O}/>`+
+  `<path d="M240 110Q256 118 252 138 232 146 224 128z" fill="#f4f4ee" ${O}/>`+drop(240,148)+drop(246,160)+
+  `<rect x="224" y="166" width="48" height="24" rx="4" fill="#9aa0a6" ${O}/><ellipse cx="248" cy="166" rx="24" ry="6" fill="#6bb5d6" ${O}/>`+
+  arrow(180,120,140,138)+num(170,114,1)+num(210,100,2)+num(280,150,3)+label(14,40,'før solen er højt')},
+{c:'Vand',t:'Hjemmelavet vandfilter',p:'Fjerner snavs og slam. Efterfølges altid af kogning.',
+ svg:()=>day+
+  `<path d="M100 20h60l12 130h-84z" fill="#d7ecf3" fill-opacity=".7" ${O}/>`+
+  `<rect x="94" y="14" width="72" height="10" rx="3" fill="#d9480f" ${O}/>`+
+  `<path d="M98 30h64l1 14H97z" fill="#8a6a45"/><path d="M102 46h56l1 24H101z" fill="#3a3a3a"/><path d="M104 72h52l2 32H102z" fill="#e5d29a"/><path d="M106 106h48l2 28H104z" fill="#b9bfc4"/><path d="M110 136h40l1 10H109z" fill="#e8e8e8"/>`+
+  `<path d="M130 150v18" stroke="#6bb5d6" stroke-width="4"/>`+`<rect x="104" y="168" width="52" height="22" rx="4" fill="#e8e8e8" ${O}/><rect x="108" y="172" width="44" height="6" fill="#6bb5d6"/>`+
+  `<path d="M220 40h40v26h-40z" fill="#8a6a45" ${O}/>`+arrow(214,54,176,40)+
+  num(70,40,1)+num(70,58,2)+num(70,88,3)+num(70,122,4)+num(190,170,5)+
+  label(182,30,'grumset vand')+label(180,100,'sand')+label(178,76,'trækul')+label(176,124,'grus')},
+{c:'Vand',t:'Transpirationspose',p:'Træet sveder vand ud, som samles i en plastikpose.',
+ svg:()=>day+sun(40,36,16)+oak(130,170,1.6)+
+  `<path d="M180 70Q250 40 292 80Q300 130 250 140Q200 130 180 70z" fill="#e8f4f8" fill-opacity=".6" stroke="#26302a" stroke-width="2"/>`+
+  `<circle cx="226" cy="84" r="10" fill="#4e8f3f" ${O}/><circle cx="252" cy="96" r="11" fill="#5a9a48" ${O}/><circle cx="238" cy="112" r="10" fill="#68aa52" ${O}/>`+
+  `<path d="M190 100H176" stroke="#26302a" stroke-width="4"/>`+drop(246,126)+drop(258,128)+
+  `<path d="M250 140l-8 12" stroke="#26302a" stroke-width="2"/>`+
+  arrow(210,90,180,80)+num(190,60,1)+num(262,70,2)+num(210,140,3)+label(180,170,'dug samles i hjørnet')},
+
+/* HUSLY */
+{c:'Husly',t:'Skråtag (lean-to)',p:'Hurtigt læ mod vind og regn med få materialer.',
+ svg:()=>day+pine(290,148,.9)+
+  stick(60,50,60,150,7)+stick(140,50,140,150,7)+stick(52,50,150,50,6)+
+  stick(60,50,200,150,5)+stick(80,50,214,150,5)+stick(100,50,228,150,5)+stick(120,50,240,150,5)+stick(140,50,250,150,5)+
+  `<path d="M64 56 204 148 252 150 148 54z" fill="#4e8f3f" fill-opacity=".85" ${O}/>`+
+  `<path d="M80 140q40-18 90 0v10H80z" fill="#6aa54c" ${O}/>`+
+  person(130,148,.55,90,'#2a6f97')+fire(274,164,.9)+
+  num(50,36,1)+num(170,70,2)+num(112,112,3)+num(118,160,4)+num(268,134,5)},
+{c:'Husly',t:'A-ramme med mosdække',p:'Lille og varmt. Din egen kropsvarme opvarmer rummet.',
+ svg:()=>day+pine(40,150,.8)+pine(290,148,.9)+
+  `<path d="M70 150 160 70 250 150z" fill="#6aa54c" ${O}/>`+
+  `<path d="M70 150 160 70M250 150 160 70" stroke="#26302a" stroke-width="2"/>`+
+  `<path d="M130 150V122Q160 100 190 122V150z" fill="#2b1b10"/>`+
+  stick(160,70,160,160,6)+
+  `<path d="M90 130l30-30M110 140l36-36M200 104l30 30M180 100l40 42" stroke="#4e8f3f" stroke-width="5" stroke-linecap="round"/>`+
+  stick(58,152,86,128,4)+stick(70,156,100,126,4)+
+  num(160,52,1)+num(100,100,2)+num(215,96,3)+num(160,136,4)+label(14,176,'mos og blade')},
+{c:'Husly',t:'Snehule',p:'Sne isolerer. Inde er det omkring 0 °C, selv ved -30 ude.',
+ svg:()=>snow+pine(40,150,1,'#2e5e3a')+pine(292,148,.8,'#2e5e3a')+
+  `<path d="M60 160Q60 70 160 70T260 160z" fill="#f7fbfe" ${O}/>`+
+  `<path d="M60 160Q60 70 160 70" stroke="#c9dbe6" stroke-width="10" fill="none"/>`+
+  `<path d="M134 160Q134 128 160 128T186 160z" fill="#243142" ${O}/>`+
+  `<path d="M186 90l30-34" stroke="#26302a" stroke-width="3"/><path d="M168 84h18" stroke="#26302a" stroke-width="2"/>`+
+  num(100,116,1)+num(160,112,2)+num(210,52,3)+num(160,176,4)+label(190,170,'indgang lavere end seng')},
+{c:'Husly',t:'Presenning (tarp)',p:'Lav tag af en presenning, et pladsekort eller en plastiksæk.',
+ svg:()=>day+`<rect y="0" width="320" height="200" fill="#6d7e93" opacity=".35"/><ellipse cx="160" cy="170" rx="100" ry="14" fill="#7a936a"/>`+
+  oak(40,168,1.2)+oak(285,168,1.1)+
+  `<path d="M52 66 L262 80 L230 130 L84 110z" fill="#2a6f97" ${O}/><path d="M52 66 262 80" stroke="#d9b36a" stroke-width="3"/>`+
+  `<path d="M70 20l-6 22M110 30l-6 20M150 18l-6 24M200 26l-6 20M250 18l-6 22" stroke="#9fc5da" stroke-width="3"/>`+
+  person(168,172,.6,90,'#c0392b')+
+  num(60,100,1)+num(160,66,2)+num(160,150,3)+label(100,50,'rep')+label(190,150,'lav kant mod vind')},
+{c:'Husly',t:'Seng af grene',p:'Jorden stjæler mere varme end luften. Isolér nedefra.',
+ svg:()=>`<rect width="320" height="200" fill="url(#skyN)"/>`+stars+`<rect y="130" width="320" height="70" fill="#4a3320"/><path d="M0 130H320" stroke="#26302a" stroke-width="2"/>`+
+  Array.from({length:12},(_,i)=>`<path d="M${40+i*20} 124 ${30+i*20} 140M${40+i*20} 124 ${52+i*20} 140" stroke="#3a7d44" stroke-width="5" stroke-linecap="round"/>`).join('')+
+  `<rect x="70" y="100" width="180" height="26" rx="12" fill="#c0392b" ${O}/><circle cx="82" cy="106" r="12" fill="#f1c9a0" ${O}/>`+
+  `<path d="M60 150h200" stroke="#fff" stroke-dasharray="4 4"/>`+
+  num(40,100,1)+num(150,80,2)+num(150,160,3)+label(100,186,'20 cm grannåle under dig')},
+
+/* MAD */
+{c:'Mad',t:'Snare (fælde)',p:'Små dyr som kaniner kan fanges med en løkke på deres sti.',
+ svg:()=>day+bush(40,140,1.2)+bush(290,138,1.2)+
+  `<path d="M80 160Q160 130 250 150" stroke="#b58a58" stroke-width="16" fill="none" stroke-linecap="round" opacity=".7"/>`+
+  stick(120,60,120,150,6)+stick(120,60,170,40,4)+
+  `<ellipse cx="170" cy="100" rx="22" ry="30" fill="none" stroke="#26302a" stroke-width="3"/>`+
+  `<path d="M170 40V70" stroke="#26302a" stroke-width="2"/>`+
+  `<ellipse cx="250" cy="148" rx="20" ry="12" fill="#c8b6a0" ${O}/><circle cx="268" cy="140" r="8" fill="#c8b6a0" ${O}/><path d="M266 132 262 112M272 132 276 112" stroke="#26302a" stroke-width="4" stroke-linecap="round"/>`+
+  num(160,160,1)+num(190,100,2)+num(104,60,3)+label(180,186,'sti i skovbunden')},
+{c:'Mad',t:'Fiskeri med spyd',p:'Fisk giver protein og fedt uden jagt. Stå stille og sigt lavt.',
+ svg:()=>water+`<rect y="86" width="50" height="40" fill="#8a6a45"/>`+person(26,90,.9,0,'#2a6f97')+
+  stick(50,40,160,150,5)+`<path d="M160 150l-8-2 4 10zM160 150l-12 4 8 6z" fill="#26302a"/>`+
+  `<path d="M170 150q12-14 30 0-18 12-30 0zM200 150l9-7v14z" fill="#e5a73c" ${O}/><path d="M232 164q12-14 30 0-18 12-30 0zM262 164l9-7v14z" fill="#e5a73c" ${O}/>`+
+  `<circle cx="180" cy="148" r="2" fill="#26302a"/>`+
+  num(26,44,1)+num(110,70,2)+num(200,128,3)+num(150,176,4)+label(180,60,'sigt lidt foran fisken')},
+{c:'Mad',t:'Spiselige planter',p:'Tre sikre planter, du kan kende i Danmark. Brug aldrig planter, du er i tvivl om.',
+ svg:()=>day+ground(120,'#86a35e')+
+  `<g transform="translate(70 170)"><path d="M0 0V-70" stroke="#3a7d44" stroke-width="5"/><path d="M0-20-24-32-12-42M0-40 24-52 8-60M0-58-18-72 0-80 18-70z" fill="#3a8a3a" ${O}/><path d="M-14 0-30 8M14 0 30 8" stroke="#3a7d44" stroke-width="3"/></g>`+
+  `<g transform="translate(160 170)"><path d="M0 0V-46" stroke="#4e8f3f" stroke-width="4"/><circle cx="0" cy="-60" r="16" fill="#ffd23f" ${O}/><circle cx="0" cy="-60" r="6" fill="#f0a500"/><path d="M-10 0-34 6M10 0 34 6M-8 2-26-12M8 2 26-12" stroke="#4e8f3f" stroke-width="7" stroke-linecap="round"/></g>`+
+  `<g transform="translate(250 170)"><path d="M0 0V-40" stroke="#4e8f3f" stroke-width="4"/><circle cx="-10" cy="-48" r="12" fill="#5a9a48" ${O}/><circle cx="12" cy="-50" r="12" fill="#5a9a48" ${O}/><circle cx="0" cy="-64" r="12" fill="#68aa52" ${O}/></g>`+
+  label(40,28,'brændenælde')+label(130,28,'mælkebøtte')+label(226,28,'kløver')+num(70,60,1)+num(160,60,2)+num(250,66,3)},
+
+/* NAVIGATION */
+{c:'Navigation',t:'Find nord med skygge',p:'Retning med en pind og solen. Ingen kompas nødvendigt.',
+ svg:()=>day+ground(100,'#9bb86b')+
+  `<path d="M160 160 60 180M160 160 250 168" stroke="#26302a" stroke-width="2" stroke-dasharray="3 4"/>`+
+  `<path d="M60 180 250 168" stroke="#d9480f" stroke-width="3"/>`+
+  stick(160,160,160,70,6)+`<ellipse cx="60" cy="180" rx="9" ry="6" fill="#9aa0a6" ${O}/><ellipse cx="250" cy="168" rx="9" ry="6" fill="#9aa0a6" ${O}/>`+
+  sun(262,36,14)+arrow(160,112,160,92)+
+  label(30,160,'Vest (1. sten)')+label(200,154,'Øst (2. sten)')+label(120,24,'Nord er foran dig')+
+  num(160,60,1)+num(60,194,2)+num(250,182,3)+num(160,130,4)},
+{c:'Navigation',t:'Find nord om natten',p:'Polarstjernen står over nord. Find den via Karlsvognen.',
+ svg:()=>night+pine(40,160,1.1,'#10241a')+pine(280,160,1.2,'#10241a')+
+  `<path d="M60 90 90 82 118 90 142 80 176 76 196 58 232 34" stroke="#cfe0ff" stroke-width="1.5" fill="none"/>`+
+  [[60,90],[90,82],[118,90],[142,80],[176,76],[196,58]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#fff"/>`).join('')+
+  `<circle cx="232" cy="34" r="7" fill="#ffd23f"/><circle cx="232" cy="34" r="14" fill="#ffd23f" opacity=".25"/>`+
+  `<path d="M142 80 176 76" stroke="#ffd23f" stroke-width="2"/>`+
+  label(60,112,'Karlsvognen')+label(206,22,'Polarstjernen = nord')+num(130,64,1)+num(190,100,2)+num(232,60,3)},
+{c:'Navigation',t:'Find syd med et ur',p:'Et analogt ur og solen giver en grov sydlinje.',
+ svg:()=>day+sun(270,36,16)+`<circle cx="130" cy="110" r="64" fill="#f6f7f1" ${O}/>`+
+  Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<line x1="${130+Math.sin(a)*52}" y1="${110-Math.cos(a)*52}" x2="${130+Math.sin(a)*60}" y2="${110-Math.cos(a)*60}" stroke="#26302a" stroke-width="3"/>`}).join('')+
+  `<path d="M130 110 176 80" stroke="#26302a" stroke-width="5" stroke-linecap="round"/><path d="M130 110 100 50" stroke="#26302a" stroke-width="3" stroke-linecap="round"/>`+
+  `<path d="M130 110 L120 40" stroke="#d9480f" stroke-width="3" stroke-dasharray="5 4"/><circle cx="130" cy="110" r="4" fill="#26302a"/>`+
+  arrow(210,60,184,76)+label(180,150,'tolv-tallet')+label(60,28,'SYD')+
+  num(176,60,1)+num(88,70,2)+num(120,24,3)},
+{c:'Navigation',t:'Nålekompas',p:'Magnetiser en nål og lad den flyde frit.',
+ svg:()=>day+ground(90,'#9bb86b')+`<path d="M100 110h120l-14 64H114z" fill="#cfd6db" ${O}/><ellipse cx="160" cy="110" rx="60" ry="14" fill="#6bb5d6" ${O}/>`+
+  `<path d="M130 110q16-16 36 0-20 8-36 0z" fill="#4e8f3f" ${O}/><path d="M118 108 200 112" stroke="#26302a" stroke-width="3" stroke-linecap="round"/><path d="M118 110 202 112" stroke="#d6dde2" stroke-width="1.5"/>`+
+  `<path d="M20 160l50-30" stroke="#26302a" stroke-width="3"/><rect x="20" y="152" width="38" height="14" rx="3" fill="#c0392b" ${O} transform="rotate(-28 40 160)"/>`+
+  arrow(250,100,290,60)+label(240,48,'Nord')+num(40,130,1)+num(160,86,2)+num(130,130,3)+num(250,128,4)},
+
+/* SIGNAL */
+{c:'Signal',t:'SOS på jorden',p:'Store bogstaver i åbent terræn kan ses fra luften.',
+ svg:()=>`<rect width="320" height="200" fill="#7c9b5b"/>`+Array.from({length:14},(_,i)=>`<circle cx="${20+(i*57)%300}" cy="${14+(i*43)%180}" r="${8+(i%3)*3}" fill="#3a7d44" opacity=".55"/>`).join('')+
+  `<g fill="#f7f7f2" stroke="#26302a" stroke-width="2">`+
+  [[40,70],[40,100],[70,70],[90,100],[70,130],[40,130]].map(p=>`<circle cx="${p[0]+20}" cy="${p[1]}" r="9"/>`).join('')+
+  [[130,70],[130,100],[130,130],[160,70],[160,130],[190,70],[190,100],[190,130]].map(p=>`<circle cx="${p[0]+20}" cy="${p[1]}" r="9"/>`).join('')+
+  [[230,70],[230,100],[260,70],[280,100],[260,130],[230,130]].map(p=>`<circle cx="${p[0]+8}" cy="${p[1]}" r="9"/>`).join('')+
+  `</g>`+plane(270,34)+
+  num(30,48,1)+num(300,160,2)+label(20,180,'bogstaver min. 3 m høje')},
+{c:'Signal',t:'Spejl-signal',p:'Et blankt spejl kan ses mere end 15 km væk.',
+ svg:()=>day+sun(40,34,18)+plane(262,46)+
+  `<path d="M60 40 130 150M130 150 252 54" stroke="#ffe27a" stroke-width="4" stroke-dasharray="6 5"/>`+
+  `<rect x="112" y="132" width="40" height="32" rx="4" fill="#dff0f6" ${O} transform="rotate(-18 132 148)"/>`+
+  `<path d="M96 170q30 10 70-8" stroke="#f1c9a0" stroke-width="14" stroke-linecap="round"/>`+
+  `<path d="M232 100l8 22M244 100l4 24" stroke="#f1c9a0" stroke-width="8" stroke-linecap="round"/><path d="M224 96 262 40" stroke="#26302a" stroke-width="2" stroke-dasharray="3 4"/>`+
+  num(90,70,1)+num(132,180,2)+num(240,150,3)+label(150,22,'sigt gennem V mellem fingrene')},
+{c:'Signal',t:'Røgsignal',p:'Hvid røg om dagen, flammer om natten. Sæt grønt på for tæt røg.',
+ svg:()=>day+pine(40,150,.9)+pine(290,146,1)+plane(250,36)+
+  smoke(150,150,'#fff')+`<path d="M150 90q-14-14 0-28t0-28 22-26" stroke="#f1f1f1" stroke-width="22" stroke-linecap="round" fill="none" opacity=".9"/>`+
+  `<path d="M118 160Q150 150 182 160" stroke="#3a7d44" stroke-width="12" stroke-linecap="round"/>`+fire(150,166,1.2)+
+  num(110,170,1)+num(196,150,2)+num(150,14,3)+label(10,100,'grønne grene')},
+{c:'Signal',t:'Tre bål-trekant',p:'Tre ildsteder i en trekant er internationalt nødsignal.',
+ svg:()=>night+ground(110,'#26382a')+
+  `<path d="M160 60 70 160H250z" stroke="#ffffff" stroke-opacity=".3" stroke-dasharray="4 5" stroke-width="2" fill="none"/>`+
+  fire(160,70,.9)+fire(70,166,.9)+fire(250,166,.9)+
+  plane(60,28)+num(120,100,1)+num(200,100,2)+num(160,186,3)+label(100,194,'30 m mellem bålene')},
+
+/* FØRSTEHJÆLP */
+{c:'Førstehjælp',t:'Stands en blødning',p:'Kraftig blødning kan dræbe på få minutter.',
+ svg:()=>`<rect width="320" height="200" fill="#e7ebe6"/>`+
+  `<path d="M30 130Q100 100 300 124L300 156Q100 164 30 150z" fill="#f1c9a0" ${O}/>`+
+  `<path d="M130 112 190 112 190 156 130 158z" fill="#fdfdfb" ${O}/><path d="M138 118h44M138 130h44M138 142h44" stroke="#c0392b" stroke-width="3"/>`+
+  `<path d="M110 70q30-16 80 4l10 30-84 4z" fill="#f1c9a0" ${O}/><path d="M118 70v22M138 66v24M158 66v24M178 68v22" stroke="#26302a" stroke-width="1.5"/>`+
+  arrow(160,50,160,100)+`<path d="M250 140q18 4 30-10" stroke="#9aa0a6" stroke-width="3"/>`+
+  num(160,30,1)+num(220,100,2)+num(70,170,3)+num(250,120,4)+label(190,184,'løft over hjertehøjde')},
+{c:'Førstehjælp',t:'Stabilt sideleje',p:'For en bevidstløs person, der trækker vejret.',
+ svg:()=>`<rect width="320" height="200" fill="#d9ddd4"/><rect y="150" width="320" height="50" fill="#a7b194"/>`+
+  `<ellipse cx="170" cy="146" rx="120" ry="14" fill="#000" opacity=".15"/>`+
+  person(240,150,1,-90,'#2a6f97')+
+  `<path d="M160 120 128 100 150 132" stroke="#26302a" stroke-width="2" fill="none"/>`+
+  `<rect x="50" y="122" width="40" height="16" rx="8" fill="#c0392b" ${O} transform="rotate(-14 70 130)"/>`+
+  `<path d="M120 100 l30 -10" stroke="#f1c9a0" stroke-width="9" stroke-linecap="round"/>`+
+  arrow(60,60,100,100)+
+  num(60,40,1)+num(130,70,2)+num(240,100,3)+num(160,170,4)+label(150,40,'hoved let bagover')},
+{c:'Førstehjælp',t:'Hjertemassage (HLR)',p:'Hvis personen ikke trækker vejret: start straks. Hvert sekund tæller.',
+ svg:()=>`<rect width="320" height="200" fill="#d9ddd4"/><rect y="150" width="320" height="50" fill="#a7b194"/>`+
+  person(110,160,1.1,-90,'#2a6f97')+
+  person(220,162,1.1,0,'#c0392b')+
+  `<path d="M170 130 100 120" stroke="#f1c9a0" stroke-width="9" stroke-linecap="round"/><circle cx="130" cy="124" r="10" fill="#f1c9a0" ${O}/>`+
+  `<text x="18" y="40" font-size="30" font-family="Barlow Condensed" font-weight="700" fill="#d9480f">30 : 2</text>`+
+  arrow(132,100,132,118)+
+  num(130,86,1)+num(260,100,2)+num(190,60,3)+label(180,24,'100–120 tryk i minuttet')},
+{c:'Førstehjælp',t:'Hypotermi: varm langsomt',p:'Hypotermi kommer også ved 10 °C, når du er våd og blæser.',
+ svg:()=>night+pine(40,150,1,'#10241a')+pine(290,150,1,'#10241a')+
+  `<path d="M120 160Q110 100 160 92 210 100 200 160z" fill="#cfd6db" stroke="#26302a" stroke-width="2"/><path d="M130 130l50-30M146 150l50-46" stroke="#fff" stroke-opacity=".7" stroke-width="3"/>`+
+  `<circle cx="160" cy="86" r="12" fill="#f1c9a0" ${O}/>`+
+  fire(250,160,1.1)+`<rect x="206" y="128" width="20" height="24" rx="3" fill="#fffdf5" ${O}/><path d="M212 120q-4-8 0-14M220 120q-4-8 0-14" stroke="#fff" stroke-width="3"/>`+
+  num(70,110,1)+num(150,66,2)+num(214,100,3)+num(280,120,4)+label(40,186,'tørt tøj, folie, bål')},
+{c:'Førstehjælp',t:'Skinne et brud',p:'Forhindrer bevægelse, så smerten og skaden mindskes.',
+ svg:()=>`<rect width="320" height="200" fill="#e7ebe6"/>`+
+  `<path d="M30 150Q130 130 200 140 270 140 300 170L290 190Q220 170 130 180 60 184 30 170z" fill="#f1c9a0" ${O}/>`+
+  `<circle cx="60" cy="140" r="10" fill="#d9a07a" ${O}/>`+
+  stick(100,120,290,160,6)+stick(100,176,290,190,6)+
+  `<path d="M120 120 V180M180 124 V184M240 138 V186" stroke="#fdfdfb" stroke-width="9" ${O}/>`+
+  num(200,100,1)+num(130,100,2)+num(40,106,3)+label(160,24,'skinne 2 led: over og under bruddet')},
+{c:'Førstehjælp',t:'Brandsår: afkøl',p:'Afkøling stopper skaden og letter smerten.',
+ svg:()=>`<rect width="320" height="200" fill="#dfe7ea"/>`+
+  `<path d="M80 40h110v14H80z" fill="#9aa0a6" ${O}/><path d="M120 54h18v30h-18z" fill="#9aa0a6" ${O}/>`+
+  `<path d="M129 84v70" stroke="#6bb5d6" stroke-width="6"/>`+
+  `<path d="M90 150q40-20 90 0v20H90z" fill="#f1c9a0" ${O}/><path d="M100 150v-30M120 148v-36M140 148v-36M160 150v-30M180 152v-20" stroke="#f1c9a0" stroke-width="12" stroke-linecap="round"/>`+
+  `<ellipse cx="130" cy="152" rx="30" ry="10" fill="#ff8a8a" opacity=".6"/>`+
+  `<text x="220" y="80" font-size="34" font-family="Barlow Condensed" font-weight="700" fill="#2b7a9b">20 min</text>`+
+  num(150,40,1)+num(80,130,2)+num(240,120,3)+label(190,160,'ingen is eller smør')},
+{c:'Førstehjælp',t:'Varme og hedeslag',p:'Over 40 °C kropstemperatur er livsfarligt. Afkøl og giv væske.',
+ svg:()=>day+sun(264,36,22)+oak(100,160,1.5)+person(190,168,1,90,'#c0392b')+
+  `<path d="M60 150Q100 140 140 150" stroke="#000" stroke-opacity=".15" stroke-width="12"/>`+
+  `<rect x="236" y="130" width="22" height="30" rx="4" fill="#bfe3ee" ${O}/>`+arrow(230,130,200,138)+
+  num(100,70,1)+num(196,110,2)+num(250,112,3)+label(10,186,'skygge, vand, kølig klud')},
+
+/* KNOB */
+{c:'Knob',t:'Pælestik',p:'Løkke der ikke strammer og ikke glider. Bruges til at binde fast, redde og hejse.',
+ svg:()=>`<rect width="320" height="200" fill="#e7e1d1"/>`+
+  rope('M40 160Q70 150 90 120Q120 70 170 90Q210 110 180 130Q150 150 130 110Q110 70 150 50')+
+  rope('M150 50Q200 40 260 60Q300 80 290 130')+
+  `<circle cx="140" cy="86" r="4" fill="#d9480f"/>`+
+  num(60,160,1)+num(190,76,2)+num(110,70,3)+num(150,30,4)+label(190,176,'enden går op gennem hullet')},
+{c:'Knob',t:'Rundtørn og to halvstik',p:'Fæstner reb til træer og pæle. Holder og kan løsnes under belastning.',
+ svg:()=>day+`<rect x="140" y="20" width="30" height="170" rx="6" fill="#8a5a34" ${O}/>`+
+  rope('M60 110Q150 90 250 110')+rope('M60 130Q150 110 250 130',7)+rope('M250 110Q290 90 300 60')+
+  rope('M250 130Q300 150 280 180')+
+  num(100,100,1)+num(230,100,2)+num(250,160,3)+label(14,180,'to rundt om stammen')},
+];
+const S={
+'Tipi-bål':[['Ryd en cirkel på 1 meter ned til bar jord, væk fra grene og tørt løv.','Saml tændmateriale (birkebark, tørt græs), fingertykke pinde og håndledstykke grene.','Læg en tot tændmateriale i midten.','Stil pindene op som et telt over totten, med en åbning mod vinden.','Tænd nedefra. Tilføj tykkere grene, når det brænder.'],'Hav vand eller jord klar til at slukke. Forlad aldrig bålet.'],
+'Buebor (friktionsild)':[['Lav en bue af en bøjet gren og snor. Spindel af tør, lige pind, bræt af blødt træ.','Skær et hak og en fordybning i brættet, og læg tændmateriale under hakket.','Snor én gang om spindlen. Tryk ned med en sten eller et træstykke øverst.','Sav jævnt og hurtigt, til der kommer sort støv og røg.','Bank gløden over i et rede af tørt græs og pust blidt til ild.'],'Brug tørt træ fra en stående, død gren. Våd gren virker ikke.'],
+'Ildstål og tændmateriale':[['Find tørt tændmateriale: birkebark, fnug, tør fyrrekvist, bomuld med vaseline.','Skrab fint pulver af, hvis du har det, og læg det i en tot.','Lav et rede af tændmateriale på et tørt underlag.','Hold ildstålet tæt på og skrab nedad med knivryggen: gnisterne rammer reden.','Pust forsigtigt og læg småpinde på, så snart flammen tager.'],'Skrab væk fra dig selv og fra tøj og telt.'],
+'Dakota-hul (skjult bål)':[['Grav et hul, ca. 30 cm bredt og dybt, til bål.','Grav et lufthul på 20 cm, 30 cm væk, og forbind de to med en tunnel.','Tænd bål i det store hul med små pinde og tør bark.','Vinden suger luft ind i tunnelen, og ilden brænder hurtigt og varmt.','Sæt gryde eller kop over hullet, og fyld jorden igen, når du er færdig.'],'Brug ikke sten fra vand. De kan sprænge i varme.'],
+'Kog vandet':[['Filtrer grumset vand gennem tøj eller sand og trækul.','Hæld i en metaldåse eller kop, der tåler ild. Hæng over bålet i et trebensstativ.','Bring i kog og lad det koge mindst 1 minut (3 minutter over 2000 m).','Lad det køle af, før du drikker. Gem det i en ren flaske.'],'Drik ikke havvand eller urin. De afgiver væske fra kroppen.'],
+'Solfanger':[['Grav et hul, ca. 50 cm bredt og 40 cm dybt, i fuld sol.','Sæt en kop eller dåse i bunden. Læg friske blade eller fugtig jord rundt om.','Læg plastik over hullet og tæt kanterne med jord.','Læg en sten midt på plastikken, så den hælder ned mod koppen.','Vent. Dug dannes og drypper ned i koppen.'],'Giver kun en halv liter eller to om dagen. Brug den kun, hvis du ikke har andet.'],
+'Dugopsamling':[['Gå ud ved daggry, før solen tørrer græsset.','Bind en ren klud om anklerne og gå i højt, vådt græs, eller stryg den hen over planterne.','Vrid kluden ud i en kop eller flaske.','Gentag, til du har nok. Kog evt. vandet bagefter.'],'Brug ikke græs, der er sprøjtet eller ved veje.'],
+'Hjemmelavet vandfilter':[['Skær bunden af en plastikflaske og vend den på hovedet.','Fyld nedefra: tøj, grus, trækul fra bålet, sand, gras.','Hæld vandet i langsomt. Det første hold kasseres.','Lad vandet dryppe i en kop og kog det bagefter.','Skyl filteret efter brug.'],'Filtret fjerner ikke bakterier. Kog altid vandet.'],
+'Transpirationspose':[['Find en sund, grøn gren i fuld sol på et træ, der ikke er giftigt.','Træk en klar plastikpose over grenen og bind tæt.','Hæld posen, så vand løber til et hjørne.','Vent 3–6 timer. Hæld vandet op.','Flyt posen til en ny gren.'],'Undgå træer med mælkesaft (fx vortemælk) og taks.'],
+'Skråtag (lean-to)':[['Find to træer, eller sæt to stolper. Fastgør en tværstang i brysthøjde.','Læg grene på skrå fra stangen ned til jorden, tæt ved siden af hinanden.','Dæk med kviste, blade, bark eller presenning, nedefra og op.','Læg et tykt lag blade på gulvet som isolering.','Ryggen mod vinden, og åben mod et bål, der kaster varme tilbage.'],'Hold bålet i sikker afstand fra taget.'],
+'A-ramme med mosdække':[['Læg en lang rygstang med den ene ende på en stub, 1 m over jorden.','Læg tætte skråstænger på begge sider.','Dæk med kviste, og læg et tykt lag mos, løv eller græs ovenpå.','Fyld indvendigt med tørt løv.','Kryb ind med fødderne først, og luk åbningen med en rygsæk.'],'Rummet skal kun være lige stort nok til dig. Det holder bedst på varmen.'],
+'Snehule':[['Find en dyb, fast snedrive eller bunke sne.','Grav en tunnel ind, og hæv rummet indenfor, så indgangen ligger lavere end sovepladsen.','Lav et ventilationshul i taget, f.eks. med en stav.','Læg grene eller rygsæk under dig. Luk indgangen delvis med en blok.','Hold ventilationen åben hele natten.'],'Hold ventilationen fri, ellers kan du få kuliltemangel.'],
+'Presenning (tarp)':[['Bind et reb mellem to træer i brysthøjde.','Læg presenningen over rebet og bind hjørnerne ud i stænger eller pløkke.','Sæt den ene side lav mod vinden og den anden højere.','Grav en rende rundt om, så vand ikke løber ind.'],'Undgå at lægge presenning tæt på bål. Plastik smelter.'],
+'Seng af grene':[['Find tørt sted uden kuldelommer.','Læg grannåle eller løv i et lag på 20–30 cm.','Læg et lag tørt løv eller blade som madras.','Læg en presenning eller regnjakke over.','Hold dig tør og sov med knæene trukket op.'],'Sov aldrig direkte på jorden i kulde.'],
+'Snare (fælde)':[['Find spor og stier i buskads.','Lav en løkke af tynd wire eller snor, 10 cm bred og 15 cm over jorden.','Bind enden til en stærk gren, der ikke kan trækkes løs.','Sæt flere fælder ud. De fleste giver intet.','Tjek dem ved daggry og skumring.'],'Fældefangst er ofte forbudt. Brug det kun i reel nødsituation.'],
+'Fiskeri med spyd':[['Gå efter stille vand bag sten og rødder.','Spids en stang i den ene ende og klyv den i to eller tre spidser.','Stå helt stille. Sigt lavt, da lyset bryder i vandet.','Stik hurtigt og tryk fisken mod bunden.'],'Kog eller steg fisken helt igennem.'],
+'Spiselige planter':[['Brændenælde: kog bladene 2 minutter, så forsvinder brændet. Smager som spinat.','Mælkebøtte: blade, blomster og rod kan spises. Kog roden som kaffeerstatning.','Kløver: blomster og blade kan spises rå eller kogt i te.','Spis kun planter, du kender med sikkerhed. Begynd med en lille smagsprøve.'],'Spis aldrig svampe eller bær, du ikke kender. Én forkert kan dræbe.'],
+'Find nord med skygge':[['Stik en lige pind lodret i jorden på åbent, fladt terræn.','Læg en sten ved skyggens spids.','Vent 15 minutter og læg en ny sten ved den nye spids.','Linjen mellem stenene peger fra vest (første) mod øst (anden). Stil dig med første sten ved venstre fod: du kigger mod nord.'],'Gælder på den nordlige halvkugle.'],
+'Find nord om natten':[['Find Karlsvognen: syv stjerner formet som en kasse med skaft.','Træk en linje gennem de to yderste stjerner i kassen.','Følg linjen cirka fem gange afstanden mellem dem. Her står Polarstjernen: den peger mod nord.'],'Er det skyet, så brug mos: det vokser tykkere på nordsiden af træer, men er upålideligt.'],
+'Find syd med et ur':[['Hold et analogt ur fladt, og peg timeviseren mod solen.','Halver vinklen mellem timeviseren og klokken 12.','Linjen peger mod syd.','Brug sommertid: hvis uret er stillet til sommertid, så brug klokken 1 i stedet for 12.'],'Giver kun en grov retning. Brug flere metoder.'],
+'Nålekompas':[['Gnid en nål mod silke, uld eller en magnet i samme retning 30–50 gange.','Læg et lille blad på stille vand i en kop.','Læg nålen på bladet. Den vil dreje.','Nålens spids peger mod nord.'],'Metallet skal være stål. Aluminium virker ikke.'],
+'SOS på jorden':[['Find åbent terræn, f.eks. en mark, strand eller sne.','Læg S, O, S med sten, grene eller mørk jord, mindst 3 m høje.','Lav stor kontrast: mørkt på lyst underlag.','Hold dem synlige og ryd dem, når du er reddet.','Tilføj en pil, hvis du forlader stedet.'],'Hvis du bevæger dig, så efterlad en besked.'],
+'Spejl-signal':[['Hold spejlet i hånden og sigt gennem et V mellem fingrene mod flyet.','Vip spejlet, så lysstrålen rammer fingrene og flyet.','Lav lange glimt, indtil de ser dig.','Brug en CD, blankt metal eller en telefon, hvis du ikke har et spejl.'],'Kig aldrig direkte på solen.'],
+'Røgsignal':[['Byg bål i åbent terræn, tæt på et træ eller en sten.','Læg grønne grene, mos og vådt løv på for tæt, hvid røg.','Lav røgen tydelig mod lys baggrund, tre søjler hvis muligt.','Hold ilden i gang kun, når du hører et fly eller en motor.'],'Hold røgen væk fra dig selv. Røg er giftig.'],
+'Tre bål-trekant':[['Brændstof: saml tørt træ i god tid.','Lav tre bål i en trekant med ca. 30 m imellem.','Tænd alle tre, når du hører et fly.','Hold dem brændende, og hav grønne grene klar til røg.'],'Tre af hvad som helst (bål, fløjt, skud) er internationalt nødtegn.'],
+'Stands en blødning':[['Pres en ren klud direkte ned på såret med hele hånden.','Bliv ved med at presse hårdt i mindst 10 minutter uden at kigge.','Læg ny klud ovenpå, hvis den bløder igennem. Fjern ikke den første.','Bind stramt med bind eller tørklæde, og løft såret højt.'],'Tourniquet (afsnøring) kun ved livstruende blødning på arm eller ben.'],
+'Stabilt sideleje':[['Tjek at personen trækker vejret. Ellers: hjertemassage.','Læg nærmeste arm vinkelret ud fra kroppen.','Før den fjerneste arm hen over brystet og hold hånden mod kinden.','Bøj det fjerneste knæ og rul personen over mod dig. Læg hovedet bagover, så luftvejen er fri.'],'Ring 112, bliv ved personen og dæk til.'],
+'Hjertemassage (HLR)':[['Tjek om personen reagerer og trækker vejret normalt.','Ring 112 (eller bed en anden).','Tryk midt på brystet, 5–6 cm ned, 100–120 gange i minuttet.','Giv 2 indblæsninger efter hver 30 tryk, hvis du kan.','Fortsæt, til hjælp kommer.'],'Tryk hårdt og hurtigt. Du kan ikke gøre det værre.'],
+'Hypotermi: varm langsomt':[['Kom ud af vind og væde. Tag vådt tøj af.','Læg isolering under personen: grene, rygsæk, tæpper.','Pak ind i tørt tøj og redningsfolie, og varm kroppen langsomt.','Giv varm, sød drik, hvis personen er vågen.','Ring 112 hvis personen er bevidstløs eller holder op med at ryste.'],'Gnid ikke på hud. Alkohol varmer ikke.'],
+'Skinne et brud':[['Hold ledet roligt, og undlad at rette det ud.','Læg to stive pinde langs benet, over og under bruddet.','Polstre med tøj.','Bind løst og tjek, om tæerne er varme og pink.','Hold personen varm og ring 112.'],'Flyt ikke personen ved rygskade.'],
+'Brandsår: afkøl':[['Hold såret under lunkent rindende vand i 20 minutter.','Fjern ringe og smykker, før det svulmer op.','Dæk løst med et rent, ikke-klæbende bind.','Smør ikke noget på. Prik ikke vabler op.','Søg læge ved store sår.'],'Brug ikke is, smør eller tandpasta.'],
+'Varme og hedeslag':[['Kom i skygge og læg dig ned.','Fjern overskydende tøj og læg våde kluder på hals og lyske.','Giv små slurke kølig, let saltet vand.','Hvis personen er forvirret eller bevidstløs: ring 112.'],'Hedeslag er livstruende. Afkøl aktivt og hurtigt.'],
+'Pælestik':[['Lav et lille hul (træet) med reb langs rebet.','Før enden op gennem hullet (kaninen kommer op af hullet).','Rundt bag stammen (om træet).','Ned igen gennem hullet. Stram.'],'Test knuden med din vægt, før du stoler på den.'],
+'Rundtørn og to halvstik':[['Tag rebet to gange rundt om stammen.','Bind to halvstik lige efter hinanden om rebets hoveddel.','Stram knuden til rebet.','Løsn ved at trække i enden.'],'Brug kun til lette laster. Til tung belastning, brug pælestik.']
+};
+M.forEach(m=>{const d=S[m.t];if(d){m.s=d[0];m.w=d[1]}else m.s=m.s||[]});
+const cats=['Alle',...new Set(M.map(m=>m.c))];
+let cat='Alle';
+const $=id=>document.getElementById(id);
+function chips(){ $('chips').innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join('') }
+function render(){
+  const q=$('q').value.trim().toLowerCase();
+  const list=M.filter(m=>(cat==='Alle'||m.c===cat)&&(!q||(m.t+m.p+m.c+m.s.join(' ')).toLowerCase().includes(q)));
+  $('grid').innerHTML=list.map(m=>`<article class="plate"><div class="fig"><span class="tag">${m.c}</span><svg viewBox="0 0 320 200" role="img" aria-label="Illustration: ${m.t}">${m.svg()}</svg></div><div class="body"><h2>${m.t}</h2><p>${m.p}</p><ol>${m.s.map(s=>`<li><span>${s}</span></li>`).join('')}</ol>${m.w?`<div class="warn">${m.w}</div>`:''}</div></article>`).join('');
+  $('empty').hidden=list.length>0;
+  $('n').textContent=list.length+' af '+M.length+' metoder';
+}
+$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;cat=b.dataset.c;chips();render()});
+$('q').addEventListener('input',render);
+
+/* ---------- pakkeliste ---------- */
+const PACK=['Kniv','Ildstål eller lighter','Fløjte','Vandflaske og tabletter','Rednings-folie','Presenning eller poncho','Snor (10 m)','Pandelampe','Plaster og bind','Kort og kompas'];
+function pack(){
+  let saved={};try{saved=JSON.parse(localStorage.getItem('feltpack')||'{}')}catch(e){}
+  $('pack').innerHTML=PACK.map((p,i)=>`<label><input type="checkbox" data-i="${i}" ${saved[i]?'checked':''}><span>${p}</span></label>`).join('');
+  const cnt=()=>{$('packcount').textContent=document.querySelectorAll('#pack input:checked').length+'/'+PACK.length};
+  $('pack').addEventListener('change',e=>{const i=e.target.dataset.i;saved[i]=e.target.checked;try{localStorage.setItem('feltpack',JSON.stringify(saved))}catch(e){};cnt()});
+  cnt();
+}
+chips();render();pack();
+</script>
