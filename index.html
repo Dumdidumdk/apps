@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mine apps og spil</title>
-<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab – plus ServerMester og Træf-butik til Windows, Tidla til saloner og Pakkescanner til lagre.">
+<meta name="description" content="Hjemmelavede apps og spil, som kører direkte i browseren: Opskriftsbogen, Drinksbogen, Spilhallen, Neon Forsvar, Fugleklatten, Rejsefinder og Mit regnskab og Feltmanualen – plus ServerMester og Træf-butik til Windows, Tidla til saloner og Pakkescanner til lagre.">
 <meta name="theme-color" content="#FF7A45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD66B'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
@@ -131,6 +131,7 @@ h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:700;letter-spacing:-.
 .card.regnskab{--c:#2B5C8A}
 .card.tidla{--c:#7C3AED}
 .card.pakke{--c:#2563EB}
+.card.felt{--c:#D9480F}
 
 /* Mobil: lave rækker, så man kan se mange apps på én skærm */
 @media (max-width:640px){
@@ -488,6 +489,27 @@ footer a:hover{text-decoration:underline}
           <h3>Mit regnskab</h3>
           <p>Regnskab til enkeltmandsfirmaet. Regner moms og skat ud, laver fakturaer som PDF og hent det hele i Excel.</p>
           <span class="play">Åbn regnskabet <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+        <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card felt" href="feltmanualen/">
+        <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice">
+          <defs><linearGradient id="fm-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC2E6"/><stop offset="1" stop-color="#E6F4EF"/></linearGradient></defs>
+          <rect width="320" height="220" fill="url(#fm-bg)"/>
+          <circle cx="270" cy="44" r="18" fill="#FFC933"/>
+          <path d="M0 150Q70 120 140 146T260 138 320 150V220H0z" fill="#A9C58A"/><rect y="162" width="320" height="58" fill="#86A35E"/>
+          <g transform="translate(46 170)"><rect x="-4" y="-14" width="8" height="16" fill="#7A4E2B"/><path d="M-26-10 0-48 26-10z" fill="#2F6B3A"/><path d="M-21-32 0-66 21-32z" fill="#3A7D44"/><path d="M-15-52 0-82 15-52z" fill="#4A9552"/></g>
+          <g stroke="#26302A" stroke-width="8" stroke-linecap="round"><path d="M160 74 124 178M160 74 196 178M160 74 160 184"/></g>
+          <g stroke="#A06A3B" stroke-width="5" stroke-linecap="round"><path d="M160 74 124 178M160 74 196 178M160 74 160 184"/></g>
+          <g transform="translate(160 184) scale(1.5)"><rect x="-24" y="-4" width="48" height="9" rx="4" fill="#7A4E2B"/><path d="M0 0C-17-3-19-22-5-38-4-27 1-25 4-32 15-19 17-5 0 0z" fill="#FF6A13"/><path d="M0 0C-9-3-9-14-2-22-1-15 3-14 5-18 10-10 8-2 0 0z" fill="#FFC22E"/></g>
+        </svg>
+          <span class="badge">App</span>
+        </div>
+        <div class="body">
+          <h3>Feltmanualen</h3>
+          <p>Illustreret overlevelsesguide. 34 metoder med tegninger og trin for trin: ild, vand, husly, mad, signal og førstehjælp.</p>
+          <span class="play">Åbn manualen <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
         <span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
       </a>
