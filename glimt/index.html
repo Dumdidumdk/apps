@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glimt – infoskærme til virksomheder og foreninger</title>
+<meta name="description" content="Glimt viser billeder, video, tekst, ur og vejr på TV-skærme via en lille Raspberry Pi – og det hele styres fra én hjemmeside. Under udvikling.">
+<meta property="og:title" content="Glimt – infoskærme til virksomheder og foreninger">
+<meta property="og:description" content="Din besked – på alle skærme. Billeder, video, ur og vejr på TV, styret fra én hjemmeside.">
+<meta property="og:image" content="img/tv.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Ccircle cx='22' cy='10' r='4' fill='%23f59e0b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6FB; --panel:#FFFFFF; --card:#EEF2FA; --line:#E0E6F1;
+  --ink:#0F172A; --muted:#5E677A; --soft:#3E475A;
+  --accent:#2563EB; --amber:#F59E0B; --green:#16A34A;
+  --grad:linear-gradient(120deg,#1D4ED8 0%,#2563EB 45%,#F59E0B 100%);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.1;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+
+.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,#FFFFFF 85%,transparent);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:2px;text-decoration:none;font:700 22px "Space Grotesk",sans-serif;letter-spacing:-.04em}
+.logo span{color:var(--amber)}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:15px;font-weight:600;color:var(--soft)}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+@media (max-width:700px){.top nav a:not(.hjem){display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border-radius:12px;font:600 16px Inter,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+.btn-main{background:var(--grad);color:#fff;box-shadow:0 10px 30px #2563EB55}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 40px #2563EB77}
+.btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent)}
+
+.hero{position:relative;padding:72px 0 40px;overflow:hidden;background:linear-gradient(180deg,#E3EAFF 0%,var(--bg) 100%)}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
+  radial-gradient(closest-side,#2563EB30,transparent 70%) 15% 30%/600px 600px no-repeat,
+  radial-gradient(closest-side,#F59E0B28,transparent 70%) 85% 10%/700px 700px no-repeat;pointer-events:none}
+.hero-inner{position:relative;text-align:center;display:grid;justify-items:center;gap:22px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
+.pill b{background:var(--amber);color:#fff;border-radius:999px;padding:2px 9px;font-size:12px}
+.hero h1{font-size:clamp(38px,7vw,74px);font-weight:700;max-width:16ch;text-wrap:balance}
+.hero p.lead{font-size:clamp(17px,2.2vw,21px);color:var(--soft);max-width:60ch;margin:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.under{font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.under span::before{content:"✓ ";color:var(--green);font-weight:700}
+
+/* TV-ramme om skærmbilledet */
+.tv{position:relative;margin:48px auto 0;max-width:980px}
+.tv .screen{border:14px solid #0B1220;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px #0F172A44;background:#000}
+.tv .stand{width:22%;height:22px;margin:0 auto;background:linear-gradient(#1F2937,#0B1220);clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)}
+.tv::after{content:"";position:absolute;inset:auto 10% -20px;height:120px;background:var(--grad);filter:blur(80px);opacity:.35;z-index:-1}
+
+section{padding:88px 0}
+.kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.sec-head{max-width:720px;margin-bottom:44px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-size:clamp(30px,4.6vw,46px)}
+.sec-head p{color:var(--soft);margin:16px 0 0;font-size:18px}
+
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.who .box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px}
+.who .em{font-size:30px;margin-bottom:12px}
+.who h3{font-size:22px;margin-bottom:8px}
+.who p{margin:0;color:var(--soft)}
+@media (max-width:820px){.who{grid-template-columns:1fr}}
+
+.split{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;margin-bottom:88px}
+.split:last-child{margin-bottom:0}
+.split.rev{grid-template-columns:1.3fr 1fr}
+.split.rev .txt{order:2}
+.split h3{font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
+.split p{color:var(--soft);margin:0 0 16px}
+.split ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.split li{display:flex;gap:10px;color:var(--soft)}
+.split li::before{content:"✓";color:var(--accent);font-weight:700}
+.split .pic{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 60px #0F172A26;background:#fff}
+@media (max-width:860px){.split,.split.rev{grid-template-columns:1fr;gap:28px}.split.rev .txt{order:0}}
+
+.alt{background:var(--panel);border-block:1px solid var(--line)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:28px;counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--grad);color:#fff;font:700 18px "Space Grotesk",sans-serif;margin-bottom:14px}
+.step h3{font-size:20px;margin-bottom:6px}
+.step p{margin:0;color:var(--soft);font-size:16px}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+
+.test{background:#0F172A;color:#E2E8F0;border-radius:24px;padding:48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+.test::before{content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(closest-side,#F59E0B55,transparent)}
+.test h2{font-size:clamp(28px,4vw,40px);color:#fff}
+.test p{color:#CBD5E1;margin:14px 0 0}
+.test .links{display:grid;gap:12px;position:relative}
+.test .btn-ghost{background:#1E293B;color:#fff;border-color:#334155}
+.test .status-line{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:#CBD5E1}
+.dot{width:12px;height:12px;border-radius:50%;background:#64748B;flex-shrink:0}
+.dot.on{background:#22C55E;box-shadow:0 0 0 5px #22C55E33}
+.dot.off{background:#EF4444}
+.test small{color:#94A3B8;font-size:14px}
+@media (max-width:820px){.test{grid-template-columns:1fr;padding:32px 22px}}
+
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.st{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.st b{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;margin-bottom:12px}
+.st.done b{background:#16A34A1F;color:var(--green)} .st.next b{background:#F59E0B22;color:#B45309}
+.st h3{font-size:18px;margin-bottom:6px}
+.st p{margin:0;color:var(--soft);font-size:15px}
+@media (max-width:900px){.status{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.status{grid-template-columns:1fr}}
+
+footer{padding:40px 0 56px;text-align:center;color:var(--muted);font-size:15px}
+footer a{font-weight:600;color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">Glimt<span>.</span></a>
+    <nav>
+      <a href="#hvem">Hvem er den til</a>
+      <a href="#funktioner">Funktioner</a>
+      <a href="#test">Prøv den</a>
+      <a class="hjem" href="../">← Alle mine apps</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <span class="pill"><b>Test</b> Under udvikling – testversionen kan prøves nu</span>
+    <h1>Din besked – <span class="grad-text">på alle skærme.</span></h1>
+    <p class="lead">Glimt viser billeder, video, tekst, ur og vejr på jeres TV-skærme. En lille Raspberry Pi bag TV'et henter indholdet, og det hele styres fra én hjemmeside – fra PC'en eller mobilen.</p>
+    <div class="cta-row">
+      <a class="btn btn-main" href="#test">Prøv testversionen</a>
+      <a class="btn btn-ghost" href="#funktioner">Se hvad den kan</a>
+    </div>
+    <div class="under"><span>Mange skærme fra ét sted</span><span>Ur og vejr indbygget</span><span>Virker uden internet</span></div>
+  </div>
+  <div class="wrap">
+    <div class="tv">
+      <div class="screen"><img src="img/tv.webp" width="1280" height="720" alt="Et Glimt-design på et TV med billede, tekst, ur, vejr og rullende nyheder" loading="eager"></div>
+      <div class="stand" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<section id="hvem">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Til alle</span>
+      <h2>Én løsning – mange slags steder</h2>
+      <p>Hver kunde får sin egen konto med egne skærme, brugere og indhold.</p>
+    </div>
+    <div class="who">
+      <div class="box"><div class="em">🏢</div><h3>Virksomheder</h3><p>Velkomst i receptionen, menuen i kantinen, nøgletal, nyheder til medarbejderne og sikkerhedsinfo i produktionen.</p></div>
+      <div class="box"><div class="em">⚽</div><h3>Foreninger</h3><p>Holdprogram, resultater, nyheder fra bestyrelsen og en sponsorvæg med roterende logoer i klubhuset.</p></div>
+      <div class="box"><div class="em">🛍️</div><h3>Butikker og mere</h3><p>Tilbud, åbningstider og kampagner – til butikker, caféer, skoler, klinikker, hoteller og fitnesscentre.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="funktioner" class="alt">
+  <div class="wrap">
+    <div class="split">
+      <div class="txt">
+        <span class="kicker">Design-editor</span>
+        <h3>Byg skærmbilledet præcis som du vil</h3>
+        <p>Træk billeder, videoer, tekst, ur og vejr ind på lærredet og placér dem frit.</p>
+        <ul>
+          <li>Flyt og ændr størrelse med musen – felterne snapper til et gitter</li>
+          <li>Læg tekst oven på billeder og video</li>
+          <li>Flere billeder kan skifte i ét felt som et lille diasshow</li>
+          <li>Både liggende og stående skærme</li>
+        </ul>
+      </div>
+      <div class="pic"><img src="img/editor.webp" width="1440" height="860" alt="Glimts design-editor med ur, vejr og billede" loading="lazy"></div>
+    </div>
+
+    <div class="split rev">
+      <div class="pic"><img src="img/skabeloner.webp" width="1440" height="860" alt="Gitter-skabeloner til at dele skærmen op" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Skabeloner</span>
+        <h3>Klar på få minutter</h3>
+        <p>Vælg en færdig opdeling af skærmen og udfyld den.</p>
+        <ul>
+          <li>2 kolonner, 2 × 2, stor + små, info-tavle og flere</li>
+          <li>Sidebjælke med ur og vejr med ét klik</li>
+          <li>Rullende nyhedstekst i bunden</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="txt">
+        <span class="kicker">Ur og vejr</span>
+        <h3>Altid den rigtige tid – og vejret lige nu</h3>
+        <p>Uret kører på selve skærmen, så det altid passer. Vejret hentes automatisk for den by, du vælger.</p>
+        <ul>
+          <li>Digitalt eller analogt ur med dansk dato</li>
+          <li>Temperatur, vind og prognose for de næste dage</li>
+          <li>Opdateres af sig selv hvert kvarter</li>
+        </ul>
+      </div>
+      <div class="pic"><img src="img/tv.webp" width="1280" height="720" alt="Ur og vejr på skærmen" loading="lazy"></div>
+    </div>
+
+    <div class="split rev">
+      <div class="pic"><img src="img/parring.webp" width="1280" height="720" alt="En ny skærm viser en kode, der tilsluttes på hjemmesiden" loading="lazy"></div>
+      <div class="txt">
+        <span class="kicker">Skærme</span>
+        <h3>Tilslut en ny skærm med en kode</h3>
+        <p>Sæt en Raspberry Pi i TV'et. Skærmen viser en kode, som du skriver ind på hjemmesiden – så er den med.</p>
+        <ul>
+          <li>Se hvilke skærme der er online</li>
+          <li>Vælg playliste, retning og lydstyrke pr. skærm</li>
+          <li>Ændringer når ud til skærmene med det samme</li>
+          <li>Fortsætter med at vise indhold, hvis internettet falder ud</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Sådan virker det</span>
+      <h2>Tre trin til første skærm</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Upload indhold</h3><p>Billeder og videoer trækkes ind på hjemmesiden – eller lav et design med tekst, ur og vejr.</p></div>
+      <div class="step"><h3>Lav en playliste</h3><p>Bestem rækkefølgen og hvor mange sekunder hver side skal vises.</p></div>
+      <div class="step"><h3>Tilslut skærmen</h3><p>Raspberry Pi i TV'et, indtast koden – og skærmen begynder at vise indholdet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="test" class="alt">
+  <div class="wrap">
+    <div class="test">
+      <div>
+        <span class="kicker" style="color:#FBBF24">Testversion</span>
+        <h2>Prøv Glimt nu</h2>
+        <p>Testserveren kører på min egen computer, så den er kun online, når computeren er tændt. Admin-siden kræver login. Testskærmen kan åbnes af alle – sæt den i fuldskærm med F11.</p>
+      </div>
+      <div class="links">
+        <div class="status-line"><span class="dot" id="dot"></span><span id="status">Tjekker om testserveren er online…</span></div>
+        <a class="btn btn-main" href="https://server.tail6dd435.ts.net/" target="_blank" rel="noopener">Åbn admin-siden</a>
+        <a class="btn btn-ghost" href="https://server.tail6dd435.ts.net/player/" target="_blank" rel="noopener">Åbn en testskærm</a>
+        <small>Adresse: server.tail6dd435.ts.net</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Status</span>
+      <h2>Hvor langt er vi?</h2>
+    </div>
+    <div class="status">
+      <div class="st done"><b>Færdig</b><h3>Skærme og playlister</h3><p>Upload, playlister, tilslutning med kode og live-opdatering.</p></div>
+      <div class="st done"><b>Færdig</b><h3>Design-editor</h3><p>Frit layout med gitter, lag, ur, vejr og rullende tekst.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Raspberry Pi</h3><p>Færdigt system til SD-kortet, så skærmen starter af sig selv.</p></div>
+      <div class="st next"><b>Næste skridt</b><h3>Online for alle</h3><p>Egen server, invitationer på mail og et stort skabelonbibliotek.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Glimt er et af mine projekter. <a href="../">Se alle mine apps og spil →</a></div>
+</footer>
+
+<script>
+// Viser om testserveren på min computer er tændt lige nu
+(function () {
+  var dot = document.getElementById('dot'), txt = document.getElementById('status');
+  var ctrl = new AbortController();
+  var t = setTimeout(function () { ctrl.abort(); }, 6000);
+  fetch('https://server.tail6dd435.ts.net/api/setup/status', { signal: ctrl.signal, cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw 0; dot.className = 'dot on'; txt.textContent = 'Testserveren er online'; })
+    .catch(function () { dot.className = 'dot off'; txt.textContent = 'Testserveren er slukket lige nu'; })
+    .finally(function () { clearTimeout(t); });
+})();
+</script>
+</body>
+</html>
