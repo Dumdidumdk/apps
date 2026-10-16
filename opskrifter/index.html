@@ -74,6 +74,10 @@ button{font:inherit;color:inherit}
 .chip small{opacity:.6;font-weight:700;margin-left:4px}
 .chip.fav{color:var(--heart)}
 .chip.fav[aria-pressed="true"]{background:var(--heart);border-color:var(--heart);color:#fff}
+.chip.slank{color:var(--good)}
+.chip.slank[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:#fff}
+.kcal{color:var(--good);font-weight:800}
+.sbtn.on{background:var(--good);border-color:var(--good);color:#fff}
 .row2{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;padding-top:10px}
 .row2 .sel{display:flex;flex-wrap:wrap;gap:8px 14px}
 .row2 label{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--muted)}
@@ -281,6 +285,7 @@ footer a{color:var(--accent);font-weight:800;text-decoration:none}
 <script src="data-3.js"></script>
 <script src="data-4.js"></script>
 <script src="data-5.js"></script>
+<script src="data-6.js"></script>
 <script src="fotos/fotos.js"></script>
 <script>
 (function(){
@@ -537,6 +542,8 @@ function renderFilters(){
   var nf = D.filter(function(d){return FAV[d.id];}).length;
   var html = '<button class="chip" data-c="alle" aria-pressed="'+(state.cat==='alle')+'">Alle<small>'+D.length+'</small></button>';
   Object.keys(CATS).forEach(function(k){ if(cc[k]) html+='<button class="chip" data-c="'+k+'" aria-pressed="'+(state.cat===k)+'">'+CATS[k]+'<small>'+cc[k]+'</small></button>'; });
+  var ns = D.filter(function(d){return d.sl;}).length;
+  if(ns) html += '<button class="chip slank" data-c="slank" aria-pressed="'+(state.cat==='slank')+'">🥗 Slank<small>'+ns+'</small></button>';
   html += '<button class="chip fav" data-c="fav" aria-pressed="'+(state.cat==='fav')+'">♥ Favoritter<small>'+nf+'</small></button>';
   document.getElementById('cats').innerHTML = html;
 }
@@ -544,9 +551,10 @@ function renderTypes(){
   var sel = '<option value="alle">Alle</option>'; Object.keys(TYPES).forEach(function(k){ sel+='<option value="'+k+'">'+TYPES[k]+(k==='vegetar'?' (inkl. vegansk)':'')+'</option>'; });
   document.getElementById('type').innerHTML = sel;
 }
-function hay(d){ return d._h || (d._h = (d.n+' '+d.i.map(function(x){return x[2];}).join(' ')+' '+CATS[d.c]+' '+TYPES[d.k]).toLowerCase()); }
+function hay(d){ return d._h || (d._h = (d.n+' '+d.i.map(function(x){return x[2];}).join(' ')+' '+CATS[d.c]+' '+TYPES[d.k]+(d.sl?' slank let':'')).toLowerCase()); }
 function matches(d){
   if(state.cat==='fav'){ if(!FAV[d.id]) return false; }
+  else if(state.cat==='slank'){ if(!d.sl) return false; }
   else if(state.cat!=='alle' && d.c!==state.cat) return false;
   if(state.type!=='alle'){ if(state.type==='vegetar'){ if(d.k!=='vegetar'&&d.k!=='vegansk') return false; } else if(d.k!==state.type) return false; }
   if(state.time && d.tid>state.time) return false;
@@ -563,7 +571,7 @@ function render(){
   document.getElementById('count').textContent = list.length===1 ? '1 opskrift' : list.length+' opskrifter';
   if(!list.length){ grid.innerHTML='<div class="empty"><h3>'+(state.cat==='fav'?'Ingen favoritter endnu':'Ingen opskrifter fundet')+'</h3><p>'+(state.cat==='fav'?'Tryk på hjertet i en opskrift for at gemme den her.':'Prøv et andet søgeord, eller vælg "Alle".')+'</p></div>'; return; }
   grid.innerHTML = list.map(function(d){
-    return '<button class="card" data-id="'+d.id+'" aria-label="Se opskrift på '+esc(d.n)+'"><span class="pic">'+pic(d)+'</span>'+(FAV[d.id]?'<span class="heart">'+HEART.replace(/20/g,'16')+'</span>':'')+'<span class="meta"><h3>'+esc(d.n)+'</h3><span class="sub"><span>'+CATS[d.c]+'</span><span class="dot">·</span><span>'+tidTxt(d.tid)+'</span></span></span></button>';
+    return '<button class="card" data-id="'+d.id+'" aria-label="Se opskrift på '+esc(d.n)+'"><span class="pic">'+pic(d)+'</span>'+(FAV[d.id]?'<span class="heart">'+HEART.replace(/20/g,'16')+'</span>':'')+'<span class="meta"><h3>'+esc(d.n)+'</h3><span class="sub"><span>'+CATS[d.c]+'</span><span class="dot">·</span><span>'+tidTxt(d.tid)+'</span>'+(d.sl&&d.kcal?'<span class="dot">·</span><span class="kcal">'+d.kcal+' kcal</span>':'')+'</span></span></button>';
   }).join('');
 }
 
@@ -589,13 +597,13 @@ function drawDetail(){
   var fav = !!FAV[d.id];
   detail.innerHTML =
     '<div class="d-grid"><div class="d-pic">'+pic(d,'b')+credit(d)+'</div><div class="d-body">'+
-      '<div class="d-head"><div><div class="d-cat">'+CATS[d.c]+' · '+TYPES[d.k]+'</div><h2 id="dName">'+esc(d.n)+'</h2><p class="d-desc">'+esc(d.d||'')+'</p></div>'+
+      '<div class="d-head"><div><div class="d-cat">'+CATS[d.c]+' · '+TYPES[d.k]+(d.sl?' · <span class="kcal">Slank</span>':'')+'</div><h2 id="dName">'+esc(d.n)+'</h2><p class="d-desc">'+esc(d.d||'')+'</p></div>'+
       '<button class="favbtn" id="fav" aria-pressed="'+fav+'" aria-label="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'" title="'+(fav?'Fjern fra favoritter':'Gem som favorit')+'">'+(fav?HEART:HEART_O)+'</button></div>'+
       '<div class="facts">'+
         '<div class="fact"><b>Tid</b><span>'+tidTxt(d.tid)+'</span></div>'+
         '<div class="fact"><b>Sværhed</b><span>'+DIFF[d.diff]+' '+meter(d.diff,3)+'</span></div>'+
         '<div class="fact"><b>Giver</b><span>'+portionLabel(d,d.p)+'</span></div>'+
-        '<div class="fact"><b>Type</b><span>'+TYPES[d.k]+'</span></div>'+
+        (d.kcal ? '<div class="fact"><b>Kalorier</b><span>ca. '+d.kcal+' kcal pr. '+(d.pu?'stk.':'person')+'</span></div>' : '<div class="fact"><b>Type</b><span>'+TYPES[d.k]+'</span></div>')+
       '</div>'+
       '<div class="toplan"><b>Læg på madplanen</b><div class="daychips" id="dayChips">'+DAYS.map(function(n,i){return '<button data-day="'+i+'" class="'+(PLAN.days[i]===d.id?'on':'')+'" aria-pressed="'+(PLAN.days[i]===d.id)+'" title="'+n+(PLAN.days[i]&&PLAN.days[i]!==d.id&&byId(PLAN.days[i])?': '+esc(byId(PLAN.days[i]).n):'')+'">'+n.slice(0,3)+'</button>';}).join('')+'</div></div>'+
       '<section class="sec"><h3>Ingredienser <span class="portion" aria-label="Antal"><button id="minus" aria-label="Færre">−</button><span id="pc">'+portionLabel(d,count)+'</span><button id="plus" aria-label="Flere">+</button></span></h3><p class="hint">Tryk på en ingrediens for at krydse den af.</p><ul class="ing" id="ing">'+ings+'</ul></section>'+
@@ -632,7 +640,7 @@ function store(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){
 function byId(id){ for(var i=0;i<D.length;i++) if(D[i].id===id) return D[i]; return null; }
 var PLAN = load('opskrifter-plan', null);
 if(!PLAN || !PLAN.days || PLAN.days.length!==7) PLAN = {days:[null,null,null,null,null,null,null], persons:4};
-PLAN.persons = Math.min(20, Math.max(1, +PLAN.persons||4));
+PLAN.persons = Math.min(20, Math.max(1, +PLAN.persons||4)); PLAN.slank = !!PLAN.slank;
 var SAVED = load('opskrifter-planer', []); if(!Array.isArray(SAVED)) SAVED = [];
 var SHOPDONE = load('opskrifter-indkob', {}) || {};
 var planModal = document.getElementById('planModal'), planBody = document.getElementById('planBody'), planSheet = document.getElementById('planSheet');
@@ -646,7 +654,7 @@ var toastT;
 function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},2200); }
 function mini(d){ return '<span class="mini">'+pic(d,'m'+Math.random().toString(36).slice(2,6))+'</span>'; }
 function pickRandom(exclude){
-  var pool = D.filter(function(d){ return (d.c==='aftensmad'||d.c==='pasta') && exclude.indexOf(d.id)<0; });
+  var pool = D.filter(function(d){ return (PLAN.slank ? d.sl && ['aftensmad','pasta','suppe','salat'].indexOf(d.c)>=0 : (d.c==='aftensmad'||d.c==='pasta')) && exclude.indexOf(d.id)<0; });
   return pool[Math.floor(Math.random()*pool.length)];
 }
 
@@ -660,13 +668,13 @@ function drawPlan(){
 function drawWeek(){
   var t = todayIdx(), h = '';
   h += '<div class="ptools"><div class="grp"><span class="portion" aria-label="Antal personer"><button data-act="pminus" aria-label="Færre personer">−</button><span>'+PLAN.persons+' '+(PLAN.persons===1?'person':'personer')+'</span><button data-act="pplus" aria-label="Flere personer">+</button></span></div>'+
-       '<div class="grp"><button class="sbtn" data-act="fill">🎲 Fyld tomme dage</button><button class="sbtn'+(confirmKey==='clear'?' warn':'')+'" data-act="clear">'+(confirmKey==='clear'?'Tryk igen for at rydde':'Ryd ugen')+'</button></div></div>';
+       '<div class="grp"><button class="sbtn'+(PLAN.slank?' on':'')+'" data-act="slank" aria-pressed="'+PLAN.slank+'" title="Terningen og listen vælger kun slanke retter">🥗 Kun slanke retter</button><button class="sbtn" data-act="fill">🎲 Fyld tomme dage</button><button class="sbtn'+(confirmKey==='clear'?' warn':'')+'" data-act="clear">'+(confirmKey==='clear'?'Tryk igen for at rydde':'Ryd ugen')+'</button></div></div>';
   h += '<div class="days">';
   DAYS.forEach(function(name,i){
     var d = PLAN.days[i] && byId(PLAN.days[i]);
     h += '<div class="day'+(i===t?' today':'')+'"><div class="dname">'+name+(i===t?'<small>I dag</small>':'')+'</div>';
     if(d){
-      h += '<button class="dpick" data-open="'+d.id+'">'+mini(d)+'<span><b>'+esc(d.n)+'</b><small>'+tidTxt(d.tid)+' · '+CATS[d.c]+'</small></span></button>'+
+      h += '<button class="dpick" data-open="'+d.id+'">'+mini(d)+'<span><b>'+esc(d.n)+'</b><small>'+tidTxt(d.tid)+' · '+CATS[d.c]+(d.kcal?' · <span class="kcal">'+d.kcal+' kcal</span>':'')+'</small></span></button>'+
            '<div class="dact"><button class="ibtn" data-act="swap" data-i="'+i+'" title="Vælg en anden ret" aria-label="Vælg en anden ret til '+name+'">✎</button><button class="ibtn" data-act="rand" data-i="'+i+'" title="Tilfældig ret" aria-label="Tilfældig ret til '+name+'">🎲</button><button class="ibtn" data-act="del" data-i="'+i+'" title="Fjern" aria-label="Fjern retten fra '+name+'">×</button></div>';
     } else {
       h += '<button class="dadd" data-act="swap" data-i="'+i+'">+ Vælg ret</button><div class="dact"><button class="ibtn" data-act="rand" data-i="'+i+'" title="Tilfældig ret" aria-label="Tilfældig ret til '+name+'">🎲</button></div>';
@@ -677,6 +685,8 @@ function drawWeek(){
     h += '</div>';
   });
   h += '</div>';
+  var kd = PLAN.days.map(function(id){return id&&byId(id);}).filter(Boolean);
+  if(kd.length && kd.every(function(d){return d.kcal;})){ var avg = Math.round(kd.reduce(function(a,d){return a+d.kcal;},0)/kd.length); h += '<p class="note">Aftensmaden giver i gennemsnit ca. <span class="kcal">'+avg+' kcal</span> pr. person pr. dag.</p>'; }
   h += '<div class="saverow"><input id="saveName" value="Uge '+isoWeek(new Date())+'" aria-label="Navn på ugen" maxlength="40"><button class="sbtn pri" data-act="save">Gem ugen</button></div>';
   h += '<p class="note">Madplanen gemmes automatisk i denne browser. Med "Gem ugen" kan du gemme den under et navn og hente den frem igen senere.</p>';
   return h;
@@ -684,6 +694,7 @@ function drawWeek(){
 function chooserResults(i){
   var q = chooseQ.trim().toLowerCase(), list;
   if(q) list = D.filter(function(x){ var hh=hay(x); return q.split(/\s+/).every(function(w){return hh.indexOf(w)>=0;}); });
+  else if(PLAN.slank) list = D.filter(function(x){return x.sl && ['aftensmad','pasta','suppe','salat'].indexOf(x.c)>=0;});
   else { list = D.filter(function(x){return FAV[x.id];}); if(list.length<8) list = list.concat(D.filter(function(x){return !FAV[x.id] && x.c==='aftensmad';})); }
   list = list.slice(0,12);
   return list.length ? list.map(function(x){return '<button data-set="'+i+'" data-id="'+x.id+'">'+mini(x)+'<span>'+esc(x.n)+'</span></button>';}).join('') : '<p class="note">Ingen retter fundet.</p>';
@@ -738,6 +749,7 @@ planBody.addEventListener('click', function(e){
   var b = e.target.closest('[data-act]'); if(!b) return;
   var act = b.dataset.act, i = +b.dataset.i, prevConfirm = confirmKey; confirmKey = '';
   if(act==='pminus'||act==='pplus'){ PLAN.persons = Math.min(20,Math.max(1,PLAN.persons+(act==='pplus'?1:-1))); savePlan(); }
+  else if(act==='slank'){ PLAN.slank = !PLAN.slank; savePlan(); toast(PLAN.slank ? 'Terningen vælger nu kun slanke retter' : 'Terningen vælger igen mellem alle retter'); }
   else if(act==='fill'){ var used = PLAN.days.filter(Boolean), n=0; PLAN.days = PLAN.days.map(function(id){ if(id && byId(id)) return id; var r=pickRandom(used); if(!r) return null; used.push(r.id); n++; return r.id; }); savePlan(); toast(n ? n+' dage er fyldt ud' : 'Alle dage har allerede en ret'); }
   else if(act==='clear'){ if(prevConfirm==='clear'){ PLAN.days=[null,null,null,null,null,null,null]; SHOPDONE={}; store('opskrifter-indkob',SHOPDONE); savePlan(); toast('Ugen er ryddet'); } else { confirmKey='clear'; drawPlan(); } }
   else if(act==='swap'){ choosing = choosing===i ? -1 : i; chooseQ=''; drawPlan(); }
